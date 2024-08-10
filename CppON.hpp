@@ -177,7 +177,7 @@
  *
  *
  *
- *    Depends:  This Library depends on STL:map, STL:string, STL: vector and the "jansson" library.
+ *    Depends:  This Library depends on STL:map, STL:string, STL: vector.
  *    AND, the xml2 if XML support is desired. In which case you will want to set the "HAS_XML" flag to true;
  */
 
@@ -196,9 +196,6 @@
 #include <string>
 #include <vector>
 #include <semaphore.h>
-
-//#include <jansson.h>
-
 
 #if HAS_XML
 #include <libxml/xmlversion.h>
@@ -316,11 +313,9 @@ public:
 	static	CppON							*readObj( FILE *fp );
 	static  CppON							*parse( const char *str, char **rstr );         // Create a CppON object from a net string
 	static  CppON							*parseJson( const char *str );                  // Create a CppON object form a json string
-//	static  CppON							*parseJson( json_t *ob, std::string &tabs );    // Create a CppON object form a Json object
 	static	void							RemoveWhiteSpace( const char *s, std::string &str );
 	static 	CppON							*GetTNetstring( const char **str );
 	static	CppON 							*GetObj( const char **str );
-//	static	CppON							*parseJson( const char **str );
 
 #if HAS_XML
 	static  CppON							*parseXML( const char *str );
@@ -438,10 +433,6 @@ public:
 			template<typename T> double     operator -= ( T val ) { if( data ) { *( ( double *) data ) -= (double) val; return *((double *) data );} return UD_DOUBLE; }
 			template<typename T> double     operator *= ( T val ) { if( data ) { *( ( double *) data ) *= (double) val; return *((double *) data );} return UD_DOUBLE; }
 			template<typename T> double     operator /= ( T val ) { if( data ) { *( ( double *) data ) /= (double) val; return *((double *) data );} return UD_DOUBLE; }
-//			double							operator += ( double val ) { if( data ) { *(( double *) data ) += val; return *((double *) data);} return UD_DOUBLE;}
-//			double							operator -= ( double val ) { if( data ) { *(( double *) data ) -= val; return *((double *) data);} return UD_DOUBLE;}
-//			double							operator *= ( double val ) { if( data ) { *(( double *) data ) *= val; return *((double *) data);} return UD_DOUBLE;}
-//			double							operator /= ( double val ) { if( data ) { *(( double *) data ) /= val; return *((double *) data);} return UD_DOUBLE;}
 
 			int								size() override { return ( data ) ? siz : 0; }
 			double							value(){ return ( data ) ? *( double *) data : 0.0; }
