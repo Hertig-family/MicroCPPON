@@ -97,7 +97,7 @@
  *              str would then contain "{\"command\":\"myCommand\","reason\":\"init\",\"param\":{\"one\":1,\"two\":20.2,\"arr\":[1,2,3,4.0],\"added\":3}}"
  *
  *
- *    Depends:  This Library depends on STL:map, STL:string, STL: vector and the "jansson" library and xml2 if XML support is desired.
+ *    Depends:  This Library depends on STL:map, STL:string, STL: vector and xml2 if XML support is desired.
  */
 
 #include "CppON.hpp"
@@ -675,7 +675,6 @@ CppON *CppON::GetTNetstring( const char **str )
 	char			typ = '\0';
 
 	while( 0 != (ch = *(*str)++) && ( ' ' == ch || '\t' == ch || '\r' == ch || '\n' == ch ) );
-//	fprintf( stderr, "%s[%d]: Length = %d, type = '%c', String: '%s'\n", __FILE__,__LINE__, len, (*str)[ len ], *str );
 	if( ':' == ch )
 	{
 		switch ( typ = (*str)[ len ] )
@@ -708,14 +707,12 @@ CppON *CppON::GetTNetstring( const char **str )
 					base = new COMap();
 					std::string s( *str, len );
 					const char	*cptr = s.c_str();
-//					fprintf( stderr, "%s[%d]: Start of map: '%s'\n", __FILE__, __LINE__, cptr );
 					while( *cptr )
 					{
 						DumpWhiteSpace( ch, cptr );
 						for( unsigned i = 0; 0 != (ch = cptr[ i ] ) && ('0' <= ch && '9' >= ch); i++);
 						COString 	*name;
 						CppON		*val;
-//						fprintf( stderr, "%s[%d]: Next char '%c'\n", __FILE__,__LINE__, ch );
 						if( ':' != ch )
 						{
 							name = (COString *) GetObj( &cptr );
@@ -723,10 +720,8 @@ CppON *CppON::GetTNetstring( const char **str )
 							name = (COString *)  GetTNetstring( &cptr );
 						}
 						DumpWhiteSpace( ch, cptr );
-//						fprintf( stderr, "%s[%d]: Name: '%s'", __FILE__, __LINE__, name->c_str() );
 						if( *cptr  && CppON::isString( name ) )
 						{
-//							const char *dummy = cptr;
 							for( unsigned i = 0; 0 != (ch = cptr[ i ] ) && ('0' <= ch && '9' >= ch); i++);
 							if( ':' != ch )
 							{
@@ -736,11 +731,9 @@ CppON *CppON::GetTNetstring( const char **str )
 							}
 							if( CppON::isObj( val ) )
 							{
-//								fprintf( stderr, "%s[%d]: %s = %s\n", __FILE__, __LINE__, name->c_str(), val->c_str() );
 								((COMap *) base )->append( name->c_str(), val );
 								delete name;
 							} else {
-//								fprintf( stderr, "%s[%d]: Failed to load object from: '%s'\n", __FILE__, __LINE__, dummy );
 								delete name;
 								delete base;
 								base = NULL;
@@ -767,22 +760,16 @@ CppON *CppON::GetTNetstring( const char **str )
 					while( *cptr )
 					{
 						DumpWhiteSpace( ch, cptr );
-//						fprintf( stderr, "%s[%d]: PARSE: '%s'\n", __FILE__, __LINE__, cptr );
 						for( unsigned i = 0; 0 != (ch = cptr[ i ] ) && ('0' <= ch && '9' >= ch); i++);
 						if( ':' != ch )
 						{
 							( ( COArray *) base )->append( GetObj( &cptr ) );
 						} else {
-//							CppON *obj;
-//							fprintf( stderr, "%s[%d]: Get a tnet string string: '%s'\n", __FILE__, __LINE__, cptr );
-//							( ( COArray *) base )->append( obj = GetTNetstring( &cptr ) );
-//							fprintf( stderr, "%s[%d]: Got: '%s'\n", __FILE__, __LINE__, obj->c_str() );
 							( ( COArray *) base )->append( GetTNetstring( &cptr ) );
 						}
 						if( 0 != *cptr )
 						{
 							DumpWhiteSpace( ch, cptr );
-//							if( ',' == ( ch = *cptr ) )
 							if( ',' == ch )
 							{
 								++cptr;
@@ -800,7 +787,6 @@ CppON *CppON::GetTNetstring( const char **str )
 				break;
 		}
 		*str += (len + 1);
-//		fprintf( stderr, "String now: '%s'\n", *str );
 	}
 	return base;
 }
@@ -809,17 +795,13 @@ CppON *CppON::GetObj( const char **str )
 	DumpWhiteSpace( str );
 	CppON		*base = NULL;
 	const char	*nc = *str;
-//	const char  *save = nc;
 	char		ch = *nc++;
 
-//	fprintf( stderr, "Parse: '%c%s'\n", ch, nc );
 	if( '{' == ch )
 	{
 		COMap	*mp = new COMap();
 		bool	fail = false;
 		DumpWhiteSpace( ch, nc );
-
-//		fprintf( stderr, "Map: '%c%s;\n", ch, nc );
 		while( ! fail && 0 != ch && '}' != ch )
 		{
 			DumpWhiteSpace( ch, nc );
@@ -833,9 +815,6 @@ CppON *CppON::GetObj( const char **str )
 					string name( nc, n++ );
 					nc += n;
 					DumpWhiteSpace( ch, nc );
-//					fprintf( stderr, "Str:'%s'\n", nc );
-//					fprintf( stderr, "'%s' = ", name.c_str() );
-//					if( ':' == ( ch = *nc ) )
 					if( ':' == ch )
 					{
 						nc++;
@@ -851,22 +830,15 @@ CppON *CppON::GetObj( const char **str )
 						}
 						if( obj )
 						{
-//							fprintf( stderr, "%s\n", obj->c_str() );
 							mp->append( name.c_str(), obj );
 							DumpWhiteSpace( ch, nc );
 							// Character should be a comma or a '}';
-//							if( ',' == (ch = *nc ) )
 							if( ',' == ch )
 							{
 								nc++;
 							} else if( ch && '}' != ch ) {
-								fprintf( stderr, "%s[%d] ch = 0x%.2X => '%c'\n", __FILE__,__LINE__, (unsigned)ch, ch  );
 								const char *ree = &nc[ -2 ];
 								std::string sub( &nc[ -2 ], 48 );
-
-								fprintf( stderr, "INPUT: %s\n", sub.c_str() );
-
-								fprintf( stderr, " 0x%.2X 0x%.2X 0x%.2X 0x%.2X\n", (unsigned) ree[ 0 ], (unsigned) ree[ 1 ], (unsigned) ree[ 2 ], (unsigned) ree[ 3 ] );
 								fail = true;
 							}
 						} else {
@@ -897,7 +869,6 @@ CppON *CppON::GetObj( const char **str )
 		DumpWhiteSpace( ch, str );
 
 	} else if( '[' == ch ) {
-//		fprintf( stderr, "ARRAY: '%c%s'\n", ch, nc );
 		COArray		*arr = new COArray();
 		bool		fail = false;
 		DumpWhiteSpace( nc );
@@ -914,9 +885,7 @@ CppON *CppON::GetObj( const char **str )
 			if( obj )
 			{
 				DumpWhiteSpace( ch, nc );
-//				fprintf( stderr, "Val: '%s'\n", obj->c_str() );
 				// Character should be a comma or a '}';
-//				if( ',' == ( ch = *nc ) )
 				if( ',' == ch )
 				{
 					nc++;
@@ -2359,7 +2328,6 @@ void COMap::doParse( const char *str )
 				{
 					DumpWhiteSpace( ch, str );
 					sav = str;
-//					if( ':' == *str )
 					if( ':' == ch )
 					{
 						++str;
@@ -2377,7 +2345,6 @@ void COMap::doParse( const char *str )
 							append( name, obj );
 							obj = NULL;
 							DumpWhiteSpace( ch, str );
-//							if( *str )
 							if( ch )
 							{
 								if( ',' == *str )
@@ -2420,54 +2387,8 @@ void COMap::parseData( const char *str )
 {
 	if( str )
 	{
-#if 1
 		doParse( str );
-#else
-        json_t        *root = NULL;
-        json_error_t  error;
-        char          *np;
-        int           cnt = strtol( str, &np, 0 );      // Check to see if it is a tnetstring (Starts with number)
-        string        tabs( "" );
-
-        if( np != str )
-        {
-            np++;
-            if( cnt && ',' == np[ cnt ] )
-            {
-                char *tmp = strdup( np );                // make a copy so it can be modified
-                tmp[ cnt ] = '\0';                      // remove the ',' at  the end of it
-                root = json_loads( tmp, 0, &error );    // load it as JSON
-                free( tmp );
-            } else if ( cnt ) {
-                root = json_loads( np, 0, &error );      // load it as JSON
-            }
-        }
-        if( !root )                                  // I guess it wasn't tnetstring so load it as JSON
-        {
-            if( !( str && str[ 0 ] ) )
-            {
-                fprintf( stderr, "%s[%d] Error: Attempt to parse zero length JSON string\n",__FILE__, __LINE__ );
-            }
-            root = json_loads( str, 0, &error );
-        }
-        if( ! root  )
-        {
-            fprintf( stderr, "%s[%d] Error: on line %d %s\n", __FILE__, __LINE__, error.line, error.text );
-            fprintf( stderr, "%s\n",str );
-        }
-        if( json_is_object( root ) )
-        {
-            const char *key;
-            json_t   *value;
-            json_object_foreach( root, key, value )
-            {
-                //  order.push_back( string( key ) );
-                this->append( key, parseJson( value, tabs ) );
-            }
-        }
-        json_decref( root );
-#endif
-    }
+	}
 }
 
 COMap::COMap( const char *path, const char *file ): CppON( MAP_CPPON_OBJ_TYPE )
@@ -2508,7 +2429,6 @@ COMap::COMap( const char *path, const char *file ): CppON( MAP_CPPON_OBJ_TYPE )
 	    }
 	    buf[ rd ] = '\0';
 	    fclose( fp );
-//	    fprintf( stderr, "DATA TO PARSE: '%s'\n", buf );
 	    parseData( buf );
 
 	    free(buf );
@@ -2520,61 +2440,11 @@ COMap::COMap( const char *path, const char *file ): CppON( MAP_CPPON_OBJ_TYPE )
 COMap::COMap( const char *str ): CppON(  MAP_CPPON_OBJ_TYPE )
 {
     data = new map<string, CppON*>();
-#if 1
     parseData( str );
-#else
-    if( str )
-    {
-        json_t        *root = NULL;
-        json_error_t  error;
-        char          *np;
-        int           cnt = strtol( str, &np, 0 );      // Check to see if it is a tnetstring (Starts with number)
-        string        tabs( "" );
-
-        if( np != str )
-        {
-            np++;
-            if( cnt && ',' == np[ cnt ] )
-            {
-                char *tmp = strdup( np );                // make a copy so it can be modified
-                tmp[ cnt ] = '\0';                      // remove the ',' at  the end of it
-                root = json_loads( tmp, 0, &error );    // load it as JSON
-                free( tmp );
-            } else if ( cnt ) {
-                root = json_loads( np, 0, &error );      // load it as JSON
-            }
-        }
-        if( !root )                                  // I guess it wasn't tnetstring so load it as JSON
-        {
-            if( !( str && str[ 0 ] ) )
-            {
-                fprintf( stderr, "%s[%d] Error: Attempt to parse zero length JSON string\n",__FILE__, __LINE__ );
-            }
-            root = json_loads( str, 0, &error );
-        }
-        if( ! root  )
-        {
-            fprintf( stderr, "%s[%d] Error: on line %d %s\n", __FILE__, __LINE__, error.line, error.text );
-            fprintf( stderr, "%s\n",str );
-        }
-        if( json_is_object( root ) )
-        {
-            const char *key;
-            json_t   *value;
-            json_object_foreach( root, key, value )
-            {
-                //  order.push_back( string( key ) );
-                this->append( key, parseJson( value, tabs ) );
-            }
-        }
-        json_decref( root );
-    }
-#endif
 }
 
 COMap *COMap::operator=( const char *str )
 {
-#if 1
     if( data )
     {
         (( map <string, CppON *> * ) data)->clear();
@@ -2584,77 +2454,6 @@ COMap *COMap::operator=( const char *str )
     order.clear();
 
     doParse( str );
-
-#else
-    if( str )
-    {
-        json_t                  *root = NULL;
-        json_error_t            error;
-        char                    *np;
-        int                     cnt = strtol( str, &np, 0 );      // Check to see if it is a tnetstring (Starts with number)
-        string                  tabs( "" );
-
-        if( data )
-        {
-            map <string, CppON*> *m = ( map <string, CppON *> * ) data;
-            map<string, CppON *>::iterator it;
-            // cppcheck-suppress postfixOperator
-            for( it = m->begin(); m->end() != it; it++ )
-            {
-                delete( it->second);
-            }
-            m->clear();
-        } else {
-            data = new map<string, CppON*>();
-        }
-        order.clear();
-        if( np != str )
-        {
-            np++;
-            if( cnt && ',' == np[ cnt ] )
-            {
-                char *tmp = strdup( np );                // make a copy so it can be modified
-                tmp[ cnt ] = '\0';                      // remove the ',' at  the end of it
-                root = json_loads( tmp, 0, &error );    // load it as JSON
-                free( tmp );
-            } else if ( cnt ) {
-                root = json_loads( np, 0, &error );      // load it as JSON
-            }
-        }
-        if( !root )                                  // I guess it wasn't tnetstring so load it as JSON
-        {
-            if( !( str && str[ 0 ] ) )
-            {
-                fprintf( stderr, "%s[%d] Error: Attempt to parse zero length JSON string\n",__FILE__, __LINE__ );
-            }
-            root = json_loads( str, 0, &error );
-        }
-        if( ! root  )
-        {
-            fprintf( stderr, "%s[%d] Error: on line %d %s\n", __FILE__, __LINE__, error.line, error.text );
-            fprintf( stderr, "%s\n",str );
-        }
-        if( json_is_object( root ) )
-        {
-            const char *key;
-            json_t   *value;
-            json_object_foreach( root, key, value )
-            {
-                //  order.push_back( string( key ) );
-                this->append( key, parseJson( value, tabs ) );
-            }
-        }
-        json_decref( root );
-    } else {
-        if( data )
-        {
-            (( map <string, CppON *> * ) data)->clear();
-        } else {
-            data = new map<string, CppON*>();
-        }
-        order.clear();
-    }
-#endif
     return this;
 }
 
@@ -4402,47 +4201,19 @@ COArray::COArray( COArray & at ) : CppON( ARRAY_CPPON_OBJ_TYPE )
     }
 }
 
-#if 0
 void COArray::parseData( const char *str )
 {
 	if( str )
 	{
-		char 	ch;
-		while( 0 != (ch = *str) && ' ' != ch && '\t' != ch && '\n' != ch && '\r' != ch ) { str++;}
-		if( ch )
-		{
-			char	*np;
-			int 	cnt = strtol( str, &np, 0 );					// check to see if it is a tnetstring
-			string 	tabs("");
-			if( np )
-			{
-
-			}
-			std::string dat;
-			const char	*nc;
-			RemoveWhiteSpace( str, dat );
-			nc = dat.c_str();
-
-			//return ( GetObj( &nc ) );
-		}
-	}
-}
-#endif
-void COArray::parseData( const char *str )
-{
-    if( str )
-    {
 		DumpWhiteSpace( str );
 		const char	*sav = str;
 		unsigned 	i;
 		if( '[' == *str )
 		{
-//			char 		name[ 256 ];
 			char		ch;
 			CppON		*obj = NULL;
 			++str;
 			DumpWhiteSpace( ch, str );
-//			while( *str )
 			while( ch )
 			{
 				sav = str;
@@ -4458,14 +4229,12 @@ void COArray::parseData( const char *str )
 					append( obj );
 					obj = NULL;
 					DumpWhiteSpace( ch, str );
-//					if( *str )
 					if( ch )
 					{
 						if( ',' == *str )
 						{
 							str++;
 							DumpWhiteSpace( ch, str );
-//						} else if( ']' == *str ) {
 						} else if( ']' == ch ) {
 							break;
 						} else {
@@ -4482,55 +4251,7 @@ void COArray::parseData( const char *str )
 			std::string s( sav, (( i = strlen( sav ) ) > 24 )?24:i );
 			fprintf( stderr, "%s[%d]: Parse ERROR: Expected '[' got '%s'\n", __FILE__, __LINE__, sav );
 		}
-#if 1
-
-#else
-        json_t        *root = NULL;
-        json_error_t  error;
-        char          *np;
-        int           cnt = strtol( str, &np, 0 );      // Check to see if it is a tnetstring
-        string        tabs("");
-
-        if( np )
-        {
-            np++;
-            if( cnt && ',' == np[ cnt ] )
-            {
-                char *tmp = strdup( np );          // make a copy so it can be modified
-                tmp[ cnt ] = '\0';              // remove the ',' at  the end of it
-                root = json_loads( tmp, 0, &error );    // load it as JSON
-                free( tmp );
-            } else if ( cnt ) {
-                root = json_loads( np, 0, &error );      // load it as JSON
-            }
-        }
-
-        if( !root )                      // I guess it wasn't tnetstring so load it as JSON
-        {
-            if( !(str && str[ 0 ] ) )
-            {
-                fprintf( stderr, "%s[%d] Error: Attempt to parse zero length JSON string\n",__FILE__, __LINE__ );
-            }
-            root = json_loads( str, 0, &error );
-        }
-        if( ! root  )
-        {
-            fprintf( stderr, "Error: on line %d %s\n", error.line, error.text );
-            fprintf( stderr, "%s\n",str );
-        }
-        if( json_is_array( root ) )
-        {
-            for( unsigned int i = 0; json_array_size( root ) > i; i++ )
-            {
-                this->append( parseJson( json_array_get( root, i ), tabs ) );
-            }
-        }
-        if( root )
-        {
-            json_decref( root );
-        }
-#endif
-    }
+	}
 }
 
 COArray::COArray( const char *path, const char *file ): CppON( ARRAY_CPPON_OBJ_TYPE )
