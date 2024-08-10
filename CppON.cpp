@@ -638,60 +638,6 @@ void CppON::cdump( FILE *fp )
     }
 }
 
-#if 0
-CppON *CppON::parseJson( json_t *ob, string &tabs )
-{
-    CppON    *rtn = NULL;
-    if( ob )
-    {
-        if( json_is_string( ob ) )
-        {
-            rtn = new COString( json_string_value( ob ) );
-
-        } else if( json_is_number( ob ) ) {
-            if( json_is_integer( ob) )
-            {
-                rtn = new COInteger( (uint64_t) json_integer_value( ob ) );
-            } else if( json_is_real( ob ) ) {
-                rtn = new CODouble( json_real_value( ob ) );
-            }
-
-        } else if( json_is_boolean( ob ) ) {
-            rtn = new COBoolean( json_is_true( ob ) );
-
-        } else if( json_is_object( ob ) ) {
-            const char *key;
-            json_t   *value;
-            COMap   *mp = new COMap();
-            string  osave = tabs;
-            tabs += '\t';
-
-            json_object_foreach( ob, key, value )
-            {
-                mp->append( key, parseJson( value, tabs ) );
-            }
-            tabs = osave;
-            rtn = mp;
-
-        } else if( json_is_array( ob ) ) {
-            COArray  *ap = new COArray();
-            string asave = tabs;
-            tabs += '\t';
-            for( unsigned int i = 0; json_array_size( ob ) > i; i++ )
-            {
-                ap->append( parseJson( json_array_get( ob, i ), tabs ) );
-            }
-            tabs = asave;
-            rtn = ap;
-
-        } else if( json_is_null( ob ) ) {
-            rtn = new CONull();
-        }
-    }
-    return rtn;
-}
-#endif
-
 static __inline void DumpWhiteSpace( const char **str ) { char ch; while( 0 != (ch = **str ) &&( ' ' == ch || '\t' == ch || '\n' == ch || 'r' == ch ) ) { (*str)++; } }
 static __inline void DumpWhiteSpace( const char *(&str) ) { char ch; while( 0 != (ch = *str ) &&( ' ' == ch || '\t' == ch || '\n' == ch || 'r' == ch ) ) { str++; } }
 static __inline void DumpWhiteSpace( char &ch, const char **str ) { while( 0 != (ch = **str ) &&( ' ' == ch || '\t' == ch || '\n' == ch || 'r' == ch ) ) { (*str)++; } }
@@ -1062,91 +1008,10 @@ CppON *CppON::parseJson( const char *str )
 			return GetTNetstring( &str );
 		} else if( ch ) {
 			return GetObj( &str );
-//			const char	*nc;
-//			std::string dat;
-//			RemoveWhiteSpace( str, dat );
-//			nc = dat.c_str();
-//			return ( GetObj( &nc ) );
 		}
 	}
 	return NULL;
 }
-
-#if 0
-CppON *CppON::parseJson( const char *str )
-{
-    CppON     *rtn = NULL;
-    string tabs = "";
-
-    if( str )
-    {
-        json_t      *root = NULL;
-        json_error_t  error;
-        char      *np;
-        int       cnt = strtol( str, &np, 0 );      								// Check to see if it is a tnetstring
-        if( np )
-        {
-            np++;
-            if( cnt && ',' == np[ cnt ] )
-            {
-                char *tmp = strdup( np );                							// make a copy so it can be modified
-                tmp[ cnt ] = '\0';                      							// remove the ',' at  the end of it
-                root = json_loads( tmp, 0, &error );    							// load it as JSON
-                free( tmp );
-            } else if ( cnt ) {
-                root = json_loads( np, 0, &error );      							// load it as JSON
-            }
-        }
-
-    	while( ' ' == *str || '\t' == *str || '\n' == *str )						// Trim beginning of string
-    	{
-    		str++;
-    	}
-        if( '"' != str[ 0 ] )
-        {
-            if( !root )                                  							// I guess it wasn't TNetstring so load it as JSON
-            {
-                if( !( str && str[ 0 ] ) )
-                {
-                    fprintf( stderr, "%s[%d] Error: Attempt to parse zero length JSON string\n",__FILE__, __LINE__ );
-                }
-                root = json_loads( str, 0, &error );
-            }
-            if( ! root  )
-            {
-                fprintf( stderr, "%s[%d] Error: on line %d %s\n", __FILE__,__LINE__, error.line, error.text );
-                fprintf( stderr, "%s\n",str );
-                return NULL;
-            }
-
-            rtn = parseJson( root, tabs );
-            json_decref( root );
-        } else {
-        	std::string s( "{" );
-        	s.append( str );
-        	s += "}";
-
-            if( !root )                                  							// I guess it wasn't TNetstring so load it as JSON
-            {
-                root = json_loads( s.c_str(), 0, &error );
-            }
-            if( ! root  )
-            {
-                fprintf( stderr, "%s[%d] Error: on line %d %s\n", __FILE__,__LINE__, error.line, error.text );
-                fprintf( stderr, "%s\n",str );
-            } else {
-            	COMap *mp = (COMap *) parseJson( root, tabs );
-            	rtn = mp->extract( mp->begin()->first.c_str() );
-            	delete( mp );
-            	json_decref( root );
-            }
-        }
-    } else {
-        fprintf( stderr, "ERROR: Asked to parse NULL JSON string\n" );
-    }
-    return rtn;
-}
-#endif
 // cppcheck-suppress unusedFunction
 CppON *CppON::parseJsonFile( const char *path )
 {
@@ -1411,8 +1276,6 @@ CppON *CppON::readObj( FILE *fp )
 	}
 	return rtn;
 }
-
-
 
 CppON  *CppON::diff( CppON &newObj, const char *name )
 {
