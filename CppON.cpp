@@ -126,546 +126,472 @@ using namespace std;
 
 CppON *CppON::factory( CppON &jt )
 {
-    CppON *rtn = NULL;
+	CppON *rtn = NULL;
 
-    CppONType typ = jt.type();                   // This is used to indicate the object type
-    switch( typ )
-    {
-        case INTEGER_CPPON_OBJ_TYPE:
-            rtn = new COInteger( (COInteger &) jt );
-            break;
-
-        case DOUBLE_CPPON_OBJ_TYPE:
-            rtn = new CODouble( (CODouble &) jt );
-            break;
-
-        case STRING_CPPON_OBJ_TYPE:
-            rtn = new COString( (COString &) jt );
-            break;
-
-        case NULL_CPPON_OBJ_TYPE:
-            rtn = new CONull;
-            break;
-
-        case BOOLEAN_CPPON_OBJ_TYPE:
-            rtn = new COBoolean( (COBoolean &) jt );
-            break;
-
-        case MAP_CPPON_OBJ_TYPE:
-            rtn = new COMap( (COMap &) jt );
-            break;
-
-        case ARRAY_CPPON_OBJ_TYPE:
-            rtn = new COArray( (COArray &) jt );
-            break;
-
-        default:
-            break;
-    }
-    return rtn;
+	CppONType typ = jt.type();                   // This is used to indicate the object type
+	switch( typ )
+	{
+		case INTEGER_CPPON_OBJ_TYPE:
+			rtn = new COInteger( (COInteger &) jt );
+			break;
+		case DOUBLE_CPPON_OBJ_TYPE:
+			rtn = new CODouble( (CODouble &) jt );
+			break;
+		case STRING_CPPON_OBJ_TYPE:
+			rtn = new COString( (COString &) jt );
+			break;
+		case NULL_CPPON_OBJ_TYPE:
+			rtn = new CONull;
+			break;
+		case BOOLEAN_CPPON_OBJ_TYPE:
+			rtn = new COBoolean( (COBoolean &) jt );
+			break;
+		case MAP_CPPON_OBJ_TYPE:
+			rtn = new COMap( (COMap &) jt );
+			break;
+		case ARRAY_CPPON_OBJ_TYPE:
+			rtn = new COArray( (COArray &) jt );
+			break;
+		default:
+			break;
+	}
+	return rtn;
 };
 
 CppON::CppON( CppONType type )
 {
-    typ = type;
-    siz = 0;
-    data = NULL;
-    precision = -1;
+	typ = type;
+	siz = 0;
+	data = NULL;
+	precision = -1;
 }
 
 // cppcheck-suppress constParameter
 CppON::CppON( CppON *jt )
 {
-    siz = jt->siz;
-    data = NULL;
-    precision = jt->precision;
-    switch ( typ = jt->typ )
-    {
-    	case INTEGER_CPPON_OBJ_TYPE:
-    		*this = *(new COInteger( (COInteger*) jt ) );
-    		break;
-    	case DOUBLE_CPPON_OBJ_TYPE:
-    		*this = *(new CODouble( (CODouble*) jt ));
-    		break;
-       	case STRING_CPPON_OBJ_TYPE:
-    		*this = *(new COString( (COString*) jt ));
-    		break;
-    	case BOOLEAN_CPPON_OBJ_TYPE:
-    		*this = *(new COBoolean( (COBoolean*) jt ));
-    		break;
-    	case MAP_CPPON_OBJ_TYPE:
-    		*this = *(new COMap( (COMap*)jt ));
-    		break;
-    	case ARRAY_CPPON_OBJ_TYPE:
-    		*this = *(new COArray( (COArray*)jt ) );
-    		break;
-    	default:
-    		break;
-    }
+	siz = jt->siz;
+	data = NULL;
+	precision = jt->precision;
+	switch ( typ = jt->typ )
+	{
+		case INTEGER_CPPON_OBJ_TYPE:
+			*this = *(new COInteger( (COInteger*) jt ) );
+			break;
+		case DOUBLE_CPPON_OBJ_TYPE:
+			*this = *(new CODouble( (CODouble*) jt ));
+			break;
+		case STRING_CPPON_OBJ_TYPE:
+			*this = *(new COString( (COString*) jt ));
+			break;
+		case BOOLEAN_CPPON_OBJ_TYPE:
+			*this = *(new COBoolean( (COBoolean*) jt ));
+			break;
+		case MAP_CPPON_OBJ_TYPE:
+			*this = *(new COMap( (COMap*)jt ));
+			break;
+		case ARRAY_CPPON_OBJ_TYPE:
+			*this = *(new COArray( (COArray*)jt ) );
+			break;
+		default:
+			break;
+	}
 }
 // cppcheck-suppress constParameter
 CppON::CppON( CppON &jt )
 {
-    siz = jt.siz;
-    data = NULL;
-    precision = jt.precision;
-    CppON *ptr = &jt;
+	siz = jt.siz;
+	data = NULL;
+	precision = jt.precision;
+	CppON *ptr = &jt;
 
-    switch ( typ = jt.typ )
-    {
-    	case INTEGER_CPPON_OBJ_TYPE:
-    		*this = *(new COInteger( (COInteger *) ptr ) );
-    		break;
-    	case DOUBLE_CPPON_OBJ_TYPE:
-    		*this = *(new CODouble( (CODouble *) ptr ) );
-    		break;
-       	case STRING_CPPON_OBJ_TYPE:
-    		*this = *(new COString( (COString *) ptr ) );
-    		break;
-    	case BOOLEAN_CPPON_OBJ_TYPE:
-    		*this = *(new COBoolean( (COBoolean *) ptr ) );
-    		break;
-    	case MAP_CPPON_OBJ_TYPE:
-    		*this = *(new COMap( (COMap *) ptr ) );
-    		break;
-    	case ARRAY_CPPON_OBJ_TYPE:
-    		*this = *(new COArray( (COArray *) ptr ) );
-    		break;
-    	default:
-    		break;
-    }
+	switch ( typ = jt.typ )
+	{
+		case INTEGER_CPPON_OBJ_TYPE:
+			*this = *(new COInteger( (COInteger *) ptr ) );
+			break;
+		case DOUBLE_CPPON_OBJ_TYPE:
+			*this = *(new CODouble( (CODouble *) ptr ) );
+			break;
+		case STRING_CPPON_OBJ_TYPE:
+			*this = *(new COString( (COString *) ptr ) );
+			break;
+		case BOOLEAN_CPPON_OBJ_TYPE:
+			*this = *(new COBoolean( (COBoolean *) ptr ) );
+			break;
+		case MAP_CPPON_OBJ_TYPE:
+			*this = *(new COMap( (COMap *) ptr ) );
+			break;
+		case ARRAY_CPPON_OBJ_TYPE:
+			*this = *(new COArray( (COArray *) ptr ) );
+			break;
+		default:
+			break;
+	}
 }
 
 void CppON::deleteData()
 {
-    if( data )
-    {
-        switch( typ )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                switch( siz )
-                {
-                    case 1:
-                        delete( (char *) data );
-                        break;
-
-                    case 2:
-                        delete( (short *) data );
-                        break;
-
-                    case sizeof(int):
-                        delete( (int *) data );
-                        break;
-
-                    case sizeof( long long ):
-                        delete( ( long long *) data );
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
-            case DOUBLE_CPPON_OBJ_TYPE:
-                delete( (double *) data );
-                break;
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                delete( (bool *) data );
-                break;
-            case NULL_CPPON_OBJ_TYPE:
-                break;
-            case STRING_CPPON_OBJ_TYPE:
-                delete (std::string *) data;
-                break;
-            case MAP_CPPON_OBJ_TYPE:
-                {
-                    map <string, CppON*> *m = ( map <string, CppON *> * ) data;
-                    map<string, CppON *>::iterator it;
-                    // cppcheck-suppress postfixOperator
-                    for( it = m->begin(); m->end() != it; it++ )
-                    {
-                        delete( it->second);
-                    }
-                    m->clear();
-                    delete ( m );
-                }
-                break;
-            case ARRAY_CPPON_OBJ_TYPE:
-                {
-                    vector <CppON *> *v = ( vector<CppON *> * ) data;
-                    for(unsigned int i = 0; v->size() > i; i++ )
-                    {
-                        delete( v->at( i ) );
-                    }
-                    delete ( v );
-                }
-                break;
-            default:
-                break;
-        }
-        data = NULL;
-    }
-    order.clear();
+	if( data )
+	{
+		switch( typ )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				switch( siz )
+				{
+					case 1:
+						delete( (char *) data );
+						break;
+					case 2:
+						delete( (short *) data );
+						break;
+					case sizeof(int):
+						delete( (int *) data );
+						break;
+					case sizeof( long long ):
+						delete( ( long long *) data );
+						break;
+					default:
+						break;
+				}
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				delete( (double *) data );
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				delete( (bool *) data );
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				delete (std::string *) data;
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				{
+					map <string, CppON*> *m = ( map <string, CppON *> * ) data;
+					map<string, CppON *>::iterator it;
+					// cppcheck-suppress postfixOperator
+					for( it = m->begin(); m->end() != it; it++ )
+					{
+						delete( it->second);
+					}
+					m->clear();
+					delete ( m );
+				}
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				{
+					vector <CppON *> *v = ( vector<CppON *> * ) data;
+					for(unsigned int i = 0; v->size() > i; i++ )
+					{
+						delete( v->at( i ) );
+					}
+					delete ( v );
+				}
+				break;
+			default:
+				break;
+		}
+		data = NULL;
+	}
+	order.clear();
 }
 
 CppON::~CppON()
 {
-    deleteData();
+	deleteData();
 }
 
 bool CppON::operator == ( CppON &obj )
 {
-    bool rtn = false;
+	bool rtn = false;
 
-    if( typ != obj.typ )
-        return rtn;
-
-    switch (typ)
-    {
-        case INTEGER_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = *((COInteger *)this) == *((COInteger *) &obj);
-            break;
-
-        case DOUBLE_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = *((CODouble *)this) == *((CODouble *) &obj);
-            break;
-
-        case STRING_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = *((COString *)this) == *((COString *) &obj);
-            break;
-
-        case NULL_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = *((CONull *)this) == *((CONull *) &obj);
-            break;
-
-        case BOOLEAN_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = *((COBoolean *)this) == *((COBoolean *) &obj);
-            break;
-
-        case MAP_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = *((COMap *)this )  == *((COMap *) &obj );
-            break;
-
-        case ARRAY_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = *((COArray *)this )  == *((COArray *) &obj );
-            break;
-
-        default:
-            break;
-    }
-    return rtn;
+	if( typ != obj.typ )
+	{
+		return rtn;
+	}
+	switch (typ)
+	{
+		case INTEGER_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = *((COInteger *)this) == *((COInteger *) &obj);
+			break;
+		case DOUBLE_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = *((CODouble *)this) == *((CODouble *) &obj);
+			break;
+		case STRING_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = *((COString *)this) == *((COString *) &obj);
+			break;
+		case NULL_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = *((CONull *)this) == *((CONull *) &obj);
+			break;
+		case BOOLEAN_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = *((COBoolean *)this) == *((COBoolean *) &obj);
+			break;
+		case MAP_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = *((COMap *)this )  == *((COMap *) &obj );
+			break;
+		case ARRAY_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = *((COArray *)this )  == *((COArray *) &obj );
+			break;
+		default:
+			break;
+	}
+	return rtn;
 }
 
 CppON *CppON::guessDataType( const char *str )
 {
-    CppON      *rtn = NULL;
-    CppONType   _eType = NULL_CPPON_OBJ_TYPE;
+	CppON      *rtn = NULL;
+	CppONType   _eType = NULL_CPPON_OBJ_TYPE;
 
-    if( str && *str )
-    {
-        if( !strcasecmp( str, "true" ) || !strcasecmp( str, "false" ) )    // If it is true or false its boolean
-        {
-            _eType = BOOLEAN_CPPON_OBJ_TYPE;
-        } else {
-            char  _ch;
+	if( str && *str )
+	{
+		if( !strcasecmp( str, "true" ) || !strcasecmp( str, "false" ) )    // If it is true or false its boolean
+		{
+			_eType = BOOLEAN_CPPON_OBJ_TYPE;
+		} else {
+			char  _ch;
 
-            _eType = INTEGER_CPPON_OBJ_TYPE;                                 // Assume integer
-            for( int i = 0; (_ch = str[ i ]); i++ )                         // Check each character
-            {
-                if( '.' == _ch )                                            // If we have a decimal point it may be double
-                {
-                    if( DOUBLE_CPPON_OBJ_TYPE == _eType )                    // Two decimal points means it can't be double
-                    {
-                        _eType = STRING_CPPON_OBJ_TYPE;                      // String is default
-                        break;
-                    }
-                    _eType = DOUBLE_CPPON_OBJ_TYPE;
-                } else if( '0' > _ch || '9' < _ch ) {                       // Any character that isn't a number or decimal
-                    _eType = STRING_CPPON_OBJ_TYPE;                          // means string;
-                    break;
-                }
-            }
-        }
-    }
+			_eType = INTEGER_CPPON_OBJ_TYPE;                                 // Assume integer
+			for( int i = 0; (_ch = str[ i ]); i++ )                         // Check each character
+			{
+				if( '.' == _ch )                                            // If we have a decimal point it may be double
+				{
+					if( DOUBLE_CPPON_OBJ_TYPE == _eType )                    // Two decimal points means it can't be double
+					{
+						_eType = STRING_CPPON_OBJ_TYPE;                      // String is default
+						break;
+					}
+					_eType = DOUBLE_CPPON_OBJ_TYPE;
+				} else if( '0' > _ch || '9' < _ch ) {                       // Any character that isn't a number or decimal
+					_eType = STRING_CPPON_OBJ_TYPE;                          // means string;
+					break;
+				}
+			}
+		}
+	}
 
-    switch( _eType )
-    {
-        case INTEGER_CPPON_OBJ_TYPE:
-            rtn = new COInteger( (uint64_t) strtoll( str, NULL, 10 ) );
-            break;
+	switch( _eType )
+	{
+		case INTEGER_CPPON_OBJ_TYPE:
+			rtn = new COInteger( (uint64_t) strtoll( str, NULL, 10 ) );
+			break;
+		case DOUBLE_CPPON_OBJ_TYPE:
+			rtn = new CODouble( strtod( str, NULL ) ) ;
+			break;
+		case BOOLEAN_CPPON_OBJ_TYPE:
+			rtn = new COBoolean( 0 == strcasecmp( str, "true" ) );
+			break;
+		case STRING_CPPON_OBJ_TYPE:
+			rtn = new COString( str );
+			break;
+		case MAP_CPPON_OBJ_TYPE:
+			rtn = new COMap();
+			break;
+		case ARRAY_CPPON_OBJ_TYPE:
+			rtn = new COArray();
+			break;
+		default:
+			rtn = new CONull();
+			break;
+	}
 
-        case DOUBLE_CPPON_OBJ_TYPE:
-            rtn = new CODouble( strtod( str, NULL ) ) ;
-            break;
-
-        case BOOLEAN_CPPON_OBJ_TYPE:
-            rtn = new COBoolean( 0 == strcasecmp( str, "true" ) );
-            break;
-
-        case STRING_CPPON_OBJ_TYPE:
-            rtn = new COString( str );
-            break;
-
-        case MAP_CPPON_OBJ_TYPE:
-            rtn = new COMap();
-            break;
-
-        case ARRAY_CPPON_OBJ_TYPE:
-            rtn = new COArray();
-            break;
-
-        default:
-            rtn = new CONull();
-            break;
-    }
-
-    return rtn;
+	return rtn;
 }
 
 string *CppON::toNetString( const char *str, char styp )
 {
-    int len = strlen( str );
-    char buf[ len + 16 ];
-    snprintf( buf, len+16, "%d:%s%c", len, str, styp );
+	int len = strlen( str );
+	char buf[ len + 16 ];
+	snprintf( buf, len+16, "%d:%s%c", len, str, styp );
 
-    return new string( buf );
+	return new string( buf );
 };
 
 const char *CppON::c_str()
 {
-    string indent = "";
-    str = "";
+	string indent = "";
+	str = "";
 
-    if( data )
-    {
-        switch( typ )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                str = ( (COInteger *) this )->c_str();
-                break;
-
-            case DOUBLE_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                str = ( (CODouble *) this )->c_str();
-                break;
-
-            case STRING_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                str = ( (COString *) this )->c_str();
-                break;
-
-            case NULL_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                str = ( (CONull *) this )->c_str();
-                break;
-
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                str = ( (COBoolean *) this )->c_str();
-                break;
+	if( data )
+	{
+		switch( typ )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				str = ( (COInteger *) this )->c_str();
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				str = ( (CODouble *) this )->c_str();
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				str = ( (COString *) this )->c_str();
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				str = ( (CONull *) this )->c_str();
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				str = ( (COBoolean *) this )->c_str();
+				break;
 
             case MAP_CPPON_OBJ_TYPE:
                 // cppcheck-suppress cstyleCast
                 str = ( (COMap *) this )->c_str( indent);
                 break;
-
             case ARRAY_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                str = ( (COArray *) this )->c_str( indent);
-                break;
-
+            	// cppcheck-suppress cstyleCast
+            	str = ( (COArray *) this )->c_str( indent);
+            	break;
             default:
-                str = "Unknown";
-                break;
-        }
-    }
-    return str.c_str();
+            	str = "Unknown";
+            	break;
+		}
+	}
+	return str.c_str();
 }
 
 // cppcheck-suppress unusedFunction
 std::string *CppON::toCompactJsonString()
 {
-    std::string *sptr = NULL;
-    if( data )
-    {
-        switch( typ )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                sptr = ( (COInteger *) this )->toJsonString();
-                break;
-
-            case DOUBLE_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                sptr = ( (CODouble *) this )->toJsonString();
-                break;
-
-            case STRING_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                sptr = ( (COString *) this )->toJsonString();
-                break;
-
-            case NULL_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                sptr = ( (CONull *) this )->toJsonString();
-                break;
-
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                sptr = ( (COBoolean *) this )->toJsonString();
-                break;
-
-            case MAP_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                sptr = ( (COMap *) this )->toCompactJsonString();
-                break;
-
-            case ARRAY_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                sptr = ( (COArray *) this )->toCompactJsonString();
-                break;
-            default:
-                break;
-        }
-    }
-
-    return sptr;
+	std::string *sptr = NULL;
+	if( data )
+	{
+		switch( typ )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				sptr = ( (COInteger *) this )->toJsonString();
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				sptr = ( (CODouble *) this )->toJsonString();
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				sptr = ( (COString *) this )->toJsonString();
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				sptr = ( (CONull *) this )->toJsonString();
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				sptr = ( (COBoolean *) this )->toJsonString();
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				sptr = ( (COMap *) this )->toCompactJsonString();
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				sptr = ( (COArray *) this )->toCompactJsonString();
+				break;
+			default:
+				break;
+		}
+	}
+	return sptr;
 }
 
 // cppcheck-suppress unusedFunction
 void CppON::dump( FILE *fp )
 {
-    string indent = "";
-
-    if( data )
-    {
-        switch( typ )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COInteger *) this )->dump( fp );
-                break;
-
-            case DOUBLE_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (CODouble *) this )->dump( fp );
-                break;
-
-            case STRING_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COString *) this )->dump( fp );
-                break;
-
-            case NULL_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (CONull *) this )->dump( fp );
-                break;
-
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COBoolean *) this )->dump( fp );
-                break;
-
-            case MAP_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COMap *) this )->dump( indent, fp );
-                break;
-
-            case ARRAY_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COArray *) this )->dump( indent, fp );
-                break;
-
-            default:
-                fprintf( fp, "Unknown\n");
-                break;
-        }
-    }
-    fprintf( fp, "\n" );
+	string indent = "";
+	if( data )
+	{
+		switch( typ )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COInteger *) this )->dump( fp );
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (CODouble *) this )->dump( fp );
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COString *) this )->dump( fp );
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (CONull *) this )->dump( fp );
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COBoolean *) this )->dump( fp );
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COMap *) this )->dump( indent, fp );
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COArray *) this )->dump( indent, fp );
+				break;
+			default:
+				fprintf( fp, "Unknown\n");
+				break;
+		}
+	}
+	fprintf( fp, "\n" );
 }
 
 void CppON::cdump( FILE *fp )
 {
-    if( data )
-    {
-        switch( typ )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COInteger *) this )->cdump( fp );
-                break;
-
-            case DOUBLE_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (CODouble *) this )->cdump( fp );
-                break;
-
-            case STRING_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COString *) this )->cdump( fp );
-                break;
-
-            case NULL_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (CONull *) this )->cdump( fp );
-                break;
-
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COBoolean *) this )->cdump( fp );
-                break;
-
-            case MAP_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COMap *) this )->cdump( fp );
-                break;
-
-            case ARRAY_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                ( (COArray *) this )->cdump( fp );
-                break;
-            default:
-                fprintf( fp, "Unknown");
-                break;
-        }
-    }
+	if( data )
+	{
+		switch( typ )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COInteger *) this )->cdump( fp );
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (CODouble *) this )->cdump( fp );
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COString *) this )->cdump( fp );
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (CONull *) this )->cdump( fp );
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COBoolean *) this )->cdump( fp );
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COMap *) this )->cdump( fp );
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				( (COArray *) this )->cdump( fp );
+				break;
+			default:
+				fprintf( fp, "Unknown");
+				break;
+		}
+	}
 }
 
 static __inline void DumpWhiteSpace( const char **str ) { char ch; while( 0 != (ch = **str ) &&( ' ' == ch || '\t' == ch || '\n' == ch || 'r' == ch ) ) { (*str)++; } }
 static __inline void DumpWhiteSpace( const char *(&str) ) { char ch; while( 0 != (ch = *str ) &&( ' ' == ch || '\t' == ch || '\n' == ch || 'r' == ch ) ) { str++; } }
 static __inline void DumpWhiteSpace( char &ch, const char **str ) { while( 0 != (ch = **str ) &&( ' ' == ch || '\t' == ch || '\n' == ch || 'r' == ch ) ) { (*str)++; } }
 static __inline void DumpWhiteSpace( char &ch, const char *(&str) ) { while( 0 != (ch = *str ) &&( ' ' == ch || '\t' == ch || '\n' == ch || 'r' == ch ) ) { str++; } }
-
-void CppON::RemoveWhiteSpace( const char *s, std::string &str )
-{
-	char	buf[ strlen( s ) + 1 ];
-	int		idx = 0;
-	bool	instr = false;
-	char	ch;
-
-	while( 0 != ( ch = *s++ ) )
-	{
-		if( '"' == ch )
-		{
-			instr = (instr) ? false : true;
-		}
-		if( instr )
-		{
-			buf[ idx++ ] = ch;
-		} else if( ch != ' ' && ch != '\t' && ch != '\r' && ch != '\n' ) {
-			buf[ idx++ ] = ch;
-		}
-	}
-	buf[ idx ] = '\0';
-	str = buf;
-}
 
 CppON *CppON::GetTNetstring( const char **str )
 {
@@ -802,6 +728,7 @@ CppON *CppON::GetObj( const char **str )
 		COMap	*mp = new COMap();
 		bool	fail = false;
 		DumpWhiteSpace( ch, nc );
+
 		while( ! fail && 0 != ch && '}' != ch )
 		{
 			DumpWhiteSpace( ch, nc );
@@ -837,8 +764,8 @@ CppON *CppON::GetObj( const char **str )
 							{
 								nc++;
 							} else if( ch && '}' != ch ) {
-								const char *ree = &nc[ -2 ];
 								std::string sub( &nc[ -2 ], 48 );
+								fprintf( stderr, "%s[%d] Error starting at: '%s'\n", __FILE__, __LINE__, sub.c_str() );
 								fail = true;
 							}
 						} else {
@@ -961,7 +888,6 @@ CppON *CppON::GetObj( const char **str )
 		DumpWhiteSpace( ch, str );
 	} else {
 		fprintf( stderr, "\n%c%s is not an object\n", ch, nc );
-		exit( 0 );
 	}
 	return base;
 }
@@ -981,52 +907,49 @@ CppON *CppON::parseJson( const char *str )
 	}
 	return NULL;
 }
+
 // cppcheck-suppress unusedFunction
 CppON *CppON::parseJsonFile( const char *path )
 {
-    int     sz = 1024;
-    char    *buf,*bSave;
-    FILE    *fp = fopen( path, "r" );
-    int     rd = 0;
-    int     c;
-    CppON *rtn = NULL;
+	int     sz = 1024;
+	char    *buf,*bSave;
+	FILE    *fp = fopen( path, "r" );
+	int     rd = 0;
+	int     c;
+	CppON *rtn = NULL;
 
-    if( !fp )
-    {
-        char estr[ 1024 ];
-        snprintf( estr, 1023, "fopen Failed to open JSON FILE \"%s\"", path );
-        perror( estr );
-        return rtn;
-    }
-
-    if( !( buf = (char *) malloc( sz ) ) )
-    {
-        fclose( fp );
-        perror( "malloc Memory allocation error" );
-        return rtn;
-    }
-
-    while( EOF != ( c = fgetc( fp ) ) )
-    {
-        buf[ rd++ ] = ( char ) c;
-        if( rd == sz )
-        {
-            if( !( buf = (char *) realloc( (void *) (bSave = buf ), sz += 512 ) ) )
-            {
-                snprintf( bSave, 1023, "realloc Failed to allocate %d bytes of memory", sz );
-                perror( bSave );
-                free( bSave );
-                return rtn;
-         }
-        }
-    }
-    buf[ rd ] = '\0';
-    fclose( fp );
-
-    rtn = parseJson( buf );
-    free(buf );
-
-    return ( rtn );
+	if( !fp )
+	{
+		char estr[ 1024 ];
+		snprintf( estr, 1023, "fopen Failed to open JSON FILE \"%s\"", path );
+		perror( estr );
+		return rtn;
+	}
+	if( !( buf = (char *) malloc( sz ) ) )
+	{
+		fclose( fp );
+		perror( "malloc Memory allocation error" );
+		return rtn;
+	}
+	while( EOF != ( c = fgetc( fp ) ) )
+	{
+		buf[ rd++ ] = ( char ) c;
+		if( rd == sz )
+		{
+			if( !( buf = (char *) realloc( (void *) (bSave = buf ), sz += 512 ) ) )
+			{
+				snprintf( bSave, 1023, "realloc Failed to allocate %d bytes of memory", sz );
+				perror( bSave );
+				free( bSave );
+				return rtn;
+			}
+		}
+	}
+	buf[ rd ] = '\0';
+	fclose( fp );
+	rtn = parseJson( buf );
+	free(buf );
+	return ( rtn );
 }
 
 CppON *CppON::readObj( FILE *fp )
@@ -1041,99 +964,96 @@ CppON *CppON::readObj( FILE *fp )
 
 	if( fp )
 	{
-	    unsigned	sz = 1024;
-	    char    	*buf,*bSave;
+		unsigned	sz = 1024;
+		char    	*buf,*bSave;
 
-	    if( !( buf = (char *) malloc( sz ) ) )
-	    {
-	        fclose( fp );
-	        perror( "malloc Memory allocation error" );
-	    } else {
-	    	buf[ 0 ] = '\0';
-	    	while( 0 > otype && EOF != ( c = fgetc( fp ) ) )								// Read characters until we get the first character of the json
-	    	{
-	    		if( '{' == c )																// Start of a Map?
-	    		{
-	    			levels = 1;
-	    			otype = 0;
-	    		} else if( '\"' == c ) {													// Start of an Object?
-	    			levels = 1;
-	    			otype = 2;
-	    		} else if( '[' == c ) {														// Start of an Array?
-	    			levels = 1;
-	    			otype = 1;
-	    		}
-	    	}
-
-	    	if( 0 <= otype )																// if we got a '"', '{' or a '[' then we may have something
-	    	{
-	    		buf[ rd++ ] = c;
-	    	    buf[ rd ] = '\0';
-	    	    while( !done && EOF != ( c = fgetc( fp ) ) )
-	    	    {
-	    	        buf[ rd++ ] = ( char ) c;
-
-	    	        if( rd == sz )
-	    	        {
-	    	            if( !( buf = (char *) realloc( (void *) (bSave = buf ), sz += 512 ) ) )
-	    	            {
-	    	                perror( bSave );
-	    	                free( bSave );
-	    	                break;
-	    	            }
-	    	        }
-		    	    buf[ rd ] = '\0';
-
-	    	        switch ( otype )
-	    	        {
-	    	        	case 0:
-	    	        		if( '}' == c )
-	    	        		{
-	    	        			if( !( --levels ) )
-	    	        			{
-	    	        				done = true;
-	    	        				break;
-	    	        			}
-	    	        		} else if( '{' == c ) {
-	    	        			levels++;
-	    	        		}
-	    	        		break;
-	    	        	case 2:
-	    	        		if( 1 == levels && '\"' == c )
-	    	        		{
-	    	        			levels = 2;
-	    	        		} else if( 2 == levels && ':' == c ) {
-	    	        			levels = 3;
-	    	        		} else if( 3 == levels ) {
-	    	        			if( 0 > stype )
-	    	        			{
-	    	        				if( '\"' == c )
-	    	        				{
-	    	        					stype = 0;
-	    	        					levels = 4;
-	    	        				} else if( '{' == c) {
-	    	        					levels = 4;
-	    	        					stype = 1;
-	    	       					} else if( '[' == c ) {
-	    	       						levels = 4;
-	    	       						stype = 2;
-	    	       					} else if ( ('0' <= c && c <= 9 ) || '-' == c || '+' == c ) {
-	    	       						levels = 4;
-	    	       						stype = 3;
-	    	       					} else if( 't' == c || 'T' == c	) {								// true?
-	    	       						stype = 4;
-	    	       						levels = 4;
-	    	       					} else if( 'f' == c || 'F' == c ) {								// false?
-	    	       						stype = 5;
-	    	       						levels = 4;
-	    	       					}
-	    	        			}
-	    	        		} else if( 4 <= levels ) {
-	    	        			if( 0 == stype  && '\"' == c )										// string
-	    	        			{
- 	    	        				done = true;
-	    	        			} else if ( 1 == stype ) {											// map
-	    	        				if( '{' == c )
+		if( !( buf = (char *) malloc( sz ) ) )
+		{
+			fclose( fp );
+			perror( "malloc Memory allocation error" );
+		} else {
+			buf[ 0 ] = '\0';
+			while( 0 > otype && EOF != ( c = fgetc( fp ) ) )								// Read characters until we get the first character of the json
+			{
+				if( '{' == c )																// Start of a Map?
+				{
+					levels = 1;
+					otype = 0;
+				} else if( '\"' == c ) {													// Start of an Object?
+					levels = 1;
+					otype = 2;
+				} else if( '[' == c ) {														// Start of an Array?
+					levels = 1;
+					otype = 1;
+				}
+			}
+			if( 0 <= otype )																// if we got a '"', '{' or a '[' then we may have something
+			{
+				buf[ rd++ ] = c;
+				buf[ rd ] = '\0';
+				while( !done && EOF != ( c = fgetc( fp ) ) )
+				{
+					buf[ rd++ ] = ( char ) c;
+					if( rd == sz )
+					{
+						if( !( buf = (char *) realloc( (void *) (bSave = buf ), sz += 512 ) ) )
+						{
+							perror( bSave );
+							free( bSave );
+							break;
+						}
+					}
+					buf[ rd ] = '\0';
+					switch ( otype )
+					{
+						case 0:
+							if( '}' == c )
+							{
+								if( !( --levels ) )
+								{
+									done = true;
+									break;
+								}
+							} else if( '{' == c ) {
+								levels++;
+							}
+							break;
+						case 2:
+							if( 1 == levels && '\"' == c )
+							{
+								levels = 2;
+							} else if( 2 == levels && ':' == c ) {
+								levels = 3;
+							} else if( 3 == levels ) {
+								if( 0 > stype )
+								{
+									if( '\"' == c )
+									{
+										stype = 0;
+										levels = 4;
+									} else if( '{' == c) {
+										levels = 4;
+										stype = 1;
+									} else if( '[' == c ) {
+										levels = 4;
+										stype = 2;
+									} else if ( ('0' <= c && c <= 9 ) || '-' == c || '+' == c ) {
+										levels = 4;
+										stype = 3;
+									} else if( 't' == c || 'T' == c	) {								// true?
+										stype = 4;
+										levels = 4;
+									} else if( 'f' == c || 'F' == c ) {								// false?
+										stype = 5;
+										levels = 4;
+									}
+								}
+							} else if( 4 <= levels ) {
+								if( 0 == stype  && '\"' == c )										// string
+								{
+									done = true;
+								} else if ( 1 == stype ) {											// map
+									if( '{' == c )
 									{
 										levels++;
 									} else if( '}' == c ) {
@@ -1142,8 +1062,8 @@ CppON *CppON::readObj( FILE *fp )
 											done = true;
 										}
 									}
-	    	        			} else if ( 2 == stype ) {											// array
-	    	        				if( '[' == c )
+								} else if ( 2 == stype ) {											// array
+									if( '[' == c )
 									{
 										levels++;
 									} else if( ']' == c ) {
@@ -1152,94 +1072,92 @@ CppON *CppON::readObj( FILE *fp )
 											done = true;
 										}
 									}
-	    	        			} else if( 3 == stype ) {											// number
-	    	        				if( ( '0' > c || '9' < c ) && '.' != c )
-	    	        				{
-	    	        					done = true;
-	    	        				}
-	    	        			} else if( 4 == stype ) {											// boolean true?
-	    	        				char tc = '\0';
-	    	        				switch( levels )
-	    	        				{
-	    	        					case 4:														// 'r'
-	    	        						tc = 'r';
-	    	        						break;
-	    	        					case 5:														// 'u'
-	    	        						tc = 'u';
-	    	        						break;
-	    	        					case 6:														// 'e'
-	    	        						tc = 'e';
-	    	        						break;
-	    	        				}
-	        						if( tc == tolower( c ) )
-	        						{
-	        							if( 7 == ++levels )
-	        							{
-	        								done = true;
-	        								rtn = new COBoolean( true );
-		        							free( buf );
-		        							buf = NULL;
-	        							}
-	        						} else {
-	        							done = true;
-	        							free( buf );
-	        							buf = NULL;
-	        						}
-
-	    	        			} else if( 5 == stype ) {											// boolean false?
-	    	        				char tc = '\0';
-	    	        				switch( levels )
-	    	        				{
-	    	        					case 4:														// 'a'
-	    	        						tc = 'a';
-	    	        						break;
-	    	        					case 5:														// 'l'
-	    	        						tc = 'l';
-	    	        						break;
-	    	        					case 6:														// 's'
-	    	        						tc = 's';
-	    	        						break;
-	    	        					default:													// 'e'
-	    	        						tc = 'e';
-	    	        						break;
-	    	        				}
-	        						if( tc == tolower( c ) )
-	        						{
-	        							if( 8 == ++levels )
-	        							{
-	        								done = true;
-	        								rtn = new COBoolean( false );
-		        							free( buf );
-		        							buf = NULL;
-	        							}
-	        						} else {
-	        							done = true;
-	        							free( buf );
-	        							buf = NULL;
-	        						}
-	    	        			}
-
-	    	        		}
-        					break;
-	    	        	case 1:
-	    	        		if( ']' == c )
-	    	        		{
-	    	        			if( !( --levels ) )
-	    	        			{
-	    	        				done = true;
-	    	        				break;
-	    	        			}
-	    	        		} else if( '[' == c ) {
-	    	        			levels++;
-	    	        		}
-	    	        		break;
-	    	        }
-	    	    }
-	    	}
-	    }
+								} else if( 3 == stype ) {											// number
+									if( ( '0' > c || '9' < c ) && '.' != c )
+									{
+										done = true;
+									}
+								} else if( 4 == stype ) {											// boolean true?
+									char tc = '\0';
+									switch( levels )
+									{
+										case 4:														// 'r'
+											tc = 'r';
+											break;
+										case 5:														// 'u'
+											tc = 'u';
+											break;
+										case 6:														// 'e'
+											tc = 'e';
+											break;
+									}
+									if( tc == tolower( c ) )
+									{
+										if( 7 == ++levels )
+										{
+											done = true;
+											rtn = new COBoolean( true );
+											free( buf );
+											buf = NULL;
+										}
+									} else {
+										done = true;
+										free( buf );
+										buf = NULL;
+									}
+								} else if( 5 == stype ) {											// boolean false?
+									char tc = '\0';
+									switch( levels )
+									{
+										case 4:														// 'a'
+											tc = 'a';
+											break;
+										case 5:														// 'l'
+											tc = 'l';
+											break;
+										case 6:														// 's'
+											tc = 's';
+											break;
+										default:													// 'e'
+											tc = 'e';
+											break;
+									}
+									if( tc == tolower( c ) )
+									{
+										if( 8 == ++levels )
+										{
+											done = true;
+											rtn = new COBoolean( false );
+											free( buf );
+											buf = NULL;
+										}
+									} else {
+										done = true;
+										free( buf );
+										buf = NULL;
+									}
+								}
+							}
+							break;
+						case 1:
+							if( ']' == c )
+							{
+								if( !( --levels ) )
+								{
+									done = true;
+									break;
+								}
+							} else if( '[' == c ) {
+								levels++;
+							}
+							break;
+					}
+				}
+			}
+		}
 		if( buf && buf[ 0 ] )
 		{
-		    rtn = parseJson( buf );
+			rtn = parseJson( buf );
 			free( buf );
 		}
 	}
@@ -1248,48 +1166,47 @@ CppON *CppON::readObj( FILE *fp )
 
 CppON  *CppON::diff( CppON &newObj, const char *name )
 {
-
-    if(  typ == newObj.typ )
-    {
-        switch ( typ )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                if( *( ( COInteger *) this ) != *(( COInteger *) &newObj) )
-                {
-                    return new COInteger( (( COInteger &) newObj) );
-                }
-                break;
-            case DOUBLE_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                if( *( ( CODouble *) this ) != *(( CODouble *) &newObj) )
-                {
-                    return new CODouble( (( CODouble &) newObj) );
-                }
-                break;
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                if( *( ( COBoolean *) this ) != *(( COBoolean *) &newObj) )
-                {
-                    return new COBoolean( (( COBoolean &) newObj) );
-                }
-                break;
-            case MAP_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                return  ((COMap *) this)->diff( (COMap &)newObj, name );
-                break;
-            case ARRAY_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                return  ((COArray *) this)->diff( (COArray &)newObj, name );
-                break;
-            case NULL_CPPON_OBJ_TYPE:
-                fprintf(stderr, "CppON:diff - Null being ignored\n");
-                break;
-            default:
-                break;
-        }
-    }
-    return NULL;
+	if(  typ == newObj.typ )
+	{
+		switch ( typ )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				if( *( ( COInteger *) this ) != *(( COInteger *) &newObj) )
+				{
+					return new COInteger( (( COInteger &) newObj) );
+				}
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				if( *( ( CODouble *) this ) != *(( CODouble *) &newObj) )
+				{
+					return new CODouble( (( CODouble &) newObj) );
+				}
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				if( *( ( COBoolean *) this ) != *(( COBoolean *) &newObj) )
+				{
+					return new COBoolean( (( COBoolean &) newObj) );
+				}
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				return  ((COMap *) this)->diff( (COMap &)newObj, name );
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				return  ((COArray *) this)->diff( (COArray &)newObj, name );
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				fprintf(stderr, "CppON:diff - Null being ignored\n");
+				break;
+			default:
+				break;
+		}
+	}
+	return NULL;
 }
 #if HAS_XML
 
@@ -1299,40 +1216,40 @@ CppON  *CppON::diff( CppON &newObj, const char *name )
 
 static char *trimTag( xmlNodePtr con )
 {
-    char  *rtn = NULL;
-    if( con )
-    {
-        if( !( xmlStrcmp( con->name, (const xmlChar *) "text" ) )  && con->content )        // Make sure it is a text node with content
-        {
-            char   *oPtr;
-            char   *inPtr = (char *)con->content;
-            char   *ePtr;
-            char   ch;
+	char  *rtn = NULL;
+	if( con )
+	{
+		if( !( xmlStrcmp( con->name, (const xmlChar *) "text" ) )  && con->content )        // Make sure it is a text node with content
+		{
+			char   *oPtr;
+			char   *inPtr = (char *)con->content;
+			char   *ePtr;
+			char   ch;
 
-            rtn  = new char[ strlen( (const char *) con->content ) + 1 ];                   // Create a string that is at least the same size
-            oPtr = ePtr = rtn;                                                              //  as the original string
+			rtn  = new char[ strlen( (const char *) con->content ) + 1 ];                   // Create a string that is at least the same size
+			oPtr = ePtr = rtn;                                                              //  as the original string
 
-            while( ' ' == ( ch = *inPtr++ ) || '\n' == ch || '\t' == ch  );                 // Skip over Leading white space
+			while( ' ' == ( ch = *inPtr++ ) || '\n' == ch || '\t' == ch  );                 // Skip over Leading white space
 
-            if( ch )                                                                        // If string had at least one non-white space character it is good
-            {
-                do                                                                          // Copy all characters until end of string
-                {
-                    *oPtr++ = ch;
-                    if( ' ' != ch && '\t' != ch && '\n' != ch )                             // Remember place of last non-white space, + 1
-                    {
-                        ePtr = oPtr;
-                    }
-                } while( ( ch = *inPtr++ ) );                                               // Keep going until null is found
+			if( ch )                                                                        // If string had at least one non-white space character it is good
+			{
+				do                                                                          // Copy all characters until end of string
+				{
+					*oPtr++ = ch;
+					if( ' ' != ch && '\t' != ch && '\n' != ch )                             // Remember place of last non-white space, + 1
+					{
+						ePtr = oPtr;
+					}
+				} while( ( ch = *inPtr++ ) );                                               // Keep going until null is found
 
-                *ePtr = '\0';                                                               // Put a null at place saved of space after last non white space
-            } else {
-                delete[] rtn;                                                               // empty string so delete it, and return NULL.
-                rtn = NULL;
-            }
-        }
-    }
-    return rtn;
+				*ePtr = '\0';                                                               // Put a null at place saved of space after last non white space
+			} else {
+				delete[] rtn;                                                               // empty string so delete it, and return NULL.
+				rtn = NULL;
+			}
+		}
+	}
+	return rtn;
 }
 
 /*
@@ -1341,16 +1258,16 @@ static char *trimTag( xmlNodePtr con )
 
 static bool hasChildren( xmlNodePtr cur )
 {
-    bool rtn = false;
-    while( cur )
-    {
-        if( 1 == cur->type )
-        {
-            rtn = true;
-        }
-        cur = cur->next;
-    }
-    return rtn;
+	bool rtn = false;
+	while( cur )
+	{
+		if( 1 == cur->type )
+		{
+			rtn = true;
+		}
+		cur = cur->next;
+	}
+	return rtn;
 }
 
 /*
@@ -1365,249 +1282,236 @@ static bool hasChildren( xmlNodePtr cur )
 
 static int parseNode( xmlNodePtr cur, CppON *parent, std:: string indent )
 {
-    xmlNodePtr           childCur;
-    xmlNodePtr           cur2;
-    xmlNodePtr          cur3;
-    CppON              *root = NULL;
-    CppON              *childObj = NULL;
-    _xmlAttr             *attr = NULL;
-    int                  rtn = 0;
-    char                *value;
-    static std::string  preStr = "";
+	xmlNodePtr 			childCur;
+	xmlNodePtr			cur2;
+	xmlNodePtr			cur3;
+	CppON				*root = NULL;
+	CppON				*childObj = NULL;
+	_xmlAttr			*attr = NULL;
+	int					rtn = 0;
+	char				*value;
+	static std::string	preStr = "";
 
-    indent += "  ";
-    if( !cur )
-    {
-        return 0;
-    }
+	indent += "  ";
+	if( !cur )
+	{
+		return 0;
+	}
+	if( 1 == cur->type )                                                                // Don't parse non-nodes
+	{
+		bool children = hasChildren( cur->xmlChildrenNode );
+		if( ( attr = cur->properties ) || children )                                      // If it has properties it must be at least a map
+		{
+			if( parent->isMap() )
+			{
+				// cppcheck-suppress cstyleCast
+				((COMap *)parent )->append( (const char * ) cur->name, root = new COMap() );
+			} else if( parent->isArray() ) {
+				// cppcheck-suppress cstyleCast
+				((COArray *)parent )->append( root = new COMap() );
+			}
+			parent = root;
 
-    if( 1 == cur->type )                                                                // Don't parse non-nodes
-    {
-        bool children = hasChildren( cur->xmlChildrenNode );
-        if( ( attr = cur->properties ) || children )                                      // If it has properties it must be at least a map
-        {
-            if( parent->isMap() )
-            {
-                // cppcheck-suppress cstyleCast
-                ((COMap *)parent )->append( (const char * ) cur->name, root = new COMap() );
-            } else if( parent->isArray() ) {
-                // cppcheck-suppress cstyleCast
-                ((COArray *)parent )->append( root = new COMap() );
-            }
-            parent = root;
-
-            /*
+			/*
              * do attributes
              */
-
-            for( ; attr; attr = attr->next )
-            {
-                std::string name = "-";                                                            // Attributes are children with the '-' prepended to their name
-                name += (const char *) attr->name;
-
-                childObj = CppON::guessDataType( (const char *) attr->children->content );  // decide data type from content
-
-                if( parent->isMap() )                                                          // different routines to add node to array or map
-                {
-                    // cppcheck-suppress cstyleCast
-                    ( ( COMap *) parent)->append( name, childObj );
-                } else if( parent->isArray() ) {
-                    // cppcheck-suppress cstyleCast
-                    ( ( COArray *) parent)->append( childObj );
-                }
-            }
-
-            if( ( childCur = cur->xmlChildrenNode ) )
-            {
-                for( cur2 = childCur; cur2; cur2 = cur2->next )                                // Process all children
-                {
-                    if( 1 == cur2->type )
-                    {
-                        bool         arrayMember = false;
-                        std::string  tagName = (const char *)cur2->name;
-
-                        for( cur3 = cur2->next; cur3; cur3 = cur3->next )                          // See if they are part of an array
-                        {
-                            if( !xmlStrcmp( (const xmlChar *)tagName.c_str(), cur3->name ) )
-                            {
-                                arrayMember = true;                                                    //    if the same name appears it must be an array
-                            }
-                        }
-                        if( arrayMember )                                                          // Process all array children together
-                        {
-                            if( parent->isMap() )
-                            {
-                                // cppcheck-suppress cstyleCast
-                                ( ( COMap *) parent)->append( tagName, childObj = new COArray() );
-                            } else if( parent->isArray() ) {
-                                // cppcheck-suppress cstyleCast
-                                ( ( COArray *) parent)->append( childObj = new COArray() );
-                            }
-                            preStr = "\n  ";
-                            preStr += indent;
-                            parseNode( cur2, childObj, indent + "  " );
-
-                            for( cur3 = cur2->next; cur3; )                                          // See if they are part of an array
-                            {
-                                xmlNodePtr cur4 = cur3;
-                                cur3 = cur3->next;                                                    // Get next pointer in case we delete this one
-                                if( !xmlStrcmp( (const xmlChar *)tagName.c_str(), cur4->name ) )
-                                {
-                                    parseNode( cur4, childObj, indent + "  " );
-                                    xmlUnlinkNode( cur4 );
-                                    xmlFreeNode( cur4 );
-                                }
-                            }
-                        } else {
-                            preStr = "";
-                            parseNode( cur2, parent, indent );
-                        }
-                    } else if( ( value = trimTag( cur->xmlChildrenNode ) ) ) {                  // Node has attribute and content
-                        // cppcheck-suppress cstyleCast
-                        ( ( COMap *) parent)->append( "#text", childObj = new COString( value ) );
-                        delete[] value;
-                    }
-                }
-            }
-        } else if( ( value = trimTag( cur->xmlChildrenNode ) ) ) {
-            childObj = CppON::guessDataType( value );
-            delete[] value;
-
-            if( parent->isMap() )
-            {
-                // cppcheck-suppress cstyleCast
-                ( ( COMap *) parent)->append( (const char *)cur->name, childObj  );
-            } else if( parent->isArray() ) {
-                // cppcheck-suppress cstyleCast
-                ( ( COArray *) parent)->append( childObj );
-            }
-        }
-    } else {
-        if( (value = trimTag( cur ) ) )
-        {
-            childObj = CppON::guessDataType( value );
-            delete[] value;
-
-            if( parent->isMap() )
-            {
-                // cppcheck-suppress cstyleCast
-                ( ( COMap *) parent)->append( indent, childObj );
-            } else if( parent->isArray() ) {
-                // cppcheck-suppress cstyleCast
-                ( ( COArray *) parent)->append( childObj );
-            }
-        }
-    }
-    return rtn;
+			for( ; attr; attr = attr->next )
+			{
+				std::string name = "-";                                                            // Attributes are children with the '-' prepended to their name
+				name += (const char *) attr->name;
+				childObj = CppON::guessDataType( (const char *) attr->children->content );  // decide data type from content
+				if( parent->isMap() )                                                          // different routines to add node to array or map
+				{
+					// cppcheck-suppress cstyleCast
+					( ( COMap *) parent)->append( name, childObj );
+				} else if( parent->isArray() ) {
+					// cppcheck-suppress cstyleCast
+					( ( COArray *) parent)->append( childObj );
+				}
+			}
+			if( ( childCur = cur->xmlChildrenNode ) )
+			{
+				for( cur2 = childCur; cur2; cur2 = cur2->next )                                // Process all children
+				{
+					if( 1 == cur2->type )
+					{
+						bool         arrayMember = false;
+						std::string  tagName = (const char *)cur2->name;
+						for( cur3 = cur2->next; cur3; cur3 = cur3->next )                          // See if they are part of an array
+						{
+							if( !xmlStrcmp( (const xmlChar *)tagName.c_str(), cur3->name ) )
+							{
+								arrayMember = true;                                                    //    if the same name appears it must be an array
+							}
+						}
+						if( arrayMember )                                                          // Process all array children together
+						{
+							if( parent->isMap() )
+							{
+								// cppcheck-suppress cstyleCast
+								( ( COMap *) parent)->append( tagName, childObj = new COArray() );
+							} else if( parent->isArray() ) {
+								// cppcheck-suppress cstyleCast
+								( ( COArray *) parent)->append( childObj = new COArray() );
+							}
+							preStr = "\n  ";
+							preStr += indent;
+							parseNode( cur2, childObj, indent + "  " );
+							for( cur3 = cur2->next; cur3; )                                          // See if they are part of an array
+							{
+								xmlNodePtr cur4 = cur3;
+								cur3 = cur3->next;                                                    // Get next pointer in case we delete this one
+								if( !xmlStrcmp( (const xmlChar *)tagName.c_str(), cur4->name ) )
+								{
+									parseNode( cur4, childObj, indent + "  " );
+									xmlUnlinkNode( cur4 );
+									xmlFreeNode( cur4 );
+								}
+							}
+						} else {
+							preStr = "";
+							parseNode( cur2, parent, indent );
+						}
+					} else if( ( value = trimTag( cur->xmlChildrenNode ) ) ) {                  // Node has attribute and content
+						// cppcheck-suppress cstyleCast
+						( ( COMap *) parent)->append( "#text", childObj = new COString( value ) );
+						delete[] value;
+					}
+				}
+			}
+		} else if( ( value = trimTag( cur->xmlChildrenNode ) ) ) {
+			childObj = CppON::guessDataType( value );
+			delete[] value;
+			if( parent->isMap() )
+			{
+				// cppcheck-suppress cstyleCast
+				( ( COMap *) parent)->append( (const char *)cur->name, childObj  );
+			} else if( parent->isArray() ) {
+				// cppcheck-suppress cstyleCast
+				( ( COArray *) parent)->append( childObj );
+			}
+		}
+	} else {
+		if( (value = trimTag( cur ) ) )
+		{
+			childObj = CppON::guessDataType( value );
+			delete[] value;
+			if( parent->isMap() )
+			{
+				// cppcheck-suppress cstyleCast
+				( ( COMap *) parent)->append( indent, childObj );
+			} else if( parent->isArray() ) {
+				// cppcheck-suppress cstyleCast
+				( ( COArray *) parent)->append( childObj );
+			}
+		}
+	}
+	return rtn;
 }
 
 // cppcheck-suppress unusedFunction
 CppON *CppON::parseXML( const char *str )
 {
-    CppON         *rtn = NULL;
-    xmlDocPtr       doc;
-    xmlNodePtr       cur;
+	CppON         *rtn = NULL;
+	xmlDocPtr       doc;
+	xmlNodePtr       cur;
 
-    if( ! str )
-    {
-        fprintf( stderr, "Attempt to convert an empty string to a data Object\n");
-    } else if( !( doc = ( '.' == *str || '/' == *str) ? xmlParseFile( str ) : xmlParseDoc( (const xmlChar *)str ) ) ) {
-        fprintf( stderr, "Empty Document!\n" );
-        xmlFreeDoc( doc );
-    } else if( !(cur = xmlDocGetRootElement( doc ) ) ) {
-        fprintf( stderr, "Failed to get root node!\n" );
-        xmlFreeDoc( doc );
-    } else {
-        rtn = new COMap( );                                      // Create the new Map object to return
-        parseNode( cur, rtn, std::string( "" ) );
-        xmlFreeDoc( doc );
-    }
-    return rtn;
+	if( ! str )
+	{
+		fprintf( stderr, "Attempt to convert an empty string to a data Object\n");
+	} else if( !( doc = ( '.' == *str || '/' == *str) ? xmlParseFile( str ) : xmlParseDoc( (const xmlChar *)str ) ) ) {
+		fprintf( stderr, "Empty Document!\n" );
+		xmlFreeDoc( doc );
+	} else if( !(cur = xmlDocGetRootElement( doc ) ) ) {
+		fprintf( stderr, "Failed to get root node!\n" );
+		xmlFreeDoc( doc );
+	} else {
+		rtn = new COMap( );                                      // Create the new Map object to return
+		parseNode( cur, rtn, std::string( "" ) );
+		xmlFreeDoc( doc );
+	}
+	return rtn;
 }
 #endif
 
 // cppcheck-suppress unusedFunction
 CppON *CppON::parseTSV(const char *str )
 {
-    COArray   *rtn = NULL;
-    if( ! str || ! str[ 0 ] )
-    {
-        fprintf( stderr, "Attempt to convert an empty string to a data Object\n");
-    }  else {
-        FILE *fd;
-        if( ! ( fd = fopen( str, "r" ) ) )
-        {
-            fprintf( stderr, "Failed to open file %s: %d - %s\n",str, errno, strerror( errno ) );
-        } else {
-            int           ch = 0;
-            std::string   s;
-            COArray       *line= new COArray();
-
-            rtn = new COArray();
-
-            while( EOF != ( ch = fgetc( fd ) ) )
-            {
-                if( '\n' == ch )
-                {
-                    line->append( new COString( s ) );
-                    s.clear();
-                    rtn->append( line );
-                    line = new COArray();
-                } else if( '\t' == ch ) {
-                    line->append( new COString( s ) );
-                    s.clear();
-                } else if( 31 <= ch && 127 > ch ) {
-                    s += ch;
-                }
-            }
-
-            delete( line );
-            fclose( fd );
-        }
-    }
-    return rtn;
+	COArray   *rtn = NULL;
+	if( ! str || ! str[ 0 ] )
+	{
+		fprintf( stderr, "Attempt to convert an empty string to a data Object\n");
+	}  else {
+		FILE *fd;
+		if( ! ( fd = fopen( str, "r" ) ) )
+		{
+			fprintf( stderr, "Failed to open file %s: %d - %s\n",str, errno, strerror( errno ) );
+		} else {
+			int           ch = 0;
+			std::string   s;
+			COArray       *line= new COArray();
+			rtn = new COArray();
+			while( EOF != ( ch = fgetc( fd ) ) )
+			{
+				if( '\n' == ch )
+				{
+					line->append( new COString( s ) );
+					s.clear();
+					rtn->append( line );
+					line = new COArray();
+				} else if( '\t' == ch ) {
+					line->append( new COString( s ) );
+					s.clear();
+				} else if( 31 <= ch && 127 > ch ) {
+					s += ch;
+				}
+			}
+			delete( line );
+			fclose( fd );
+		}
+	}
+	return rtn;
 }
 
 // cppcheck-suppress unusedFunction
 CppON *CppON::parseCSV(const char *str )
 {
-    COArray   *rtn = NULL;
-    if( ! str || ! str[ 0 ] )
-    {
-        fprintf( stderr, "Attempt to convert an empty string to a data Object\n");
-    }  else {
-        FILE *fd;
-        if( ! ( fd = fopen( str, "r" ) ) )
-        {
-            fprintf( stderr, "Failed to open file %s: %d - %s\n",str, errno, strerror( errno ) );
-        } else {
-            int           ch = 0;
-            std::string   s;
-            COArray       *line= new COArray();
+	COArray   *rtn = NULL;
+	if( ! str || ! str[ 0 ] )
+	{
+		fprintf( stderr, "Attempt to convert an empty string to a data Object\n");
+	}  else {
+		FILE *fd;
+		if( ! ( fd = fopen( str, "r" ) ) )
+		{
+			fprintf( stderr, "Failed to open file %s: %d - %s\n",str, errno, strerror( errno ) );
+		} else {
+			int           ch = 0;
+			std::string   s;
+			COArray       *line= new COArray();
 
-            rtn = new COArray();
+			rtn = new COArray();
 
-            while( EOF != ( ch = fgetc( fd ) ) )
-            {
-                if( '\n' == ch )
-                {
-                    line->append( new COString( s ) );
-                    s.clear();
-                    rtn->append( line );
-                    line = new COArray();
-                } else if( ',' == ch ) {
-                    line->append( new COString( s ) );
-                    s.clear();
-                } else if( 31 <= ch && 127 > ch ) {
-                    s += ch;
-                }
-            }
-
-            delete( line );
-            fclose( fd );
-        }
-    }
-    return rtn;
+			while( EOF != ( ch = fgetc( fd ) ) )
+			{
+				if( '\n' == ch )
+				{
+					line->append( new COString( s ) );
+					s.clear();
+					rtn->append( line );
+					line = new COArray();
+				} else if( ',' == ch ) {
+					line->append( new COString( s ) );
+					s.clear();
+				} else if( 31 <= ch && 127 > ch ) {
+					s += ch;
+				}
+			}
+			delete( line );
+			fclose( fd );
+		}
+	}
+	return rtn;
 }
 
 /*
@@ -1615,127 +1519,120 @@ CppON *CppON::parseCSV(const char *str )
  */
 CppON *CppON::parse( const char *str, char **rstr )
 {
-    CppON    *rtn = NULL;
+	CppON    *rtn = NULL;
 
-    if( str && *str )
-    {
-        COMap      *mp;
-        COArray      *ar;
-        char       *ptr, *ptr1;
-        int     len = strtol( str, &ptr, 10 );
+	if( str && *str )
+	{
+		COMap      *mp;
+		COArray      *ar;
+		char       *ptr, *ptr1;
+		int     len = strtol( str, &ptr, 10 );
 
-        ptr++;    // Point at next character
-
-        if( rstr )
-        {
-            *rstr = &ptr[ len + 1 ];
-        }
-        switch ( ptr[ len ] )
-        {
-            case ',':
-                {
-                    char buf[ len + 1 ];
-                    strncpy( buf, ptr, len );
-                    buf[ len ]='\0';
-                    rtn = new COString( string( buf ) );
-                }
-                break;
-
-            case '#':
-                {
-                    uint64_t ia = strtoll( ptr, NULL, 10);
-                    rtn = new COInteger( ia );
-                }
-                break;
-
-            case '^':
-                {
-                    double id = strtod( ptr, NULL );
-                    rtn = new CODouble( id );
-                }
-                break;
-
-            case '!':
-                {
-                    char buf[ len + 1 ];
-                    strncpy( buf, ptr, len );
-                    buf[ len ]= '\0';
-                    rtn = new COBoolean( ( 0 == strcasecmp( "true", buf ) ) || ( 0 == strcasecmp( "t", buf ) ) );
-                }
-                break;
-
-            case '~':
-                rtn = new CONull();
-                break;
-
-            case '}':
-                {
-                    char buf[ len + 1 ];
-                    strncpy( buf, ptr, len );
-                    buf[ len ]='\0';
-                    ptr = buf;
-                    rtn = mp = new COMap();
-
-                    while( CppON *mykey = CppON::parse( ptr, &ptr1 ) )
-                    {
-                        if( STRING_CPPON_OBJ_TYPE != mykey->type() )
-                        {
-                        	if( mykey )				// Should never happen but this will satisfy the stupid analyzer.
-                        	{
-                        		delete mykey;
-                        	}
-                        	delete mp;
-                            return NULL;
-                        }
-                        if( CppON *myval = CppON::parse( ptr1, &ptr ) )
-                        {
-                            // cppcheck-suppress cstyleCast
-                            mp->append( ((COString *)mykey)->c_str(), myval );
-                            delete( mykey );
-                        }
-                    }
-                }
-                break;
-
-            case ']':
-                {
-                    char buf[ len + 1];
-                    strncpy( buf, ptr, len );
-                    buf[ len ]='\0';
-                    ptr = buf;
-
-                    rtn = ar = new COArray();
-
-                    while( CppON *myval = CppON::parse( ptr, &ptr1 ) )
-                    {
-                        ar->append( myval );
-                        ptr = ptr1;
-                    }
-                }
-                break;
-
-            default:
-                fprintf( stderr, "\t\tCppON:parse:unknown type %c\n", ptr[ len ] );
-                //fprintf( stderr, "\t\t'%s'\n", str );
-                break;
-
-        }
-    }
-    return rtn;
+		ptr++;    // Point at next character
+		if( rstr )
+		{
+			*rstr = &ptr[ len + 1 ];
+		}
+		switch ( ptr[ len ] )
+		{
+			case ',':
+				{
+					char buf[ len + 1 ];
+					strncpy( buf, ptr, len );
+					buf[ len ]='\0';
+					rtn = new COString( string( buf ) );
+				}
+				break;
+			case '#':
+				{
+					uint64_t ia = strtoll( ptr, NULL, 10);
+					rtn = new COInteger( ia );
+				}
+				break;
+			case '^':
+				{
+					double id = strtod( ptr, NULL );
+					rtn = new CODouble( id );
+				}
+				break;
+			case '!':
+				{
+					char buf[ len + 1 ];
+					strncpy( buf, ptr, len );
+					buf[ len ]= '\0';
+					rtn = new COBoolean( ( 0 == strcasecmp( "true", buf ) ) || ( 0 == strcasecmp( "t", buf ) ) );
+				}
+				break;
+			case '~':
+				rtn = new CONull();
+				break;
+			case '}':
+				{
+					char buf[ len + 1 ];
+					strncpy( buf, ptr, len );
+					buf[ len ]='\0';
+					ptr = buf;
+					rtn = mp = new COMap();
+					while( CppON *mykey = CppON::parse( ptr, &ptr1 ) )
+					{
+						if( STRING_CPPON_OBJ_TYPE != mykey->type() )
+						{
+							if( mykey )				// Should never happen but this will satisfy the stupid analyzer.
+							{
+								delete mykey;
+							}
+							delete mp;
+							return NULL;
+						}
+						if( CppON *myval = CppON::parse( ptr1, &ptr ) )
+						{
+							// cppcheck-suppress cstyleCast
+							mp->append( ((COString *)mykey)->c_str(), myval );
+							delete( mykey );
+						}
+					}
+				}
+				break;
+			case ']':
+				{
+					char buf[ len + 1];
+					strncpy( buf, ptr, len );
+					buf[ len ]='\0';
+					ptr = buf;
+					rtn = ar = new COArray();
+					while( CppON *myval = CppON::parse( ptr, &ptr1 ) )
+					{
+						ar->append( myval );
+						ptr = ptr1;
+					}
+				}
+				break;
+			default:
+				fprintf( stderr, "\t\tCppON:parse:unknown type %c\n", ptr[ len ] );
+				//fprintf( stderr, "\t\t'%s'\n", str );
+				break;
+		}
+	}
+	return rtn;
 }
 
 /*
  * Little comparison function that returns 0 if two byte arrays are equal, 1 otherwise
  */
-static int argCmp( const unsigned char *arg, int argSize, const unsigned char *val, int valSize )
+static __inline int argCmp( const unsigned char *arg, int argSize, const unsigned char *val, int valSize )
 {
-    if( argSize != valSize )
-        return 1;
-
-    while( argSize-- )
-        if( arg[ argSize ] != val[ argSize ] )
-            return 1;
-    return 0;
+	if( argSize != valSize )
+	{
+		return 1;
+	}
+	while( argSize-- )
+	{
+		if( arg[ argSize ] != val[ argSize ] )
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
 
 /*
@@ -1748,161 +1645,151 @@ static int argCmp( const unsigned char *arg, int argSize, const unsigned char *v
 
 unsigned char *CppON::findTNetStringArg( const char *arg, int argSize, const char *str, const char **next, int *cnt )
 {
-    unsigned char   *rtn = NULL;
-    unsigned char  *_cPtr;
+	unsigned char   *rtn = NULL;
+	unsigned char  *_cPtr;
 
-    if( str && *str && arg && *arg )
-    {
-        if( '}' == *str || ']' == *str )
-            str++;
-        int _dSz = strtol( str, (char **)&_cPtr, 10 );
-
-        if( _cPtr && ':' == *_cPtr++  )
-        {
-            unsigned char   _uc;
-
-            if( '}' == ( _uc =  _cPtr[ _dSz ] ) )                        // object is hash map so check every one
-            {
-                char   *_cTmp = (char *)_cPtr;
-                int    _dTmp;
-                for( int sz = _dSz; 0 < sz; )
-                {
-                    if( ( rtn = CppON::findTNetStringArg( arg, argSize,  _cTmp, (const char **)&_cTmp, &_dTmp ) ) )
-                    {
-                        _dSz = _dTmp;
-                        break;
-                    }
-                    if( 0 < (sz = _dSz - ( ( _cTmp - (char *)_cPtr ) +_dTmp + 1) ) && ',' == _cTmp[ -1 ] )
-                    {
-                        char  *_cTmp2;
-                        _dTmp = strtol( _cTmp, &_cTmp2, 10 );
-
-                        if( ',' == _cTmp2[ _dTmp + 1 ] )
-                        {
-                            _cTmp = _cTmp2 + _dTmp + 2;
-                        }
-                    }
-                }
-            } else if( ']' == _uc ) {                                // object is an array so check them
-                char   *_cTmp = (char *)_cPtr;
-                int    _dTmp;
-                for( int sz = _dSz; 0 < sz; )
-                {
-                    if( ( rtn = CppON::findTNetStringArg( arg, argSize,  _cTmp, (const char **)&_cTmp, &_dTmp ) ) )
-                    {
-                        _dSz = _dTmp;
-                        break;
-                    }
-                    sz = _dSz - ( ( _cTmp - (char *)_cPtr ) +_dTmp + 1 );
-                }
-            } else if( ',' == _uc && !argCmp( (unsigned char *) arg, argSize, _cPtr, _dSz ) ) {    // String, right length, equal
-                                                                        //     Found tag now return next
-                _cPtr += _dSz + 1;                                      // Point to size of next tag
-                if( *_cPtr )                                            // If not EOS
-                {
-                    _dSz = strtol( (char *)_cPtr, (char **)&_cPtr, 10 );              // Get the size
-                    if( ':' == *_cPtr++ )                              // Next char of a valid tag is ":"
-                    {
-                        rtn = _cPtr;
-                    }
-                }
-            }
-        }
-        if( cnt )
-        {
-            *cnt = _dSz;
-        }
-        if( next && _cPtr )
-        {
-            *next = (char * )_cPtr + _dSz + 1;
-        }
-    } else {
-        fprintf( stderr, "Error\n");
-        if( arg )
-        {
-            fprintf( stderr,"arg = %s\n", arg );
-        } else{
-            fprintf( stderr, "arg == NULL\n" );
-        }
-        if( str )
-        {
-            fprintf( stderr, "str = %s\n", str );
-        } else {
-            fprintf( stderr, "str == NULL\n" );
-        }
-        if( cnt )
-        {
-            *cnt = 0;
-        }
-        if( next )
-        {
-            *next = NULL;
-        }
-    }
-    return rtn;
+	if( str && *str && arg && *arg )
+	{
+		if( '}' == *str || ']' == *str )
+		{
+			str++;
+		}
+		int _dSz = strtol( str, (char **)&_cPtr, 10 );
+		if( _cPtr && ':' == *_cPtr++  )
+		{
+			unsigned char   _uc;
+			if( '}' == ( _uc =  _cPtr[ _dSz ] ) )                        // object is hash map so check every one
+			{
+				char   *_cTmp = (char *)_cPtr;
+				int    _dTmp;
+				for( int sz = _dSz; 0 < sz; )
+				{
+					if( ( rtn = CppON::findTNetStringArg( arg, argSize,  _cTmp, (const char **)&_cTmp, &_dTmp ) ) )
+					{
+						_dSz = _dTmp;
+						break;
+					}
+					if( 0 < (sz = _dSz - ( ( _cTmp - (char *)_cPtr ) +_dTmp + 1) ) && ',' == _cTmp[ -1 ] )
+					{
+						char  *_cTmp2;
+						_dTmp = strtol( _cTmp, &_cTmp2, 10 );
+						if( ',' == _cTmp2[ _dTmp + 1 ] )
+						{
+							_cTmp = _cTmp2 + _dTmp + 2;
+						}
+					}
+				}
+			} else if( ']' == _uc ) {                                // object is an array so check them
+				char   *_cTmp = (char *)_cPtr;
+				int    _dTmp;
+				for( int sz = _dSz; 0 < sz; )
+				{
+					if( ( rtn = CppON::findTNetStringArg( arg, argSize,  _cTmp, (const char **)&_cTmp, &_dTmp ) ) )
+					{
+						_dSz = _dTmp;
+						break;
+					}
+					sz = _dSz - ( ( _cTmp - (char *)_cPtr ) +_dTmp + 1 );
+				}
+			} else if( ',' == _uc && !argCmp( (unsigned char *) arg, argSize, _cPtr, _dSz ) ) {		// String, right length, equal
+																									//     Found tag now return next
+				_cPtr += _dSz + 1;																	// Point to size of next tag
+				if( *_cPtr )																		// If not EOS
+				{
+					_dSz = strtol( (char *)_cPtr, (char **)&_cPtr, 10 );							// Get the size
+					if( ':' == *_cPtr++ )															// Next char of a valid tag is ":"
+					{
+						rtn = _cPtr;
+					}
+				}
+			}
+		}
+		if( cnt )
+		{
+			*cnt = _dSz;
+		}
+		if( next && _cPtr )
+		{
+			*next = (char * )_cPtr + _dSz + 1;
+		}
+	} else {
+		fprintf( stderr, "Error\n");
+		if( arg )
+		{
+			fprintf( stderr,"arg = %s\n", arg );
+		} else {
+			fprintf( stderr, "arg == NULL\n" );
+		}
+		if( str )
+		{
+			fprintf( stderr, "str = %s\n", str );
+		} else {
+			fprintf( stderr, "str == NULL\n" );
+		}
+		if( cnt )
+		{
+			*cnt = 0;
+		}
+		if( next )
+		{
+			*next = NULL;
+		}
+	}
+	return rtn;
 }
 
 long long CppON::toLongInt(void)
 {
-    long long rtn = 0;
-    switch (typ)
-    {
-        case INTEGER_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = ((COInteger *)this)->longValue();
-            break;
-
-        case DOUBLE_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = (long long) ((CODouble *)this)->doubleValue();
-            break;
-
-        case STRING_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = strtol( ( ( COString *)this)->c_str(), NULL, 0 );
-            break;
-
-        case BOOLEAN_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = ( ((COBoolean *) this)->value() ) ? 1LL : 0LL;
-            break;
-
-        default:
-            break;
-    }
-
-    return rtn;
+	long long rtn = 0;
+	switch (typ)
+	{
+		case INTEGER_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = ((COInteger *)this)->longValue();
+			break;
+		case DOUBLE_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = (long long) ((CODouble *)this)->doubleValue();
+			break;
+		case STRING_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = strtol( ( ( COString *)this)->c_str(), NULL, 0 );
+			break;
+		case BOOLEAN_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = ( ((COBoolean *) this)->value() ) ? 1LL : 0LL;
+			break;
+		default:
+			break;
+	}
+	return rtn;
 }
 
 int  CppON::toInt(void)
 {
-    int rtn = 0;
-    switch (typ)
-    {
-        case INTEGER_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = ((COInteger *)this)->intValue();
-            break;
-
-        case DOUBLE_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = (int) ((CODouble *)this)->doubleValue();
-            break;
-
-        case STRING_CPPON_OBJ_TYPE:
-         // cppcheck-suppress cstyleCast
-            rtn = strtol( ( ( COString *)this)->c_str(), NULL, 0 );
-            break;
-
-        case BOOLEAN_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = ( ((COBoolean *) this)->value() ) ? 1 : 0;
-            break;
-
-        default:
-            break;
-    }
-    return rtn;
+	int rtn = 0;
+	switch (typ)
+	{
+		case INTEGER_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = ((COInteger *)this)->intValue();
+			break;
+		case DOUBLE_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = (int) ((CODouble *)this)->doubleValue();
+			break;
+		case STRING_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = strtol( ( ( COString *)this)->c_str(), NULL, 0 );
+			break;
+		case BOOLEAN_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = ( ((COBoolean *) this)->value() ) ? 1 : 0;
+			break;
+		default:
+			break;
+	}
+	return rtn;
 }
 bool CppON::toBoolean( void )
 {
@@ -1918,250 +1805,226 @@ bool CppON::toBoolean( void )
 		case INTEGER_CPPON_OBJ_TYPE:
 			rtn = ( 0 != ((COInteger *) this)->intValue() );
 			break;
-        case STRING_CPPON_OBJ_TYPE:
-        	rtn = ( 0 == strcasecmp( ( (COString *) this )->c_str(), "True" ) );
-            break;
-        default:
-        	break;
+		case STRING_CPPON_OBJ_TYPE:
+			rtn = ( 0 == strcasecmp( ( (COString *) this )->c_str(), "True" ) );
+			break;
+		default:
+			break;
 	}
 	return rtn;
 }
 double CppON::toDouble( void )
 {
-    double rtn = UD_DOUBLE;
-    switch (typ)
-    {
-        case DOUBLE_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = ((CODouble *)this)->doubleValue();
-            break;
-        case INTEGER_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = (double)((COInteger *)this)->intValue();
-            break;
-        case STRING_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = strtod( ( ( COString *)this)->c_str(), NULL );
-            break;
-        case BOOLEAN_CPPON_OBJ_TYPE:
-            // cppcheck-suppress cstyleCast
-            rtn = ( ((COBoolean *) this)->value() ) ? 1.0 : 0.0;
-            break;
-
-        default:
-            break;
-    }
-    return rtn;
+	double rtn = UD_DOUBLE;
+	switch (typ)
+	{
+		case DOUBLE_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = ((CODouble *)this)->doubleValue();
+			break;
+		case INTEGER_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = (double)((COInteger *)this)->intValue();
+			break;
+		case STRING_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = strtod( ( ( COString *)this)->c_str(), NULL );
+			break;
+		case BOOLEAN_CPPON_OBJ_TYPE:
+			// cppcheck-suppress cstyleCast
+			rtn = ( ((COBoolean *) this)->value() ) ? 1.0 : 0.0;
+			break;
+		default:
+			break;
+	}
+	return rtn;
 }
 
 CppON *CppON::operator = ( CppON &val )
 {
-    typ = val.typ;
-    switch( val.typ )
-    {
-        case INTEGER_CPPON_OBJ_TYPE:
-            deleteData();
-            switch( siz = val.size() )
-            {
-                case sizeof( char ):
-                    data = new ( char );
-                    *((char*) data) = ((COInteger *) &val )->charValue();
-                    break;
+	typ = val.typ;
+	switch( val.typ )
+	{
+		case INTEGER_CPPON_OBJ_TYPE:
+			deleteData();
+			switch( siz = val.size() )
+			{
+				case sizeof( char ):
+					data = new ( char );
+					*((char*) data) = ((COInteger *) &val )->charValue();
+					break;
+				case sizeof( short ):
+					data = new ( short );
+					*((short*) data) = ((COInteger*) &val )->shortValue();
+					break;
+				case sizeof( int ):
+					data = new ( int );
+					*((int*) data) = ((COInteger*) &val )->intValue();
+					break;
+				default:
+					data = new ( long long );
+					*((long long*) data) = ((COInteger*) &val )->longValue();
+					break;
+			}
+			break;
+		case DOUBLE_CPPON_OBJ_TYPE:
+			if( data )
+			{
+				if( 0 < this->precision  && 16 >= this->precision )
+				{
+					double t;
+					double pow_10 = 1;
+					double n = *((double*) (*this).data);
+					double d = ((CODouble *) &val )->doubleValue();
+					if( this->precision )
+					{
+						pow_10 = pow( 10.0, this->precision);
+						n *= pow_10;
+						d *= pow_10;
+					}
+					t = n - d;
+					if( 0.75 < t || -0.75 > t )
+					{
+						*((double*) (*this).data) = round( d )/ pow_10;
+					}
+				} else {
+					*((double *) data) = ((CODouble *) &val )->doubleValue();
+				}
+			} else {
+				data = new double;
+				*((double *) data) = ((CODouble *) &val )->doubleValue();
+			}
+			break;
+		case STRING_CPPON_OBJ_TYPE:
+			deleteData();
+			data = ( val.data ) ? new std::string( ( ( std::string *) val.data )->c_str() ): NULL;
+			break;
+		case NULL_CPPON_OBJ_TYPE:
+			siz = val.siz;
+			break;
+		case BOOLEAN_CPPON_OBJ_TYPE:
+			data = new(char);
+			*( ( char *) data) = ((COBoolean *) &val )->value();
+			siz = 1;
+			break;
+		case MAP_CPPON_OBJ_TYPE:
+			{
+				deleteData();
+				siz = val.size();
+				data = new map<string, CppON*>();
+				map<string, CppON*> *th = (map<string, CppON*> *) data;
+				COMap  *m = (COMap *) &val;
+				// cppcheck-suppress postfixOperator
+				for( std::vector<std::string>::iterator itr = m->order.begin(); m->order.end() != itr; itr++ )
+				{
+					CppON *obj = m->findCaseElement( itr->c_str() );
+					if( obj )
+					{
+						order.push_back( string( *itr ) );
+						switch( obj->typ )
+						{
+							case INTEGER_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COInteger( *((COInteger *)obj ) ) ) );
+								break;
+							case DOUBLE_CPPON_OBJ_TYPE:
+								{
+									// cppcheck-suppress cstyleCast
+									char p = ( (CODouble *)obj )->Precision();
+									CODouble *d;
+									// cppcheck-suppress cstyleCast
+									th->insert( th->end(), pair< string, CppON* >( itr->c_str(), d = new CODouble( *( (CODouble *)obj ) ) ) );
+									if( 0 <= p )
+									{
+										d->Precision( p );
+									}
+								}
+								break;
+							case STRING_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COString( *( (COString *)obj ) ) ) );
+								break;
+							case NULL_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new CONull( *( (CONull *)obj ) ) ) );
+								break;
+							case BOOLEAN_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COBoolean( *( (COBoolean *)obj ) ) ) );
+								break;
+							case MAP_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COMap( *( (COMap *)obj ) ) ) );
+								break;
+							case ARRAY_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COArray( *( (COArray *)obj ) ) ) );
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+			break;
+		case ARRAY_CPPON_OBJ_TYPE:
+			{
+				deleteData();
+				siz = val.size();
+				data = new vector<CppON *>();
+				for( int i = 0; siz > i; i++ )
+				{
+					CppON *jt = ((COArray &) val ).at( i );
+					switch( jt->type() )
+					{
+						case INTEGER_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							((COArray*)this)->append( new COInteger( *((COInteger *)jt ) ) );
+							break;
+						case DOUBLE_CPPON_OBJ_TYPE:
+							{
+								// cppcheck-suppress cstyleCast
+								char p = ( (CODouble *)jt )->Precision();
+								CODouble *d;
+								// cppcheck-suppress cstyleCast
+								((COArray*)this)->append( d = new CODouble( *( (CODouble *)jt ) ) );
+								if( 0 <= p )
+								{
+									d->Precision( p );
+								}
+							}
+							break;
+						case STRING_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							((COArray*)this)->append( new COString( *( (COString *)jt ) ) );
+							break;
+						case NULL_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							((COArray*)this)->append( new CONull( *( (CONull *)jt ) ) );
+							break;
+						case BOOLEAN_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							((COArray*)this)->append( new COBoolean( *( (COBoolean *)jt ) ) );
+							break;
+						case MAP_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							((COArray*)this)->append( new COMap( *( (COMap *)jt ) ) );
+							break;
+						case ARRAY_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							((COArray*)this)->append( new COArray( *( (COArray *)jt ) ) );
+							break;
+						default:
+							break;
+					}
+				}
+			}
+			break;
+		default:
+			break;
+	}
 
-                case sizeof( short ):
-                    data = new ( short );
-                    *((short*) data) = ((COInteger*) &val )->shortValue();
-                    break;
-
-                case sizeof( int ):
-                    data = new ( int );
-                    *((int*) data) = ((COInteger*) &val )->intValue();
-                    break;
-
-                default:
-                    data = new ( long long );
-                    *((long long*) data) = ((COInteger*) &val )->longValue();
-                    break;
-            }
-            break;
-
-        case DOUBLE_CPPON_OBJ_TYPE:
-            if( data )
-            {
-                if( 0 < this->precision  && 16 >= this->precision )
-                {
-                    double t;
-                    double pow_10 = 1;
-                    double n = *((double*) (*this).data);
-                    double d = ((CODouble *) &val )->doubleValue();
-                    if( this->precision )
-                    {
-                        pow_10 = pow( 10.0, this->precision);
-                        n *= pow_10;
-                        d *= pow_10;
-                    }
-                    t = n - d;
-                    if( 0.75 < t || -0.75 > t )
-                    {
-                        *((double*) (*this).data) = round( d )/ pow_10;
-                    }
-
-                } else {
-                    *((double *) data) = ((CODouble *) &val )->doubleValue();
-                }
-            } else {
-                data = new double;
-                *((double *) data) = ((CODouble *) &val )->doubleValue();
-            }
-            break;
-
-        case STRING_CPPON_OBJ_TYPE:
-            deleteData();
-            data = ( val.data ) ? new std::string( ( ( std::string *) val.data )->c_str() ): NULL;
-            break;
-
-        case NULL_CPPON_OBJ_TYPE:
-            siz = val.siz;
-            break;
-
-        case BOOLEAN_CPPON_OBJ_TYPE:
-            data = new(char);
-            *( ( char *) data) = ((COBoolean *) &val )->value();
-            siz = 1;
-            break;
-
-        case MAP_CPPON_OBJ_TYPE:
-            {
-                deleteData();
-                siz = val.size();
-                data = new map<string, CppON*>();
-                map<string, CppON*> *th = (map<string, CppON*> *) data;
-                COMap  *m = (COMap *) &val;
-                // cppcheck-suppress postfixOperator
-                for( std::vector<std::string>::iterator itr = m->order.begin(); m->order.end() != itr; itr++ )
-                {
-                    CppON *obj = m->findCaseElement( itr->c_str() );
-                    if( obj )
-                    {
-                        order.push_back( string( *itr ) );
-                        switch( obj->typ )
-                        {
-                            case INTEGER_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COInteger( *((COInteger *)obj ) ) ) );
-                                break;
-
-                            case DOUBLE_CPPON_OBJ_TYPE:
-                                {
-                                    // cppcheck-suppress cstyleCast
-                                    char p = ( (CODouble *)obj )->Precision();
-                                    CODouble *d;
-                                    // cppcheck-suppress cstyleCast
-                                    th->insert( th->end(), pair< string, CppON* >( itr->c_str(), d = new CODouble( *( (CODouble *)obj ) ) ) );
-                                    if( 0 <= p )
-                                    {
-                                        d->Precision( p );
-                                    }
-                                }
-                                break;
-
-                            case STRING_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COString( *( (COString *)obj ) ) ) );
-                                break;
-
-                            case NULL_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new CONull( *( (CONull *)obj ) ) ) );
-                                break;
-
-                            case BOOLEAN_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COBoolean( *( (COBoolean *)obj ) ) ) );
-                                break;
-
-                            case MAP_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COMap( *( (COMap *)obj ) ) ) );
-                                break;
-
-                            case ARRAY_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                th->insert( th->end(), pair< string, CppON* >( itr->c_str(), new COArray( *( (COArray *)obj ) ) ) );
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-            break;
-        case ARRAY_CPPON_OBJ_TYPE:
-            {
-                deleteData();
-                siz = val.size();
-                data = new vector<CppON *>();
-                for( int i = 0; siz > i; i++ )
-                {
-                    CppON *jt = ((COArray &) val ).at( i );
-                    switch( jt->type() )
-                    {
-                        case INTEGER_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            ((COArray*)this)->append( new COInteger( *((COInteger *)jt ) ) );
-                            break;
-
-                        case DOUBLE_CPPON_OBJ_TYPE:
-                            {
-                                // cppcheck-suppress cstyleCast
-                                char p = ( (CODouble *)jt )->Precision();
-                                CODouble *d;
-                                // cppcheck-suppress cstyleCast
-                                ((COArray*)this)->append( d = new CODouble( *( (CODouble *)jt ) ) );
-                                if( 0 <= p )
-                                {
-                                    d->Precision( p );
-                                }
-                            }
-                            break;
-
-                        case STRING_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            ((COArray*)this)->append( new COString( *( (COString *)jt ) ) );
-                            break;
-
-                        case NULL_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            ((COArray*)this)->append( new CONull( *( (CONull *)jt ) ) );
-                            break;
-
-                        case BOOLEAN_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            ((COArray*)this)->append( new COBoolean( *( (COBoolean *)jt ) ) );
-                            break;
-
-                        case MAP_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            ((COArray*)this)->append( new COMap( *( (COMap *)jt ) ) );
-                            break;
-
-                        case ARRAY_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            ((COArray*)this)->append( new COArray( *( (COArray *)jt ) ) );
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-            }
-            break;
-        default:
-            break;
-    }
-
-    return this;
+	return this;
 }
 
 /****************************************************************************************/
@@ -2172,31 +2035,31 @@ CppON *CppON::operator = ( CppON &val )
 
 string *COBoolean::toNetString()
 {
-    if( !data )
-    {
-        return NULL;
-    }
-    const char *val = *( (char *) data )  ? "true" : "false";
-    return CppON::toNetString( val, '!' );
+	if( !data )
+	{
+		return NULL;
+	}
+	const char *val = *( (char *) data )  ? "true" : "false";
+	return CppON::toNetString( val, '!' );
 }
 
 string *COBoolean::toJsonString()
 {
-    return new string( ((value())? "true" : "false") );
+	return new string( ((value())? "true" : "false") );
 }
 
 void COBoolean::dump( FILE *fp )
 {
-    fprintf( fp, "%s", (data) ? ( ( *(char *)data ) ? "true":"false") : "NULL" );
+	fprintf( fp, "%s", (data) ? ( ( *(char *)data ) ? "true":"false") : "NULL" );
 }
 void COBoolean::cdump( FILE *fp )
 {
-    fprintf( fp, "%s", (data) ? ( ( *(char *)data ) ? "true":"false") : "false" );
+	fprintf( fp, "%s", (data) ? ( ( *(char *)data ) ? "true":"false") : "false" );
 }
 const char  *COBoolean::c_str()
 {
-    str = ( data && *( (char *) data ))? "true" : "false";
-    return str.c_str();
+	str = ( data && *( (char *) data ))? "true" : "false";
+	return str.c_str();
 }
 
 /****************************************************************************************/
@@ -2207,96 +2070,94 @@ const char  *COBoolean::c_str()
 
 COMap::COMap( COMap *mt ) : CppON(  MAP_CPPON_OBJ_TYPE )
 {
-    data = new map<string, CppON*>();
-    std::map< std::string, CppON * >  &dm = *( ( map<string, CppON*> * ) data );
+	data = new map<string, CppON*>();
+	std::map< std::string, CppON * >  &dm = *( ( map<string, CppON*> * ) data );
 
-    // cppcheck-suppress postfixOperator
-    for( std::vector<std::string>::iterator itr = mt->order.begin(); mt->order.end() != itr; itr++ )
-    {
-        CppON *obj = mt->findCaseElement( itr->c_str() );
-        order.push_back( string( *itr ) );
-        switch( obj->type() )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                dm[ *itr ] = new COInteger( *((COInteger *)obj ) );
-                // cppcheck-suppress cstyleCast
-                break;
-             case DOUBLE_CPPON_OBJ_TYPE:
-                 dm[ *itr ] = new CODouble( *( (CODouble *)obj ) );
-                 // cppcheck-suppress cstyleCast
-                 break;
-             case STRING_CPPON_OBJ_TYPE:
-                 dm[ *itr ] = new COString( *( (COString *)obj ) );
-                 // cppcheck-suppress cstyleCast
-                 break;
-
-             case NULL_CPPON_OBJ_TYPE:
-                 dm[ *itr ] = new CONull( *( (CONull *)obj ) );
-                 // cppcheck-suppress cstyleCast
-                 break;
-
-             case BOOLEAN_CPPON_OBJ_TYPE:
-                 dm[ *itr ] = new COBoolean( *( (COBoolean *)obj ) );
-                 // cppcheck-suppress cstyleCast
-                 break;
-             case MAP_CPPON_OBJ_TYPE:
-                 dm[ *itr ] = new COMap( *( (COMap *)obj ) );
-                 // cppcheck-suppress cstyleCast
-                 break;
-             case ARRAY_CPPON_OBJ_TYPE:
-                 dm[ *itr ] = new COArray( *( (COArray *)obj ) );
-                 // cppcheck-suppress cstyleCast
-                 break;
-             default:
-                 break;
-        }
-    }
+	// cppcheck-suppress postfixOperator
+	for( std::vector<std::string>::iterator itr = mt->order.begin(); mt->order.end() != itr; itr++ )
+	{
+		CppON *obj = mt->findCaseElement( itr->c_str() );
+		order.push_back( string( *itr ) );
+		switch( obj->type() )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COInteger( *((COInteger *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new CODouble( *( (CODouble *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COString( *( (COString *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new CONull( *( (CONull *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COBoolean( *( (COBoolean *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COMap( *( (COMap *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COArray( *( (COArray *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 COMap::COMap( COMap & mt ) : CppON(  MAP_CPPON_OBJ_TYPE )
 {
-    data = new map<string, CppON*>();
-    std::map< std::string, CppON * >  &dm = *( ( map<string, CppON*> * ) data );
+	data = new map<string, CppON*>();
+	std::map< std::string, CppON * >  &dm = *( ( map<string, CppON*> * ) data );
 
-    // cppcheck-suppress postfixOperator
-    for( std::vector<std::string>::iterator itr = mt.order.begin(); mt.order.end() != itr; itr++ )
-    {
-        CppON *obj = mt.findCaseElement( itr->c_str() );
-        order.push_back( string( *itr ) );
-        switch( obj->type() )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                dm[ *itr ] = new COInteger( *((COInteger *)obj ) );
-                // cppcheck-suppress cstyleCast
-                break;
-            case DOUBLE_CPPON_OBJ_TYPE:
-                dm[ *itr ] = new CODouble( *( (CODouble *)obj ) );
-                // cppcheck-suppress cstyleCast
-                break;
-            case STRING_CPPON_OBJ_TYPE:
-                dm[ *itr ] = new COString( *( (COString *)obj ) );
-                // cppcheck-suppress cstyleCast
-                break;
-            case NULL_CPPON_OBJ_TYPE:
-                dm[ *itr ] = new CONull( *( (CONull *)obj ) );
-                // cppcheck-suppress cstyleCast
-                break;
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                dm[ *itr ] = new COBoolean( *( (COBoolean *)obj ) );
-                // cppcheck-suppress cstyleCast
-                break;
-            case MAP_CPPON_OBJ_TYPE:
-                dm[ *itr ] = new COMap( *( (COMap *)obj ) );
-                // cppcheck-suppress cstyleCast
-                break;
-            case ARRAY_CPPON_OBJ_TYPE:
-                dm[ *itr ] = new COArray( *( (COArray *)obj ) );
-                // cppcheck-suppress cstyleCast
-                break;
-            default:
-                break;
-        }
-    }
+	// cppcheck-suppress postfixOperator
+	for( std::vector<std::string>::iterator itr = mt.order.begin(); mt.order.end() != itr; itr++ )
+	{
+		CppON *obj = mt.findCaseElement( itr->c_str() );
+		order.push_back( string( *itr ) );
+		switch( obj->type() )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COInteger( *((COInteger *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new CODouble( *( (CODouble *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COString( *( (COString *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new CONull( *( (CONull *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COBoolean( *( (COBoolean *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COMap( *( (COMap *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				dm[ *itr ] = new COArray( *( (COArray *)obj ) );
+				// cppcheck-suppress cstyleCast
+				break;
+			default:
+				break;
+		}
+	}
 };
 
 /*
@@ -2383,6 +2244,7 @@ void COMap::doParse( const char *str )
 		fprintf( stderr, "%s[%d]: Parse ERROR: Expected '{' got '%s'\n", __FILE__, __LINE__, sav );
 	}
 }
+
 void COMap::parseData( const char *str )
 {
 	if( str )
@@ -2393,7 +2255,7 @@ void COMap::parseData( const char *str )
 
 COMap::COMap( const char *path, const char *file ): CppON( MAP_CPPON_OBJ_TYPE )
 {
-    data = new map<string, CppON*>();
+	data = new map<string, CppON*>();
 	struct stat     _stat;
 	std::string p( path );
 	FILE    *fp;
@@ -2405,511 +2267,489 @@ COMap::COMap( const char *path, const char *file ): CppON( MAP_CPPON_OBJ_TYPE )
 	p.append( file );
 	if( ! stat( p.c_str(), &_stat ) && ! ( _stat.st_mode & DIRECTORY_BIT ) && (fp = fopen( p.c_str(), "r" ) ) )
 	{
-	    int     sz = 1024;
-	    char    *buf,*bSave;
-	    int     rd = 0;
-	    int     c;
+		int     sz = 1024;
+		char    *buf,*bSave;
+		int     rd = 0;
+		int     c;
 
-	    if( !( buf = (char *) malloc( sz ) ) )
-	    {
-	        fclose( fp );
-	        fprintf( stderr, "%s[%.4u]: Failed to allocate memory",__FILE__, __LINE__ );
-	    }
-	    while( EOF != ( c = fgetc( fp ) ) )
-	    {
-	        buf[ rd++ ] = ( char ) c;
-	        if( rd == sz )
-	        {
-	            if( !( buf = (char *) realloc( (void *) (bSave = buf ), sz += 512 ) ) )
-	            {
-	    	        fprintf( stderr, "%s[%.4u]: Failed to reallocate memory: %d bytes!",__FILE__, __LINE__, sz );
-	                free( bSave );
-	            }
-	        }
-	    }
-	    buf[ rd ] = '\0';
-	    fclose( fp );
-	    parseData( buf );
-
-	    free(buf );
+		if( !( buf = (char *) malloc( sz ) ) )
+		{
+			fclose( fp );
+			fprintf( stderr, "%s[%.4u]: Failed to allocate memory",__FILE__, __LINE__ );
+		}
+		while( EOF != ( c = fgetc( fp ) ) )
+		{
+			buf[ rd++ ] = ( char ) c;
+			if( rd == sz )
+			{
+				if( !( buf = (char *) realloc( (void *) (bSave = buf ), sz += 512 ) ) )
+				{
+					fprintf( stderr, "%s[%.4u]: Failed to reallocate memory: %d bytes!",__FILE__, __LINE__, sz );
+					free( bSave );
+				}
+			}
+		}
+		buf[ rd ] = '\0';
+		fclose( fp );
+		parseData( buf );
+		free(buf );
 	} else {
-        fprintf( stderr, "%s[%.4u]: Failed to open JSON FILE \"%s\"",__FILE__, __LINE__, p.c_str() );
+		fprintf( stderr, "%s[%.4u]: Failed to open JSON FILE \"%s\"",__FILE__, __LINE__, p.c_str() );
 	}
 }
 
 COMap::COMap( const char *str ): CppON(  MAP_CPPON_OBJ_TYPE )
 {
-    data = new map<string, CppON*>();
-    parseData( str );
+	data = new map<string, CppON*>();
+	parseData( str );
 }
 
 COMap *COMap::operator=( const char *str )
 {
-    if( data )
-    {
-        (( map <string, CppON *> * ) data)->clear();
-    } else {
-        data = new map<string, CppON*>();
-    }
-    order.clear();
-
-    doParse( str );
-    return this;
+	if( data )
+	{
+		(( map <string, CppON *> * ) data)->clear();
+	} else {
+		data = new map<string, CppON*>();
+	}
+	order.clear();
+	doParse( str );
+	return this;
 }
 
 // cppcheck-suppress unusedFunction
 void COMap::replaceObj( string s, CppON *obj )
 {
-    map <string, CppON *> *m = ( map <string, CppON*> *) data;
-    map <string, CppON *>::iterator it;
-    if( m->end( ) != (it = m->find( s ) ) )
-    {
-        delete it->second;
-        it->second = obj;
-    }
+	map <string, CppON *> *m = ( map <string, CppON*> *) data;
+	map <string, CppON *>::iterator it;
+	if( m->end( ) != (it = m->find( s ) ) )
+	{
+		delete it->second;
+		it->second = obj;
+	}
 }
 
 // cppcheck-suppress unusedFunction
 void COMap::removeVal( string s )
 {
-    map <string, CppON *> *m = ( map <string, CppON*> *) data;
-    map <string, CppON *>::iterator it;
+	map <string, CppON *> *m = ( map <string, CppON*> *) data;
+	map <string, CppON *>::iterator it;
 
-    if( m->end( ) != (it = m->find( s ) ) )
-    {
-        m->erase( it );
-        for( std::vector<std::string>::iterator iter = order.begin(); order.end() != iter; ++iter )
-        {
-            if( ! iter->compare( s ) )
-            {
-                order.erase( iter );
-                break;
-            }
-        }
-    }
+	if( m->end( ) != (it = m->find( s ) ) )
+	{
+		m->erase( it );
+		for( std::vector<std::string>::iterator iter = order.begin(); order.end() != iter; ++iter )
+		{
+			if( ! iter->compare( s ) )
+			{
+				order.erase( iter );
+				break;
+			}
+		}
+	}
 }
 
 void COMap::clear( )
 {
-    map <string, CppON*> *m = ( map <string, CppON *> * ) data;
-    map<string, CppON *>::iterator it;
-    // cppcheck-suppress postfixOperator
-    for( it = m->begin(); m->end() != it; it++ )
-    {
-        delete( it->second);
-    }
-    m->clear();
-    order.clear();
+	map <string, CppON*> *m = ( map <string, CppON *> * ) data;
+	map<string, CppON *>::iterator it;
+	// cppcheck-suppress postfixOperator
+	for( it = m->begin(); m->end() != it; it++ )
+	{
+		delete( it->second);
+	}
+	m->clear();
+	order.clear();
 }
 
 void COMap::merge( COMap *targetObj, const char *name )
 {
-    if( ! data )
-    {
-        data = new std::map<std::string, CppON*>();                         		// data object you are merging too.
-    }
-    map<string, CppON *> *s = (map<string, CppON *> *) targetObj->data; 			// s is the data object of the map you are merging
-    for( map< string, CppON *>::iterator ti = s->begin(); s->end() != ti; ++ti )	// foreach object in map you are merging
-    {
-        const string                      *targetStr = &(ti->first);      			// get Object name
-        CppONType                       _eType = (ti->second)->type();      		// get type of object
-        CppON                           *myObj = NULL;                      		// Place to save an object that is found.
-        map<string, CppON *>::iterator  it;                                 		// Used to search destination
+	if( ! data )
+	{
+		data = new std::map<std::string, CppON*>();                         		// data object you are merging too.
+	}
+	map<string, CppON *> *s = (map<string, CppON *> *) targetObj->data; 			// s is the data object of the map you are merging
+	for( map< string, CppON *>::iterator ti = s->begin(); s->end() != ti; ++ti )	// foreach object in map you are merging
+	{
+		const string					*targetStr = &(ti->first);      			// get Object name
+		CppONType						_eType = (ti->second)->type();      		// get type of object
+		CppON							*myObj = NULL;                      		// Place to save an object that is found.
+		map<string, CppON *>::iterator  it;                                 		// Used to search destination
+		map<string, CppON *> *m = (map<string, CppON *> *) data;          			// Search the destination for any objects with the same name.
 
-        map<string, CppON *> *m = (map<string, CppON *> *) data;          			// Search the destination for any objects with the same name.
-        // cppcheck-suppress postfixOperator
-        for( it = m->begin(); m->end() != it; it++ )
-        {
-            if( ! strcmp(  (it->first).c_str(), targetStr->c_str() ) )          	// Find the object
-            {
-                myObj = it->second;                                               	// OK we have it already. set "myObj" to it and quit looking
-                break;
-            }
-        }
-        if( myObj )                                                           		// We found it so we need to merge the reasult
-        {
-            switch( _eType )                                                    	// The merge is handled differently depending on type of object it is
-            {
-                case INTEGER_CPPON_OBJ_TYPE:                                     	// If it is an integer
-                    if( INTEGER_CPPON_OBJ_TYPE == myObj->type())                   	//    If the old object is the same type then we
-                    {
-                        // cppcheck-suppress cstyleCast
-                        *((COInteger *) myObj) = (long long)(COInteger *)(ti->second )->toLongInt(); // set it to the new one
-                    } else {                                                          //    If not
-                        m->erase( it );                                                 //      Delete it and add the new object
-                        delete myObj;
-                        // cppcheck-suppress cstyleCast
-                        append( targetStr->c_str(), new COInteger( (uint64_t)(COInteger *)( ti->second )->toLongInt( ) ) );
-                    }
-                    break;
-                case DOUBLE_CPPON_OBJ_TYPE:                                             //  If it is a double (like an integer )
-                    if( DOUBLE_CPPON_OBJ_TYPE == myObj->type())                           //      If the old object is also a double
-                    {
-                        // cppcheck-suppress cstyleCast
-                        ((CODouble *) myObj)->set( ((CODouble *)(ti->second ) )->toDouble());  // set it to the new value
-                    } else {                                                          //      else if it of a different type than delete the old and replace
-                        m->erase( it );
-                        delete myObj;
-                        // cppcheck-suppress cstyleCast
-                        append( targetStr->c_str(), new CODouble( (double)((CODouble *)( ti->second ))->toLongInt( ) ) );
-                    }
-                    break;
-                case STRING_CPPON_OBJ_TYPE:                                               // Strings are treated like integers and doubles
-                    if( STRING_CPPON_OBJ_TYPE == myObj->type())
-                    {
-                        // cppcheck-suppress cstyleCast
-                        *((COString *) myObj) = ((COString *)(ti->second ) )->c_str();
-                    } else {
-                        m->erase( it );
-                        delete myObj;
-                        // cppcheck-suppress cstyleCast
-                        append( targetStr->c_str(), new COString( ((COString *)( ti->second ))->c_str() ) );
-                    }
-                    break;
-                case NULL_CPPON_OBJ_TYPE:                                                 //  In the case of null, it doesn't have a value
-                    if( NULL_CPPON_OBJ_TYPE != myObj->type())                               //  But if the old one exist and it isn't null,
-                    {
-                        m->erase( it );                                                   //    delete it and set it to null
-                        delete myObj;
-                        append( targetStr->c_str(), new CONull() );
-                    }
-                    break;
-                case BOOLEAN_CPPON_OBJ_TYPE:                                              // booleans are treated like integers, doubles and strings
-                    if( BOOLEAN_CPPON_OBJ_TYPE == myObj->type())
-                    {
-                        // cppcheck-suppress cstyleCast
-                        *((COBoolean *) myObj) = *((COBoolean *)(ti->second ));
-                    } else {
-                        m->erase( it );
-                        delete myObj;
-                        // cppcheck-suppress cstyleCast
-                        append( targetStr->c_str(), new COBoolean( ((COBoolean *)( ti->second ))->value() ) );
-                    }
-                    break;
-                case  MAP_CPPON_OBJ_TYPE:
-                    {
-                        // cppcheck-suppress cstyleCast
-                        COMap     *pt = ( COMap *) ti->second;
-                        if( MAP_CPPON_OBJ_TYPE == myObj->type())                              //    IF the old one is also a map then
-                        {
-                            // cppcheck-suppress cstyleCast
-                            ((COMap *)it->second )->merge( pt , name );                     //      merge the two
-                        } else {                                                          //    else
-                            m->erase( it );                                                 //      delete the old one and merge the new one.
-                            delete myObj;
-                            append( targetStr->c_str(), new COMap( *pt ) );
-                        }
-                    }
-                    break;
-                case  ARRAY_CPPON_OBJ_TYPE:
-                    {
-                        // cppcheck-suppress cstyleCast
-                        COArray   *arrTarget = (COArray *) ti->second;
-                        for( int k = 0; arrTarget->size() > k; k++ )
-                        {
-                            COString  *str;
-                            COString  *namePtr;
-                            COMap     *tMap;
-                            // cppcheck-suppress cstyleCast
-                            if( CppON::isMap( tMap = (COMap *)arrTarget->at( k ) ) && CppON::isString( namePtr = (COString *) (tMap->findElement( name ) ) ) )
-                            {
-                                // cppcheck-suppress cstyleCast
-                                COArray   *arr = (COArray *) it->second;
-                                int       i;
-                                for( i = 0; arr->size() > i; i++ )
-                                {
-                                    COMap     *uMap;
-                                    // cppcheck-suppress cstyleCast
-                                    if( CppON::isMap( uMap = (COMap *)arr->at( i ) ) && CppON::isString( str = (COString *) (uMap->findElement( name ) ) ) && !strcmp( str->c_str(), namePtr->c_str() ) )
-                                    {
-                                        uMap->merge( tMap, name );
-                                        break;
-                                    }
-                                }
-                                if( arr->size() <= i )
-                                {
-                                    arr->append( new COMap( *tMap ));
-                                }
-                                // cppcheck-suppress cstyleCast
-                            } else if( CppON::isString( str = (COString *)arrTarget->at( k ) ) ) {
-                                // cppcheck-suppress cstyleCast
-                                COArray   *arr = (COArray *) myObj;
-                                int       k1;
-
-                                for( k1 = 0; arr->size() > k1; k1++ )                                 // Check if a string exists in target object that is the same
-                                {
-                                    // cppcheck-suppress cstyleCast
-                                    COString  *kStr = (COString *) arr->at( k1 );
-                                    if( CppON::isString( kStr ) )
-                                    {
-                                        if( ! strcmp( str->c_str(), kStr->c_str() ) )
-                                        {
-                                            break;
-                                        }
-                                    }
-                                }
-                                if( arr->size() == k1 )
-                                {
-                                    arr->append( new COString( *str ) );
-                                }
-                            }
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        } else {                                                                        // It doesn't have this so just add it.
-            // cppcheck-suppress cstyleCast
-            append( *targetStr, CppON::factory( *(( CppON *)ti->second )) );
-        }
-    }
+		// cppcheck-suppress postfixOperator
+		for( it = m->begin(); m->end() != it; it++ )
+		{
+			if( ! strcmp(  (it->first).c_str(), targetStr->c_str() ) )          	// Find the object
+			{
+				myObj = it->second;                                               	// OK we have it already. set "myObj" to it and quit looking
+				break;
+			}
+		}
+		if( myObj )                                                           		// We found it so we need to merge the reasult
+		{
+			switch( _eType )                                                    	// The merge is handled differently depending on type of object it is
+			{
+				case INTEGER_CPPON_OBJ_TYPE:                                     	// If it is an integer
+					if( INTEGER_CPPON_OBJ_TYPE == myObj->type())                   	//    If the old object is the same type then we
+					{
+						// cppcheck-suppress cstyleCast
+						*((COInteger *) myObj) = (long long)(COInteger *)(ti->second )->toLongInt(); // set it to the new one
+					} else {                                                          //    If not
+						m->erase( it );                                                 //      Delete it and add the new object
+						delete myObj;
+						// cppcheck-suppress cstyleCast
+						append( targetStr->c_str(), new COInteger( (uint64_t)(COInteger *)( ti->second )->toLongInt( ) ) );
+					}
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:                                             //  If it is a double (like an integer )
+					if( DOUBLE_CPPON_OBJ_TYPE == myObj->type())                           //      If the old object is also a double
+					{
+						// cppcheck-suppress cstyleCast
+						((CODouble *) myObj)->set( ((CODouble *)(ti->second ) )->toDouble());  // set it to the new value
+					} else {                                                          //      else if it of a different type than delete the old and replace
+						m->erase( it );
+						delete myObj;
+						// cppcheck-suppress cstyleCast
+						append( targetStr->c_str(), new CODouble( (double)((CODouble *)( ti->second ))->toLongInt( ) ) );
+					}
+					break;
+				case STRING_CPPON_OBJ_TYPE:                                               // Strings are treated like integers and doubles
+					if( STRING_CPPON_OBJ_TYPE == myObj->type())
+					{
+						// cppcheck-suppress cstyleCast
+						*((COString *) myObj) = ((COString *)(ti->second ) )->c_str();
+					} else {
+						m->erase( it );
+						delete myObj;
+						// cppcheck-suppress cstyleCast
+						append( targetStr->c_str(), new COString( ((COString *)( ti->second ))->c_str() ) );
+					}
+					break;
+				case NULL_CPPON_OBJ_TYPE:                                                 //  In the case of null, it doesn't have a value
+					if( NULL_CPPON_OBJ_TYPE != myObj->type())                               //  But if the old one exist and it isn't null,
+					{
+						m->erase( it );                                                   //    delete it and set it to null
+						delete myObj;
+						append( targetStr->c_str(), new CONull() );
+					}
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:                                              // booleans are treated like integers, doubles and strings
+					if( BOOLEAN_CPPON_OBJ_TYPE == myObj->type())
+					{
+						// cppcheck-suppress cstyleCast
+						*((COBoolean *) myObj) = *((COBoolean *)(ti->second ));
+					} else {
+						m->erase( it );
+						delete myObj;
+						// cppcheck-suppress cstyleCast
+						append( targetStr->c_str(), new COBoolean( ((COBoolean *)( ti->second ))->value() ) );
+					}
+					break;
+				case  MAP_CPPON_OBJ_TYPE:
+					{
+						// cppcheck-suppress cstyleCast
+						COMap     *pt = ( COMap *) ti->second;
+						if( MAP_CPPON_OBJ_TYPE == myObj->type())                              //    IF the old one is also a map then
+						{
+							// cppcheck-suppress cstyleCast
+							((COMap *)it->second )->merge( pt , name );                     //      merge the two
+						} else {                                                          //    else
+							m->erase( it );                                                 //      delete the old one and merge the new one.
+							delete myObj;
+							append( targetStr->c_str(), new COMap( *pt ) );
+						}
+					}
+					break;
+				case  ARRAY_CPPON_OBJ_TYPE:
+					{
+						// cppcheck-suppress cstyleCast
+						COArray   *arrTarget = (COArray *) ti->second;
+						for( int k = 0; arrTarget->size() > k; k++ )
+						{
+							COString  *str;
+							COString  *namePtr;
+							COMap     *tMap;
+							// cppcheck-suppress cstyleCast
+							if( CppON::isMap( tMap = (COMap *)arrTarget->at( k ) ) && CppON::isString( namePtr = (COString *) (tMap->findElement( name ) ) ) )
+							{
+								// cppcheck-suppress cstyleCast
+								COArray   *arr = (COArray *) it->second;
+								int       i;
+								for( i = 0; arr->size() > i; i++ )
+								{
+									COMap     *uMap;
+									// cppcheck-suppress cstyleCast
+									if( CppON::isMap( uMap = (COMap *)arr->at( i ) ) && CppON::isString( str = (COString *) (uMap->findElement( name ) ) ) && !strcmp( str->c_str(), namePtr->c_str() ) )
+									{
+										uMap->merge( tMap, name );
+										break;
+									}
+								}
+								if( arr->size() <= i )
+								{
+									arr->append( new COMap( *tMap ));
+								}
+								// cppcheck-suppress cstyleCast
+							} else if( CppON::isString( str = (COString *)arrTarget->at( k ) ) ) {
+								// cppcheck-suppress cstyleCast
+								COArray   *arr = (COArray *) myObj;
+								int       k1;
+								for( k1 = 0; arr->size() > k1; k1++ )                                 // Check if a string exists in target object that is the same
+								{
+									// cppcheck-suppress cstyleCast
+									COString  *kStr = (COString *) arr->at( k1 );
+									if( CppON::isString( kStr ) )
+									{
+										if( ! strcmp( str->c_str(), kStr->c_str() ) )
+										{
+											break;
+										}
+									}
+								}
+								if( arr->size() == k1 )
+								{
+									arr->append( new COString( *str ) );
+								}
+							}
+						}
+					}
+					break;
+				default:
+					break;
+			}
+		} else {                                                                        // It doesn't have this so just add it.
+			// cppcheck-suppress cstyleCast
+			append( *targetStr, CppON::factory( *(( CppON *)ti->second )) );
+		}
+	}
 }
 
 void COMap::upDate( COMap *target, const char *name )
 {
-    if( data )
-    {
-        map<string, CppON *> *s = (map<string, CppON *> *) target->data;
+	if( data )
+	{
+		map<string, CppON *> *s = (map<string, CppON *> *) target->data;
 
-        for( map< string, CppON *>::iterator ti = s->begin(); s->end() != ti; ++ti )
-        {
-            bool                 				found = false;
-            map<string, CppON *>::iterator   	it;
-            const string             			*targetStr = &(ti->first);
-            CppONType              				_eType = (ti->second)->type();
+		for( map< string, CppON *>::iterator ti = s->begin(); s->end() != ti; ++ti )
+		{
+			bool                 				found = false;
+			map<string, CppON *>::iterator   	it;
+			const string             			*targetStr = &(ti->first);
+			CppONType              				_eType = (ti->second)->type();
 
-            map<string, CppON *> *m = (map<string, CppON *> *) data;
-            // cppcheck-suppress postfixOperator
-            for( it = m->begin(); m->end() != it; it++ )
-            {
-                if( ! strcmp(  (it->first).c_str(), targetStr->c_str() ) )
-                {
-                    found = true;
-                    if( (it->second)->type() == _eType )                                              // If they are the same data type then just update it
-                    {
-                        switch( _eType )
-                        {
-                            case INTEGER_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                *((COInteger *)it->second ) =  ( (COInteger *)ti->second )->intValue();
-                                break;
-
-                            case DOUBLE_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                *((CODouble *)it->second ) =  ( (CODouble *)ti->second )->doubleValue();
-                                break;
-
-                            case STRING_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                *((COString *)it->second ) = ( (COString *)ti->second )->c_str() ;
-                                break;
-
-                            case BOOLEAN_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                *((COBoolean *)it->second ) = ( (COBoolean *)ti->second )->value();
-                                break;
-
-                            case  MAP_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                ((COMap *)it->second )->upDate( ( (COMap *) ti->second ), name );
-                                break;
-
-                            case  ARRAY_CPPON_OBJ_TYPE:
-                                {
-                                    // cppcheck-suppress cstyleCast
-                                    COArray   *arrTarget = (COArray *) ti->second;
-                                    for( int k = 0; arrTarget->size() > k; k++ )
-                                    {
-                                        COString *namePtr;
-                                        COMap *tMap;
-                                        // cppcheck-suppress cstyleCast
-                                        if( CppON::isMap( tMap = (COMap *)arrTarget->at( k ) ) && CppON::isString( namePtr = (COString *) (tMap->findElement( name ) ) ) )
-                                        {
-                                            // cppcheck-suppress cstyleCast
-                                            COArray     *arr = (COArray *) it->second;
-                                            for( int i = 0; arr->size() > i; i++ )
-                                            {
-                                                COString *str;
-                                                COMap     *uMap;
-                                                // cppcheck-suppress cstyleCast
-                                                if( CppON::isMap( uMap = (COMap *)arr->at( i ) ) && CppON::isString( str = (COString *) (uMap->findElement( name ) ) ) && !strcmp( str->c_str(), namePtr->c_str() ) )
-                                                {
-                                                	COMap *newMap = new COMap( *tMap );
-                                                    if( ! arr->replace( i, newMap ) )
-                                                    {
-                                                    	delete newMap;
-                                                    }
-                                                    delete uMap;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                break;
-
-                            case NULL_CPPON_OBJ_TYPE:
-                                fprintf( stderr, "COMap:update - Null 1st being ignored\n");
-
-                                break;
-                            default:
-                                break;
-                        }
-                    } else {
-                        delete ( it->second );                                                                          // replace the data type with the new one.
-                        switch( _eType )
-                        {
-                            case INTEGER_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                it->second =  new COInteger( ( (COInteger *)ti->second )->intValue() );
-                                break;
-
-                            case DOUBLE_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                it->second =  new CODouble( ( (CODouble *)ti->second )->doubleValue() );
-                                break;
-
-                            case STRING_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                it->second = new COString( ( (COString *)ti->second )->c_str() );
-                                break;
-
-                            case BOOLEAN_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                it->second = new COBoolean( ( (COBoolean *)ti->second )->value() );
-                                break;
-
-                            case  MAP_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                it->second  = new COMap( * ( (COMap *)ti->second ) );
-                                break;
-
-                            case  ARRAY_CPPON_OBJ_TYPE:
-                                // cppcheck-suppress cstyleCast
-                                it->second  = new COArray( * ( (COArray *)ti->second ) );
-                                break;
-
-                            case NULL_CPPON_OBJ_TYPE:
-                                it->second = new CONull();
-                                fprintf( stderr, "COMap:update - Null being ignored\n");
-                                target->dump();
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-            if( ! found )
-            {
-                switch ( _eType )
-                {
-                    case INTEGER_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        this->append( ti->first, new COInteger( *((COInteger *) ti->second) ) );
-                        break;
-
-                    case DOUBLE_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        this->append( ti->first, new CODouble( *((CODouble *) ti->second) ) );
-                        break;
-
-                    case STRING_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        this->append( ti->first, new COString( *((COString *) ti->second) ) );
-                        break;
-
-                    case BOOLEAN_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        this->append( ti->first, new COBoolean( *((COBoolean *) ti->second) ) );
-                        break;
-
-                    case NULL_CPPON_OBJ_TYPE:
-                        this->append( ti->first, new CONull() );
-                        break;
-
-                    case  MAP_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        this->append( ti->first, new COMap( *((COMap *) ti->second) ) );
-                        break;
-
-                    case  ARRAY_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        this->append( ti->first, new COArray( *((COArray *) ti->second) ) );
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        }
-    }
+			map<string, CppON *> *m = (map<string, CppON *> *) data;
+			// cppcheck-suppress postfixOperator
+			for( it = m->begin(); m->end() != it; it++ )
+			{
+				if( ! strcmp(  (it->first).c_str(), targetStr->c_str() ) )
+				{
+					found = true;
+					if( (it->second)->type() == _eType )                                              // If they are the same data type then just update it
+					{
+						switch( _eType )
+						{
+							case INTEGER_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								*((COInteger *)it->second ) =  ( (COInteger *)ti->second )->intValue();
+								break;
+							case DOUBLE_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								*((CODouble *)it->second ) =  ( (CODouble *)ti->second )->doubleValue();
+								break;
+							case STRING_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								*((COString *)it->second ) = ( (COString *)ti->second )->c_str() ;
+								break;
+							case BOOLEAN_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								*((COBoolean *)it->second ) = ( (COBoolean *)ti->second )->value();
+								break;
+							case  MAP_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								((COMap *)it->second )->upDate( ( (COMap *) ti->second ), name );
+								break;
+							case  ARRAY_CPPON_OBJ_TYPE:
+								{
+									// cppcheck-suppress cstyleCast
+									COArray   *arrTarget = (COArray *) ti->second;
+									for( int k = 0; arrTarget->size() > k; k++ )
+									{
+										COString *namePtr;
+										COMap *tMap;
+										// cppcheck-suppress cstyleCast
+										if( CppON::isMap( tMap = (COMap *)arrTarget->at( k ) ) && CppON::isString( namePtr = (COString *) (tMap->findElement( name ) ) ) )
+										{
+											// cppcheck-suppress cstyleCast
+											COArray     *arr = (COArray *) it->second;
+											for( int i = 0; arr->size() > i; i++ )
+											{
+												COString *str;
+												COMap     *uMap;
+												// cppcheck-suppress cstyleCast
+												if( CppON::isMap( uMap = (COMap *)arr->at( i ) ) && CppON::isString( str = (COString *) (uMap->findElement( name ) ) ) && !strcmp( str->c_str(), namePtr->c_str() ) )
+												{
+													COMap *newMap = new COMap( *tMap );
+													if( ! arr->replace( i, newMap ) )
+													{
+														delete newMap;
+													}
+													delete uMap;
+													break;
+												}
+											}
+										}
+									}
+								}
+								break;
+							case NULL_CPPON_OBJ_TYPE:
+								fprintf( stderr, "COMap:update - Null 1st being ignored\n");
+								break;
+							default:
+								break;
+						}
+					} else {
+						delete ( it->second );                                                                          // replace the data type with the new one.
+						switch( _eType )
+						{
+							case INTEGER_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								it->second =  new COInteger( ( (COInteger *)ti->second )->intValue() );
+								break;
+							case DOUBLE_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								it->second =  new CODouble( ( (CODouble *)ti->second )->doubleValue() );
+								break;
+							case STRING_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								it->second = new COString( ( (COString *)ti->second )->c_str() );
+								break;
+							case BOOLEAN_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								it->second = new COBoolean( ( (COBoolean *)ti->second )->value() );
+								break;
+							case  MAP_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								it->second  = new COMap( * ( (COMap *)ti->second ) );
+								break;
+							case  ARRAY_CPPON_OBJ_TYPE:
+								// cppcheck-suppress cstyleCast
+								it->second  = new COArray( * ( (COArray *)ti->second ) );
+								break;
+							case NULL_CPPON_OBJ_TYPE:
+								it->second = new CONull();
+								fprintf( stderr, "%s[%d]: COMap:update - Null being ignored\n",__FILE__,__LINE__);
+								target->dump();
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+			if( ! found )
+			{
+				switch ( _eType )
+				{
+					case INTEGER_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						this->append( ti->first, new COInteger( *((COInteger *) ti->second) ) );
+						break;
+					case DOUBLE_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						this->append( ti->first, new CODouble( *((CODouble *) ti->second) ) );
+						break;
+					case STRING_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						this->append( ti->first, new COString( *((COString *) ti->second) ) );
+						break;
+					case BOOLEAN_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						this->append( ti->first, new COBoolean( *((COBoolean *) ti->second) ) );
+						break;
+					case NULL_CPPON_OBJ_TYPE:
+						this->append( ti->first, new CONull() );
+						break;
+					case  MAP_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						this->append( ti->first, new COMap( *((COMap *) ti->second) ) );
+						break;
+					case  ARRAY_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						this->append( ti->first, new COArray( *((COArray *) ti->second) ) );
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	}
 }
 
 CppON *COMap::findEqual( const char * name, CppON &search )
 {
-    CppON     *rtn = NULL;
-    CppONType    _eType = search.type();
+	CppON     *rtn = NULL;
+	CppONType    _eType = search.type();
 
-    if( data )
-    {
-        map<string, CppON *>::iterator it;
-        map<string, CppON *> *m = (map<string, CppON *> *) data;
-        // cppcheck-suppress postfixOperator
-        for( it = m->begin(); !rtn && m->end() != it; it++ )
-        {
-            if( ! strcmp(  (it->first).c_str(), name ) && (it->second)->type() == _eType )
-            {
-                switch( _eType )
-                {
-                    case INTEGER_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( ((COInteger &) search).intValue() == ((COInteger *)it->second )->intValue() )
-                            rtn = (it->second);
-                        break;
-
-                    case DOUBLE_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( ((CODouble &) search).doubleValue() == ((CODouble *)it->second )->doubleValue() )
-                            rtn = (it->second);
-                        break;
-
-                    case STRING_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( !strcmp( ( ( COString &) search).c_str(), ((COString *)it->second )->c_str() ) )
-                            rtn = ( it->second );
-                        break;
-
-                    case BOOLEAN_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( ((COBoolean &) search).value() == ((COBoolean *)it->second )->value() )
-                            rtn = (it->second);
-                        break;
-
-                    case NULL_CPPON_OBJ_TYPE:
-                        rtn = (it->second );
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-            if( ! rtn )
-            {
-                if( MAP_CPPON_OBJ_TYPE == (it->second)->type() )
-                {
-                    // cppcheck-suppress cstyleCast
-                    rtn = ( ( COMap *) it->second )->findEqual( name, search );
-                } else if( ARRAY_CPPON_OBJ_TYPE == (it->second)->type() ) {
-  //            rtn = ( ( COArray *) it->second )->findEqual( name, search );
-                }
-            }
-        }
-    }
-
-    return rtn;
+	if( data )
+	{
+		map<string, CppON *>::iterator it;
+		map<string, CppON *> *m = (map<string, CppON *> *) data;
+		// cppcheck-suppress postfixOperator
+		for( it = m->begin(); !rtn && m->end() != it; it++ )
+		{
+			if( ! strcmp(  (it->first).c_str(), name ) && (it->second)->type() == _eType )
+			{
+				switch( _eType )
+				{
+					case INTEGER_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( ((COInteger &) search).intValue() == ((COInteger *)it->second )->intValue() )
+						{
+							rtn = (it->second);
+						}
+						break;
+					case DOUBLE_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( ((CODouble &) search).doubleValue() == ((CODouble *)it->second )->doubleValue() )
+						{
+							rtn = (it->second);
+						}
+						break;
+					case STRING_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( !strcmp( ( ( COString &) search).c_str(), ((COString *)it->second )->c_str() ) )
+						{
+							rtn = ( it->second );
+						}
+						break;
+					case BOOLEAN_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( ((COBoolean &) search).value() == ((COBoolean *)it->second )->value() )
+						{
+							rtn = (it->second);
+						}
+						break;
+					case NULL_CPPON_OBJ_TYPE:
+						rtn = (it->second );
+						break;
+					default:
+						break;
+				}
+			}
+			if( ! rtn )
+			{
+				if( MAP_CPPON_OBJ_TYPE == (it->second)->type() )
+				{
+					// cppcheck-suppress cstyleCast
+					rtn = ( ( COMap *) it->second )->findEqual( name, search );
+				} else if( ARRAY_CPPON_OBJ_TYPE == (it->second)->type() ) {
+					//            rtn = ( ( COArray *) it->second )->findEqual( name, search );
+				}
+			}
+		}
+	}
+	return rtn;
 }
 
 /*
@@ -2923,9 +2763,7 @@ static void splitPath( const char *str, std::string &val, const char **remainder
 	if( str && remainder )
 	{
 		for( *remainder = str; *(*remainder) && '/' != *(*remainder) ; (*remainder)++ );
-
 		val = std::string( str, ( *remainder - str ) );
-
 		if( '/' == *(*remainder) )
 		{
 			(*remainder)++;
@@ -2960,588 +2798,558 @@ static void splitPath( const char *str, std::string &val, const char **remainder
 
 CppON *COMap::findElement( const char *str )
 {
-    CppON *rtn = NULL;
-    if( data && str )
-    {
-        int         arrayIndex = -1;
+	CppON *rtn = NULL;
+	if( data && str )
+	{
+		int		arrayIndex = -1;
 
-        /*
-         * Split the path with s = to anything before a forward slash ('/') and str pointing to first character after it.
-         */
-        std::string s;
-        splitPath( str, s, &str );                                // split the string based on a slash
+		/*
+		 * Split the path with s = to anything before a forward slash ('/') and str pointing to first character after it.
+		 */
+		std::string s;
+		splitPath( str, s, &str );												// split the string based on a slash
 
-        /*
-         * Now look to see if there is an index after the original part denoted by a colon (':')
-         */
-        size_t idx = s.find( ':' );
-        std::string more;
-        if( std::string::npos != idx )                              // colon is found
-        {
-            char *r;
-            arrayIndex = strtol( &s.c_str()[ idx + 1 ], &r, 10 );     // Read the index as a base 10 number following the colon
-            more = r;                                                 // more will contain any text after the number
-            s = s.substr( 0, idx );                                   // s only contains the text up to the colon
-        }
+		/*
+		 * Now look to see if there is an index after the original part denoted by a colon (':')
+		 */
+		size_t idx = s.find( ':' );
+		std::string more;
+		if( std::string::npos != idx )											// colon is found
+		{
+			char *r;
+			arrayIndex = strtol( &s.c_str()[ idx + 1 ], &r, 10 );				// Read the index as a base 10 number following the colon
+			more = r;															// more will contain any text after the number
+			s = s.substr( 0, idx );												// s only contains the text up to the colon
+		}
 
-        /*
-         * OK search the map for an item with a name matching the text in 's'
-         */
+		/*
+		 * OK search the map for an item with a name matching the text in 's'
+		 */
 
-        map<string, CppON *> *m = (map<string, CppON *> *) data;
-        // cppcheck-suppress postfixOperator
-        for( map<string, CppON *>::iterator it = m->begin(); m->end() != it; it++ )
-        {
-            if( ! strcmp(  (it->first).c_str(), s.c_str() ) )         	// if found set "rtn" to the object and quit looking
-            {
-                rtn = it->second;
-                break;
-            }
-        }
-
-        if( rtn && CppON::isMap( rtn ) && *str )               		// But wait! if the object found is a map and there is a remainder from the
-        {                                                           	// original split then call ourselves with the new string to find the object
-            // cppcheck-suppress cstyleCast
-            rtn = ( (COMap *) rtn )->findElement( str );
-        } else if( rtn && CppON::isArray( rtn ) && 0 <= arrayIndex ) {    	// Or maybe the returned object was an array and we have an index
-            while( CppON::isArray( rtn ) && 0 <= arrayIndex )
-            {
-                // cppcheck-suppress cstyleCast
-                rtn = ( (COArray*) rtn)->at( arrayIndex );
-                if( CppON::isMap( rtn ) && *str )
-                {
-                    // cppcheck-suppress cstyleCast
-                    rtn = ( (COMap *) rtn)->findElement( str );
-                    break;
-                } else if( ! CppON::isArray( rtn ) || more[ 0 ] != ':' ) {
-                    break;
-                } else {
-                    char *r;
-                    s = more.substr( 1 );
-                    arrayIndex = strtol( s.c_str(), &r, 10 );
-                    more = r;
-                }
-            }
-        }
-    }
-    return rtn;
+		map<string, CppON *> *m = (map<string, CppON *> *) data;
+		// cppcheck-suppress postfixOperator
+		for( map<string, CppON *>::iterator it = m->begin(); m->end() != it; it++ )
+		{
+			if( ! strcmp(  (it->first).c_str(), s.c_str() ) )					// if found set "rtn" to the object and quit looking
+			{
+				rtn = it->second;
+				break;
+			}
+		}
+		if( rtn && CppON::isMap( rtn ) && *str )								// But wait! if the object found is a map and there is a remainder from the
+		{ 																		// original split then call ourselves with the new string to find the object
+			// cppcheck-suppress cstyleCast
+			rtn = ( (COMap *) rtn )->findElement( str );
+		} else if( rtn && CppON::isArray( rtn ) && 0 <= arrayIndex ) {			// Or maybe the returned object was an array and we have an index
+			while( CppON::isArray( rtn ) && 0 <= arrayIndex )
+			{
+				// cppcheck-suppress cstyleCast
+				rtn = ( (COArray*) rtn)->at( arrayIndex );
+				if( CppON::isMap( rtn ) && *str )
+				{
+					// cppcheck-suppress cstyleCast
+					rtn = ( (COMap *) rtn)->findElement( str );
+					break;
+				} else if( ! CppON::isArray( rtn ) || more[ 0 ] != ':' ) {
+					break;
+				} else {
+					char *r;
+					s = more.substr( 1 );
+					arrayIndex = strtol( s.c_str(), &r, 10 );
+					more = r;
+				}
+			}
+		}
+	}
+	return rtn;
 }
 // cppcheck-suppress unusedFunction
 CppON *COMap::findNoSplit( const char *str )
 {
-    CppON *rtn = NULL;
-    if( data && str )
-    {
-        /*
-         * OK search the map for an item with a name matching the text in 's'
-         */
-        map<string, CppON *> *m = (map<string, CppON *> *) data;
-        // cppcheck-suppress postfixOperator
-        for( map<string, CppON *>::iterator it = m->begin(); m->end() != it; it++ )
-        {
-            if( ! strcmp( (it->first).c_str(), str ) )         // if found set "rtn" to the object and quit looking
-            {
-                rtn = it->second;
-                break;
-            }
-        }
-    }
-    return rtn;
+	CppON *rtn = NULL;
+
+	if( data && str )
+	{
+		/*
+		 * OK search the map for an item with a name matching the text in 's'
+		 */
+		map<string, CppON *> *m = (map<string, CppON *> *) data;
+		// cppcheck-suppress postfixOperator
+		for( map<string, CppON *>::iterator it = m->begin(); m->end() != it; it++ )
+		{
+			if( ! strcmp( (it->first).c_str(), str ) )         // if found set "rtn" to the object and quit looking
+			{
+				rtn = it->second;
+				break;
+			}
+		}
+	}
+	return rtn;
 }
 CppON *COMap::findCaseElement( const char *str )
 {
-    CppON *rtn = NULL;
-    if( data  && str )
-    {
-        /*
-         * Split the path with s = to anything before a forward slash ('/') and str pointing to first character after it.
-         */
+	CppON *rtn = NULL;
 
-        int         arrayIndex = -1;
-        std::string s;
-        splitPath( str, s, &str );
+	if( data  && str )
+	{
+		/*
+		 * Split the path with s = to anything before a forward slash ('/') and str pointing to first character after it.
+		 */
 
-        /*
-         * Now look to see if there is an index after the original part denoted by a colon (':')
-         */
-        size_t idx = s.find( ':' );
-        std::string more;
-        if( std::string::npos != idx )                              // colon is found
-        {
-            char *r;
-            arrayIndex = strtol( &s.c_str()[ idx + 1 ], &r, 10 );     // Read the index as a base 10 number following the colon
-            more = r;                                                 // more will contain any text after the number
-            s = s.substr( 0, idx );                                   // s only contains the text up to the colon
-        }
+		int         arrayIndex = -1;
+		std::string s;
 
-        map<string, CppON *> *m = (map<string, CppON *> *) data;
-        // cppcheck-suppress postfixOperator
-        for( map<string, CppON *>::iterator it = m->begin(); m->end() != it; it++ )
-        {
-            if( ! strcasecmp(  (it->first).c_str(), s.c_str() ) )
-            {
-                rtn = it->second;
-                break;
-            }
-        }
-        if( rtn && CppON::isMap( rtn ) && *str )
-        {
-            // cppcheck-suppress cstyleCast
-            rtn = ( (COMap *) rtn )->findCaseElement( str );
-        } else if(CppON::isArray( rtn ) && 0 <= arrayIndex ) {    // Or maybe the returned object was an array and we have an index
-            while( CppON::isArray( rtn ) && 0 <= arrayIndex )
-            {
-                // cppcheck-suppress cstyleCast
-                rtn = ( (COArray*) rtn)->at( arrayIndex );
-                if( CppON::isMap( rtn ) && *str )
-                {
-                    // cppcheck-suppress cstyleCast
-                    rtn = ( (COMap *) rtn)->findElement( str );
-                    break;
-                } else if( ! CppON::isArray( rtn ) || more[ 0 ] != ':' ) {
-                    break;
-                } else {
-                    char *r;
-                    s = more.substr( 1 );
-                    arrayIndex = strtol( s.c_str(), &r, 10 );
-                    more = r;
-                }
-            }
-        }
-    }
-    return rtn;
+		splitPath( str, s, &str );
+		/*
+		 * Now look to see if there is an index after the original part denoted by a colon (':')
+		 */
+		size_t idx = s.find( ':' );
+		std::string more;
+		if( std::string::npos != idx )                              // colon is found
+		{
+			char *r;
+			arrayIndex = strtol( &s.c_str()[ idx + 1 ], &r, 10 );     // Read the index as a base 10 number following the colon
+			more = r;                                                 // more will contain any text after the number
+			s = s.substr( 0, idx );                                   // s only contains the text up to the colon
+		}
+
+		map<string, CppON *> *m = (map<string, CppON *> *) data;
+		// cppcheck-suppress postfixOperator
+		for( map<string, CppON *>::iterator it = m->begin(); m->end() != it; it++ )
+		{
+			if( ! strcasecmp(  (it->first).c_str(), s.c_str() ) )
+			{
+				rtn = it->second;
+				break;
+			}
+		}
+		if( rtn && CppON::isMap( rtn ) && *str )
+		{
+			// cppcheck-suppress cstyleCast
+			rtn = ( (COMap *) rtn )->findCaseElement( str );
+		} else if(CppON::isArray( rtn ) && 0 <= arrayIndex ) {    // Or maybe the returned object was an array and we have an index
+			while( CppON::isArray( rtn ) && 0 <= arrayIndex )
+			{
+				// cppcheck-suppress cstyleCast
+				rtn = ( (COArray*) rtn)->at( arrayIndex );
+				if( CppON::isMap( rtn ) && *str )
+				{
+					// cppcheck-suppress cstyleCast
+					rtn = ( (COMap *) rtn)->findElement( str );
+					break;
+				} else if( ! CppON::isArray( rtn ) || more[ 0 ] != ':' ) {
+					break;
+				} else {
+					char *r;
+					s = more.substr( 1 );
+					arrayIndex = strtol( s.c_str(), &r, 10 );
+					more = r;
+				}
+			}
+		}
+	}
+	return rtn;
 }
 std::string *COMap::toCompactJsonString( )
 {
-    std::string *rtn = new string( "{" );
-    if( data )
-    {
-        map<string, CppON *>::iterator   it;
-        map<string, CppON *>            *m = (map<string, CppON *> *) data;
-        CppON                           *n;
-        std::string                       *sptr;
-        bool                              first = true;
+	std::string *rtn = new string( "{" );
+	if( data )
+	{
+		map<string, CppON *>::iterator	it;
+		map<string, CppON *>			*m = (map<string, CppON *> *) data;
+		CppON							*n;
+		std::string						*sptr;
+		bool							first = true;
 
-        for( size_t idx = 0; order.size() > idx; ++idx )
-        {
-            it = m->find( order.at( idx ) );
-            if( first )
-            {
-                first = false;
-            } else {
-                rtn->append( "," );
-            }
-            *rtn += '\"';
-            rtn->append( ( ( string ) it->first ).c_str() );
-            rtn->append( "\":" );
-            // cppcheck-suppress cstyleCast
-            n = (CppON *) it->second;
-            sptr = NULL;
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COInteger *) n )->toJsonString();
-                    break;
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (CODouble *) n )->toJsonString();
-                    break;
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( ( COString *) n )->toJsonString();
-                    break;
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( ( COBoolean *) n )->toJsonString();
-                    break;
-                case NULL_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = (( CONull *) n )->toJsonString();
-                    break;
+		for( size_t idx = 0; order.size() > idx; ++idx )
+		{
+			it = m->find( order.at( idx ) );
+			if( first )
+			{
+				first = false;
+			} else {
+				rtn->append( "," );
+			}
+			*rtn += '\"';
+			rtn->append( ( ( string ) it->first ).c_str() );
+			rtn->append( "\":" );
+			// cppcheck-suppress cstyleCast
+			n = (CppON *) it->second;
+			sptr = NULL;
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COInteger *) n )->toJsonString();
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (CODouble *) n )->toJsonString();
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( ( COString *) n )->toJsonString();
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( ( COBoolean *) n )->toJsonString();
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = (( CONull *) n )->toJsonString();
+					break;
                 case MAP_CPPON_OBJ_TYPE:
                     // cppcheck-suppress cstyleCast
                     sptr = ( (COMap *) n )->toCompactJsonString( );
                     break;
                 case ARRAY_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COArray *) n )->toCompactJsonString( );
-                    break;
+                	// cppcheck-suppress cstyleCast
+                	sptr = ( (COArray *) n )->toCompactJsonString( );
+                	break;
                 default:
-                    break;
-            }
-            if( sptr )
-            {
-                *rtn += *sptr;
-                delete sptr;
-            }
-        }
-    }
-    *rtn += '}';
-    return rtn;
+                	break;
+			}
+			if( sptr )
+			{
+				*rtn += *sptr;
+				delete sptr;
+			}
+		}
+	}
+	*rtn += '}';
+	return rtn;
 }
 
 std::string *COMap::toJsonString( std::string &indent )
 {
-    std::string *rtn = new string( indent.c_str() );
-    rtn->append( "{\n" );
-    if( data )
-    {
-        map<string, CppON *>::iterator   it;
-        map<string, CppON *>            *m = (map<string, CppON *> *) data;
-        CppON                           *n;
-        std::string                       *sptr;
-        bool                              first = true;
-        std::string                       newIndent = indent;
+	std::string *rtn = new string( indent.c_str() );
+	rtn->append( "{\n" );
+	if( data )
+	{
+		map<string, CppON *>::iterator	it;
+		map<string, CppON *>			*m = (map<string, CppON *> *) data;
+		CppON							*n;
+		std::string						*sptr;
+		bool							first = true;
+		std::string						newIndent = indent;
 
-        newIndent.append( "  " );
-        for( std::vector< std::string >::iterator ito = order.begin(); order.end() != ito; ito++ )
-        {
-            it = m->find( *ito );
-            if( first )
-            {
-                first = false;
-            } else {
-                rtn->append( ",\n" );
-            }
-            rtn->append( newIndent.c_str() );
-            *rtn += '\"';
-            rtn->append( ( ( string ) it->first ).c_str() );
-            rtn->append( "\": " );
-            // cppcheck-suppress cstyleCast
-            n = (CppON *) it->second;
-            sptr = NULL;
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COInteger *) n )->toJsonString();
-                    break;
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (CODouble *) n )->toJsonString();
-                    break;
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( ( COString *) n )->toJsonString();
-                    break;
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( ( COBoolean *) n )->toJsonString();
-                    break;
-                case NULL_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = (( CONull *) n )->toJsonString();
-                    break;
-                case MAP_CPPON_OBJ_TYPE:
-                    rtn->append( "\n" );
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COMap *) n )->toJsonString( newIndent );
-                    break;
-                case ARRAY_CPPON_OBJ_TYPE:
-                    rtn->append( "\n" );
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COArray *) n )->toJsonString( newIndent );
-                    break;
-                default:
-                    break;
-            }
-            if( sptr )
-            {
-                *rtn += *sptr;
-                delete sptr;
-            }
-        }
-    }
-    *rtn += '\n';
-    rtn->append( indent.c_str() );
-    *rtn += '}';
-    return rtn;
+		newIndent.append( "  " );
+		for( std::vector< std::string >::iterator ito = order.begin(); order.end() != ito; ito++ )
+		{
+			it = m->find( *ito );
+			if( first )
+			{
+				first = false;
+			} else {
+				rtn->append( ",\n" );
+			}
+			rtn->append( newIndent.c_str() );
+			*rtn += '\"';
+			rtn->append( ( ( string ) it->first ).c_str() );
+			rtn->append( "\": " );
+			// cppcheck-suppress cstyleCast
+			n = (CppON *) it->second;
+			sptr = NULL;
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COInteger *) n )->toJsonString();
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (CODouble *) n )->toJsonString();
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( ( COString *) n )->toJsonString();
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( ( COBoolean *) n )->toJsonString();
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = (( CONull *) n )->toJsonString();
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					rtn->append( "\n" );
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COMap *) n )->toJsonString( newIndent );
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					rtn->append( "\n" );
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COArray *) n )->toJsonString( newIndent );
+					break;
+				default:
+					break;
+			}
+			if( sptr )
+			{
+				*rtn += *sptr;
+				delete sptr;
+			}
+		}
+	}
+	*rtn += '\n';
+	rtn->append( indent.c_str() );
+	*rtn += '}';
+	return rtn;
 }
 
 string *COMap::toNetString()
 {
-    if( data && MAP_CPPON_OBJ_TYPE == typ )
-    {
-        std::string rt;
-        std::map<std::string, CppON *>::iterator it;
-        std::map<std::string, CppON *> *m = (map<string, CppON *> *) data;
+	if( data && MAP_CPPON_OBJ_TYPE == typ )
+	{
+		std::string rt;
+		std::map<std::string, CppON *>::iterator it;
+		std::map<std::string, CppON *> *m = (map<string, CppON *> *) data;
 
-        for( size_t idx = 0; order.size() > idx; ++idx )
-        {
-            std::string *sptr;
-            it = m->find( order.at( idx ) );
-            rt += *( sptr = CppON::toNetString( ( ( string ) it->first).c_str(), ',' ) );
-            delete ( sptr );
-            // cppcheck-suppress cstyleCast
-            CppON *n = (CppON *) it->second;
-            sptr = NULL;
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COInteger *) n )->COInteger::toNetString();
-                    break;
-
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (CODouble *) n )->CODouble::toNetString();
-                    break;
-
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( ( COString *) n )->COString::toNetString();
-                    break;
-
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( ( COBoolean *) n )->COBoolean::toNetString();
-                    break;
-                case NULL_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = (( CONull *) n )->CONull:: toNetString();
-                    break;
-
-                case MAP_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COMap *) n )->COMap::toNetString();
-                    break;
-
-                case ARRAY_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COArray *) n )->COArray::toNetString();
-                    break;
-
-                default:
-                    fprintf( stderr, "Map::toNetString: Unknown CppONType\n");
-                    break;
-            }
-            if( sptr )
-            {
-                rt+= *sptr;
-                delete sptr;
-            }
-        }
-        return CppON::toNetString( rt.c_str(), '}' );
-    }
-    return NULL;
+		for( size_t idx = 0; order.size() > idx; ++idx )
+		{
+			std::string *sptr;
+			it = m->find( order.at( idx ) );
+			rt += *( sptr = CppON::toNetString( ( ( string ) it->first).c_str(), ',' ) );
+			delete ( sptr );
+			// cppcheck-suppress cstyleCast
+			CppON *n = (CppON *) it->second;
+			sptr = NULL;
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COInteger *) n )->COInteger::toNetString();
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (CODouble *) n )->CODouble::toNetString();
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( ( COString *) n )->COString::toNetString();
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( ( COBoolean *) n )->COBoolean::toNetString();
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = (( CONull *) n )->CONull:: toNetString();
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COMap *) n )->COMap::toNetString();
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COArray *) n )->COArray::toNetString();
+					break;
+				default:
+					fprintf( stderr, "Map::toNetString: Unknown CppONType\n");
+					break;
+			}
+			if( sptr )
+			{
+				rt+= *sptr;
+				delete sptr;
+			}
+		}
+		return CppON::toNetString( rt.c_str(), '}' );
+	}
+	return NULL;
 }
 
 const char  *COMap::c_str( std::string &idnt )
 {
-    str = "{";
-    if( data )
-    {
-        map<string, CppON *>::iterator  it;
-        map<string, CppON *>            *m = (map<string, CppON *> *) data;
-        const char                        *comma = "\n";
-        std::string                       indent = idnt;
+	str = "{";
+	if( data )
+	{
+		map<string, CppON *>::iterator	it;
+		map<string, CppON *>			*m = (map<string, CppON *> *) data;
+		const char						*comma = "\n";
+		std::string						indent = idnt;
 
-        for( size_t idx = 0; order.size() > idx; ++idx )
-        {
-            it = m->find( order.at( idx ) );
-            str.append( comma );
-            comma = ",\n";
-            str.append( indent );
-            str += '"';
-            str += it->first;
-            str.append( "\": " );
-            // cppcheck-suppress cstyleCast
-            CppON *n = (CppON *) it->second;
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( (COInteger *) n )->c_str();
-                    break;
-
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( (CODouble *) n )->c_str();
-                    break;
-
-                case STRING_CPPON_OBJ_TYPE:
-                    str += '"';
-                    // cppcheck-suppress cstyleCast
-                    str += ( ( COString *) n )->c_str();
-                    str += '"';
-                  break;
-
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( ( COBoolean *) n )->c_str();
-                    break;
-
-                case NULL_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( ( CONull *) n )->c_str();
-                    break;
-
-                case MAP_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( (COMap *) n )->c_str( indent );
-                    break;
-
-                case ARRAY_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( (COArray *) n )->c_str( indent );
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        str += '\n';
-    }
-    str += '}';
-    return str.c_str();
+		for( size_t idx = 0; order.size() > idx; ++idx )
+		{
+			it = m->find( order.at( idx ) );
+			str.append( comma );
+			comma = ",\n";
+			str.append( indent );
+			str += '"';
+			str += it->first;
+			str.append( "\": " );
+			// cppcheck-suppress cstyleCast
+			CppON *n = (CppON *) it->second;
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( (COInteger *) n )->c_str();
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( (CODouble *) n )->c_str();
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					str += '"';
+					// cppcheck-suppress cstyleCast
+					str += ( ( COString *) n )->c_str();
+					str += '"';
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( ( COBoolean *) n )->c_str();
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( ( CONull *) n )->c_str();
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( (COMap *) n )->c_str( indent );
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( (COArray *) n )->c_str( indent );
+					break;
+				default:
+					break;
+			}
+		}
+		str += '\n';
+	}
+	str += '}';
+	return str.c_str();
 }
 
 
 void COMap::dump( string &indent, FILE *fp )
 {
-    if( data )
-    {
-        map<string, CppON *>::iterator   it;
-        map<string, CppON *>            *m = (map<string, CppON *> *) data;
-        bool                              first = true;
-        string                            newIndent = indent;
+	if( data )
+	{
+		map<string, CppON *>::iterator   it;
+		map<string, CppON *>            *m = (map<string, CppON *> *) data;
+		bool                              first = true;
+		string                            newIndent = indent;
 
-        newIndent.append( "\t" );
-
-        fprintf( fp, "%s{",indent.c_str() );
-
-        for( size_t idx = 0; order.size() > idx; ++idx )
-        {
-            it = m->find( order.at( idx ) );
-            if( first )
-            {
-                fprintf( fp, "\n%s\"%s\": ", newIndent.c_str(), ( ( string ) it->first).c_str() );
-                first = false;
-            } else {
-                fprintf( fp, ",\n%s\"%s\": ", newIndent.c_str(), ( ( string ) it->first).c_str() );
-            }
-
-            // cppcheck-suppress cstyleCast
-            CppON *n = (CppON *) it->second;
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (COInteger *) n )->dump( fp );
-                    break;
-
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (CODouble *) n )->dump( fp );
-                    break;
-
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( ( COString *) n )->dump( fp );
-                    break;
-
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( ( COBoolean *) n )->dump( fp );
-                    break;
-
-                case NULL_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( ( CONull *) n )->dump( fp );
-                    break;
-
-                case MAP_CPPON_OBJ_TYPE:
-                    fprintf( fp, "\n");
-                    // cppcheck-suppress cstyleCast
-                    ( (COMap *) n )->dump( newIndent, fp );
-                    break;
-
-                case ARRAY_CPPON_OBJ_TYPE:
-                    fprintf( fp, "\n");
-                    // cppcheck-suppress cstyleCast
-                    ( (COArray *) n )->dump( newIndent, fp  );
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        fprintf( fp, "\n%s}",indent.c_str() );
-    } else {
-        fprintf( fp, "NULL");
-    }
+		newIndent.append( "\t" );
+		fprintf( fp, "%s{",indent.c_str() );
+		for( size_t idx = 0; order.size() > idx; ++idx )
+		{
+			it = m->find( order.at( idx ) );
+			if( first )
+			{
+				fprintf( fp, "\n%s\"%s\": ", newIndent.c_str(), ( ( string ) it->first).c_str() );
+				first = false;
+			} else {
+				fprintf( fp, ",\n%s\"%s\": ", newIndent.c_str(), ( ( string ) it->first).c_str() );
+			}
+			// cppcheck-suppress cstyleCast
+			CppON *n = (CppON *) it->second;
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (COInteger *) n )->dump( fp );
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (CODouble *) n )->dump( fp );
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( ( COString *) n )->dump( fp );
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( ( COBoolean *) n )->dump( fp );
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( ( CONull *) n )->dump( fp );
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					fprintf( fp, "\n");
+					// cppcheck-suppress cstyleCast
+					( (COMap *) n )->dump( newIndent, fp );
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					fprintf( fp, "\n");
+					// cppcheck-suppress cstyleCast
+					( (COArray *) n )->dump( newIndent, fp  );
+					break;
+				default:
+					break;
+			}
+		}
+		fprintf( fp, "\n%s}",indent.c_str() );
+	} else {
+		fprintf( fp, "NULL");
+	}
 }
 
 void COMap::cdump( FILE *fp )
 {
-    if( data )
-    {
-        map<string, CppON *>::iterator   it;
-        map<string, CppON *>            *m = (map<string, CppON *> *) data;
-        bool                              first = true;
-        fprintf( fp, "{" );
+	if( data )
+	{
+		map<string, CppON *>::iterator   it;
+		map<string, CppON *>            *m = (map<string, CppON *> *) data;
+		bool                              first = true;
 
-        for( size_t idx = 0; order.size() > idx; ++idx )
-        {
-            it = m->find( order.at( idx ) );
-            if( first )
-            {
-                fprintf( fp, "\\\"%s\\\": ", ( ( string ) it->first).c_str() );
-                first = false;
-            } else {
-                fprintf( fp, ",\\\"%s\\\": ", ( ( string ) it->first).c_str() );
-            }
-
-            // cppcheck-suppress cstyleCast
-            CppON *n = (CppON *) it->second;
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (COInteger *) n )->cdump( fp );
-                    break;
-
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (CODouble *) n )->cdump( fp );
-                    break;
-
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( ( COString *) n )->cdump( fp );
-                    break;
-
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( ( COBoolean *) n )->cdump( fp );
-                    break;
-
-                case NULL_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( ( CONull *) n )->cdump( fp );
-                    break;
-
-                case MAP_CPPON_OBJ_TYPE:
-                    fprintf( fp, "\"\n\"");
-                    // cppcheck-suppress cstyleCast
-                    ( (COMap *) n )->cdump( fp );
-                    break;
-
-                case ARRAY_CPPON_OBJ_TYPE:
-                    fprintf( fp, "\"\n\"");
-                    // cppcheck-suppress cstyleCast
-                    ( (COArray *) n )->cdump( fp  );
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        fprintf( fp, "}" );
-    } else {
-        fprintf( fp, "{}");
-    }
+		fprintf( fp, "{" );
+		for( size_t idx = 0; order.size() > idx; ++idx )
+		{
+			it = m->find( order.at( idx ) );
+			if( first )
+			{
+				fprintf( fp, "\\\"%s\\\": ", ( ( string ) it->first).c_str() );
+				first = false;
+			} else {
+				fprintf( fp, ",\\\"%s\\\": ", ( ( string ) it->first).c_str() );
+			}
+			// cppcheck-suppress cstyleCast
+			CppON *n = (CppON *) it->second;
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (COInteger *) n )->cdump( fp );
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (CODouble *) n )->cdump( fp );
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( ( COString *) n )->cdump( fp );
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( ( COBoolean *) n )->cdump( fp );
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( ( CONull *) n )->cdump( fp );
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					fprintf( fp, "\"\n\"");
+					// cppcheck-suppress cstyleCast
+					( (COMap *) n )->cdump( fp );
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					fprintf( fp, "\"\n\"");
+					// cppcheck-suppress cstyleCast
+					( (COArray *) n )->cdump( fp  );
+					break;
+				default:
+					break;
+			}
+		}
+		fprintf( fp, "}" );
+	} else {
+		fprintf( fp, "{}");
+	}
 }
 
 /*
@@ -3550,20 +3358,19 @@ void COMap::cdump( FILE *fp )
 
 int  COMap::toFile( const char *path )
 {
-    FILE    *fp = NULL;
-    int     rtn = 0;
-    /*
-     * Make sure we were passed something as a path and if so attempt to open it for writing
-     */
-    if( path && *path && (fp = fopen( path, "w" ) ) )
-    {
-        dump( fp );
-        fclose( fp );
-
-    } else {
-        rtn = -1;
-    }
-    return rtn;
+	FILE    *fp = NULL;
+	int     rtn = 0;
+	/*
+	 * Make sure we were passed something as a path and if so attempt to open it for writing
+	 */
+	if( path && *path && (fp = fopen( path, "w" ) ) )
+	{
+		dump( fp );
+		fclose( fp );
+	} else {
+		rtn = -1;
+	}
+	return rtn;
 }
 
 /*
@@ -3580,328 +3387,311 @@ int  COMap::toFile( const char *path )
 
 static void appendTag( string name, CppON *obj, COMap *rtn, CppON *n )
 {
+	if( obj->type() == MAP_CPPON_OBJ_TYPE )
+	{
+		// cppcheck-suppress cstyleCast
+		rtn->append( name, new COMap( *((COMap *) obj) ) );
+	} else if( obj->type() == ARRAY_CPPON_OBJ_TYPE ) {
+		// cppcheck-suppress cstyleCast
+		rtn->append( name, new COArray( *((COArray *) obj) ) );
+	} else {
+		switch ( n->type() )
+		{
+			case BOOLEAN_CPPON_OBJ_TYPE:                                            // If original type was a boolean then promote everything to boolean except null;
+				{
+					// cppcheck-suppress cstyleCast
+					bool v = ((COBoolean *) n )->value();
+					bool r;
 
-    if( obj->type() == MAP_CPPON_OBJ_TYPE )
-    {
-     // cppcheck-suppress cstyleCast
-        rtn->append( name, new COMap( *((COMap *) obj) ) );
-    } else if( obj->type() == ARRAY_CPPON_OBJ_TYPE ) {
-        // cppcheck-suppress cstyleCast
-        rtn->append( name, new COArray( *((COArray *) obj) ) );
-    } else {
-        switch ( n->type() )
-        {
-            case BOOLEAN_CPPON_OBJ_TYPE:                                            // If original type was a boolean then promote everything to boolean except null;
-                {
-                    // cppcheck-suppress cstyleCast
-                    bool v = ((COBoolean *) n )->value();
-                    bool r;
-                    switch( obj->type() )
-                    {
-                        case BOOLEAN_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            if( v != ( r = ((COBoolean *) obj )->value() ) )
-                            {
-                                rtn->append( name, new COBoolean( r ) );
-                            }
-                            break;
+					switch( obj->type() )
+					{
+						case BOOLEAN_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							if( v != ( r = ((COBoolean *) obj )->value() ) )
+							{
+								rtn->append( name, new COBoolean( r ) );
+							}
+							break;
+						case INTEGER_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							if( v != ( r = ( ( (COInteger *) obj)->intValue() != 0 ) ) )
+							{
+								rtn->append( name, new COBoolean( r ) );
+							}
+							break;
+						case DOUBLE_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							if( v != ( r = ( ( ( CODouble *) obj)->toInt() != 0 ) ) )
+							{
+								rtn->append( name, new COBoolean( r ) );
+							}
+							break;
+						case STRING_CPPON_OBJ_TYPE:
+							{
+								// cppcheck-suppress cstyleCast
+								const char *cPtr = ((COString *) obj)->c_str();
+								if( v != ( r = ( 0 != ( !strcasecmp( cPtr, "true") ) ? 1 : ( (!strcasecmp( cPtr, "false" ) ) ? 0 : strtol( cPtr, NULL, 10 ) ) ) ) )
+								{
+									rtn->append( name, new COBoolean( r ) );
+								}
+							}
+							break;
+						case NULL_CPPON_OBJ_TYPE:
+							rtn->append( name, new CONull( ) );
+							break;
+						default:
+							break;
+					}
+				}
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				{
+					// cppcheck-suppress cstyleCast
+					double v = ((CODouble *) n )->doubleValue();
+					double r;
 
-                        case INTEGER_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            if( v != ( r = ( ( (COInteger *) obj)->intValue() != 0 ) ) )
-                            {
-                                rtn->append( name, new COBoolean( r ) );
-                            }
-                            break;
-
-                        case DOUBLE_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            if( v != ( r = ( ( ( CODouble *) obj)->toInt() != 0 ) ) )
-                            {
-                                rtn->append( name, new COBoolean( r ) );
-                            }
-                            break;
-
-                        case STRING_CPPON_OBJ_TYPE:
-                            {
-                                // cppcheck-suppress cstyleCast
-                                const char *cPtr = ((COString *) obj)->c_str();
-                                if( v != ( r = ( 0 != ( !strcasecmp( cPtr, "true") ) ? 1 : ( (!strcasecmp( cPtr, "false" ) ) ? 0 : strtol( cPtr, NULL, 10 ) ) ) ) )
-                                {
-                                    rtn->append( name, new COBoolean( r ) );
-                                }
-                            }
-                            break;
-
-                        case NULL_CPPON_OBJ_TYPE:
-                            rtn->append( name, new CONull( ) );
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                break;
-            case DOUBLE_CPPON_OBJ_TYPE:
-                {
-                    // cppcheck-suppress cstyleCast
-                    double v = ((CODouble *) n )->doubleValue();
-                    double r;
-                    switch( obj->type() )
-                    {
-                        case DOUBLE_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            if( v != ((CODouble *) obj)->doubleValue() )
-                            {
-                                // cppcheck-suppress cstyleCast
-                                rtn->append( name, new CODouble( *((CODouble *) obj) ) );
-                            }
-                            break;
-
-                        case INTEGER_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            if( v != ( r = (double)( ( COInteger * ) obj )->longValue() ) )
-                            {
-                                rtn->append( name, new CODouble( r ) );
-                            }
-                            break;
-
-                        case STRING_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            if( v != ( r = strtod( ((COString *) obj)->c_str(), NULL ) ) )
-                            {
-                                rtn->append( name, new CODouble( r ) );
-                            }
-                            break;
-
-                        case BOOLEAN_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( name, new COBoolean( *((COBoolean *) obj) ) );
-                            break;
-
-                        case NULL_CPPON_OBJ_TYPE:
-                            rtn->append( name, new CONull( ) );
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                break;
-
-            case INTEGER_CPPON_OBJ_TYPE:
-                {
-                    // cppcheck-suppress cstyleCast
-                    uint64_t v = ((COInteger *) n)->toLongInt();
-                    uint64_t r;
-                    switch( obj->type() )
-                    {
-                        case INTEGER_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            if( v != (uint64_t)((COInteger *) obj)->toLongInt() )
-                            {
-                                // cppcheck-suppress cstyleCast
-                                rtn->append( name, new COInteger( *((COInteger *) obj) ) );
-                            }
-                            break;
-
-                        case STRING_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            if( v != ( r = strtol( ((COString *) obj)->c_str(), NULL, 0 ) ) )
-                            {
-                                rtn->append( name, new COInteger( r ) );
-                            }
-                            break;
-
-                        case DOUBLE_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( name, new CODouble( *((CODouble *) obj) ) );
-                            break;
-                        case BOOLEAN_CPPON_OBJ_TYPE:
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( name, new COBoolean( *((COBoolean *) obj) ) );
-                            break;
-                        case NULL_CPPON_OBJ_TYPE:
-                            rtn->append( name, new CONull( ) );
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                break;
-
-            default:
-                switch( obj->type() )
-                {
-                    case INTEGER_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( *((COInteger *) n ) != *((COInteger *) obj ) )
-                        {
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( name, new COInteger( *((COInteger *) obj) ) );
-                        }
-                        break;
-
-                    case DOUBLE_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( *((CODouble *) n ) != *((CODouble *) obj ) )
-                        {
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( name, new CODouble( *((CODouble *) obj) ) );
-                        }
-                        break;
-
-                    case BOOLEAN_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( *((COBoolean *) n ) != *((COBoolean *) obj ) )
-                        {
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( name, new COBoolean( *((COBoolean *) obj) ) );
-                        }
-                        break;
-
-                    case NULL_CPPON_OBJ_TYPE:
-                        if( n->type() != NULL_CPPON_OBJ_TYPE )
-                        {
-                            rtn->append( name, new CONull( ) );
-                        }
-                        break;
-
-                    case STRING_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( *((COString *) n ) != *((COString *) obj ) )
-                        {
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( name, new COString( *((COString *) obj) ) );
-                        }
-                        break;
-
-                    case MAP_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        rtn->append( name, new COMap( *((COMap *) obj) ) );
-                        break;
-
-                    case ARRAY_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        rtn->append( name, new COArray( *((COArray *) obj) ) );
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
-        }
-    }
+					switch( obj->type() )
+					{
+						case DOUBLE_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							if( v != ((CODouble *) obj)->doubleValue() )
+							{
+								// cppcheck-suppress cstyleCast
+								rtn->append( name, new CODouble( *((CODouble *) obj) ) );
+							}
+							break;
+						case INTEGER_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							if( v != ( r = (double)( ( COInteger * ) obj )->longValue() ) )
+							{
+								rtn->append( name, new CODouble( r ) );
+							}
+							break;
+						case STRING_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							if( v != ( r = strtod( ((COString *) obj)->c_str(), NULL ) ) )
+							{
+								rtn->append( name, new CODouble( r ) );
+							}
+							break;
+						case BOOLEAN_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							rtn->append( name, new COBoolean( *((COBoolean *) obj) ) );
+							break;
+						case NULL_CPPON_OBJ_TYPE:
+							rtn->append( name, new CONull( ) );
+							break;
+						default:
+							break;
+					}
+				}
+				break;
+			case INTEGER_CPPON_OBJ_TYPE:
+				{
+					// cppcheck-suppress cstyleCast
+					uint64_t v = ((COInteger *) n)->toLongInt();
+					uint64_t r;
+					switch( obj->type() )
+					{
+						case INTEGER_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							if( v != (uint64_t)((COInteger *) obj)->toLongInt() )
+							{
+								// cppcheck-suppress cstyleCast
+								rtn->append( name, new COInteger( *((COInteger *) obj) ) );
+							}
+							break;
+						case STRING_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							if( v != ( r = strtol( ((COString *) obj)->c_str(), NULL, 0 ) ) )
+							{
+								rtn->append( name, new COInteger( r ) );
+							}
+							break;
+						case DOUBLE_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							rtn->append( name, new CODouble( *((CODouble *) obj) ) );
+							break;
+						case BOOLEAN_CPPON_OBJ_TYPE:
+							// cppcheck-suppress cstyleCast
+							rtn->append( name, new COBoolean( *((COBoolean *) obj) ) );
+							break;
+						case NULL_CPPON_OBJ_TYPE:
+							rtn->append( name, new CONull( ) );
+							break;
+						default:
+							break;
+					}
+				}
+				break;
+			default:
+				switch( obj->type() )
+				{
+					case INTEGER_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( *((COInteger *) n ) != *((COInteger *) obj ) )
+						{
+							// cppcheck-suppress cstyleCast
+							rtn->append( name, new COInteger( *((COInteger *) obj) ) );
+						}
+						break;
+					case DOUBLE_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( *((CODouble *) n ) != *((CODouble *) obj ) )
+						{
+							// cppcheck-suppress cstyleCast
+							rtn->append( name, new CODouble( *((CODouble *) obj) ) );
+						}
+						break;
+					case BOOLEAN_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( *((COBoolean *) n ) != *((COBoolean *) obj ) )
+						{
+							// cppcheck-suppress cstyleCast
+							rtn->append( name, new COBoolean( *((COBoolean *) obj) ) );
+						}
+						break;
+					case NULL_CPPON_OBJ_TYPE:
+						if( n->type() != NULL_CPPON_OBJ_TYPE )
+						{
+							rtn->append( name, new CONull( ) );
+						}
+						break;
+					case STRING_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( *((COString *) n ) != *((COString *) obj ) )
+						{
+							// cppcheck-suppress cstyleCast
+							rtn->append( name, new COString( *((COString *) obj) ) );
+						}
+						break;
+					case MAP_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						rtn->append( name, new COMap( *((COMap *) obj) ) );
+						break;
+					case ARRAY_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						rtn->append( name, new COArray( *((COArray *) obj) ) );
+						break;
+					default:
+						break;
+				}
+				break;
+		}
+	}
 }
 
 COMap  *COMap::diff( COMap &newObj, const char *name )
 {
-    COMap                                    *rtn   = new COMap();
-    CppON                                 *n;
+	COMap							*rtn	= new COMap();
+	CppON							*n;
+	map<string, CppON *>::iterator	it;
+	map<string, CppON *>			*m		= (map<string, CppON *> *) data;
 
-    map<string, CppON *>::iterator        it;
-    map<string, CppON *>                  *m     = (map<string, CppON *> *) data;
+	// cppcheck-suppress postfixOperator
+	for( it = m->begin(); m->end() != it; it++ )
+	{
+		CppON                *obj;
 
-    // cppcheck-suppress postfixOperator
-    for( it = m->begin(); m->end() != it; it++ )
-    {
-        CppON                *obj;
-        if( ( obj = newObj.findElement( (string *)&(it->first) ) ) )
-        {
-            // cppcheck-suppress cstyleCast
-            if( ( n = (CppON *) it->second ) )
-            {
-                COMap                  *nv;
-                COArray                *na;
-                switch ( n->type() )
-                {
-                    case INTEGER_CPPON_OBJ_TYPE:
-                        appendTag( it->first, obj, rtn, n );
-                        break;
-                    case DOUBLE_CPPON_OBJ_TYPE:
-                        appendTag( it->first, obj, rtn, n );
-                        break;
-                    case STRING_CPPON_OBJ_TYPE:
-                        appendTag( it->first, obj, rtn, n );
-                        break;
-                    case BOOLEAN_CPPON_OBJ_TYPE:
-                        appendTag( it->first, obj, rtn, n );
-                        break;
-                    case NULL_CPPON_OBJ_TYPE:
-                        appendTag( it->first, obj, rtn, n );
-                        break;
-                    case MAP_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( (nv = ((COMap *) n )->diff( *((COMap *) obj ), name ) ) )
-                        {
-                            rtn->append( it->first, nv );
-                        }
-                        break;
-                    case ARRAY_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( (na = ( (COArray *) n )->diff( *( ( COArray *) obj ), name ) ) )
-                        {
-                            rtn->append( it->first, na );
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-    m = (map<string, CppON *> *) newObj.getData();
-    // cppcheck-suppress postfixOperator
-    for( it = m->begin(); m->end() != it; it++ )
-    {
-        if(!( this->findElement( (string *)&(it->first) ) ) )
-        {
-            // cppcheck-suppress cstyleCast
-            if( ( n = (CppON *) it->second ) )
-            {
-                switch ( n->type() )
-                {
-                    case INTEGER_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        rtn->append( it->first, new COInteger( *((COInteger *) it->second ) ) );
-                        break;
-                    case DOUBLE_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        rtn->append( it->first, new CODouble( *((CODouble *) it->second ) ) );
-                        break;
-                    case STRING_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        rtn->append( it->first, new COString( *((COString *) it->second ) ) );
-                        break;
-                    case BOOLEAN_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        rtn->append( it->first, new COBoolean( *((COBoolean *) it->second ) ) );
-                        break;
-                    case NULL_CPPON_OBJ_TYPE:
-                        fprintf( stderr, "COMap:diff - NULL type found, appended a NULL to %s\n", it->first.c_str() );
-                        rtn->append( it->first, new CONull( ) );
-                        break;
-                    case MAP_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        rtn->append( it->first, new COMap( *(( COMap *) it->second ) ) );
-                        break;
-                    case ARRAY_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        rtn->append( it->first, new COArray( *(( COArray *) it->second ) ) );
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                fprintf( stderr, "appended a NULL to %s\n", it->first.c_str() );
-                rtn->append( it->first, new CONull( ) );
-            }
-        }
-    }
-    if( ! rtn->size() )
-    {
-        delete rtn;
-        rtn = NULL;
-    }
-    return rtn;
+		if( ( obj = newObj.findElement( (string *)&(it->first) ) ) )
+		{
+			// cppcheck-suppress cstyleCast
+			if( ( n = (CppON *) it->second ) )
+			{
+				COMap				*nv;
+				COArray				*na;
+
+				switch ( n->type() )
+				{
+					case INTEGER_CPPON_OBJ_TYPE:
+						appendTag( it->first, obj, rtn, n );
+						break;
+					case DOUBLE_CPPON_OBJ_TYPE:
+						appendTag( it->first, obj, rtn, n );
+						break;
+					case STRING_CPPON_OBJ_TYPE:
+						appendTag( it->first, obj, rtn, n );
+						break;
+					case BOOLEAN_CPPON_OBJ_TYPE:
+						appendTag( it->first, obj, rtn, n );
+						break;
+					case NULL_CPPON_OBJ_TYPE:
+						appendTag( it->first, obj, rtn, n );
+						break;
+					case MAP_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( (nv = ((COMap *) n )->diff( *((COMap *) obj ), name ) ) )
+						{
+							rtn->append( it->first, nv );
+						}
+						break;
+					case ARRAY_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( (na = ( (COArray *) n )->diff( *( ( COArray *) obj ), name ) ) )
+						{
+							rtn->append( it->first, na );
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	}
+	m = (map<string, CppON *> *) newObj.getData();
+	// cppcheck-suppress postfixOperator
+	for( it = m->begin(); m->end() != it; it++ )
+	{
+		if(!( this->findElement( (string *)&(it->first) ) ) )
+		{
+			// cppcheck-suppress cstyleCast
+			if( ( n = (CppON *) it->second ) )
+			{
+				switch ( n->type() )
+				{
+					case INTEGER_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						rtn->append( it->first, new COInteger( *((COInteger *) it->second ) ) );
+						break;
+					case DOUBLE_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						rtn->append( it->first, new CODouble( *((CODouble *) it->second ) ) );
+						break;
+					case STRING_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						rtn->append( it->first, new COString( *((COString *) it->second ) ) );
+						break;
+					case BOOLEAN_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						rtn->append( it->first, new COBoolean( *((COBoolean *) it->second ) ) );
+						break;
+					case NULL_CPPON_OBJ_TYPE:
+						fprintf( stderr, "COMap:diff - NULL type found, appended a NULL to %s\n", it->first.c_str() );
+						rtn->append( it->first, new CONull( ) );
+						break;
+					case MAP_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						rtn->append( it->first, new COMap( *(( COMap *) it->second ) ) );
+						break;
+					case ARRAY_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						rtn->append( it->first, new COArray( *(( COArray *) it->second ) ) );
+						break;
+					default:
+						break;
+				}
+			} else {
+				fprintf( stderr, "appended a NULL to %s\n", it->first.c_str() );
+				rtn->append( it->first, new CONull( ) );
+			}
+		}
+	}
+	if( ! rtn->size() )
+	{
+		delete rtn;
+		rtn = NULL;
+	}
+	return rtn;
 }
 
 /*
@@ -3927,186 +3717,179 @@ COMap  *COMap::diff( COMap &newObj, const char *name )
 
 int COMap::append( std::string key, CppON *n )
 {
-    size_t pos = key.find( '/' );
-    int rtn = 0;
+	size_t pos = key.find( '/' );
+	int rtn = 0;
 
-    if( string::npos == pos )
-    {
-        std::map <std::string, CppON *> *m = ( std::map <std::string, CppON*> *) data;
-        std::map <std::string, CppON *>::iterator it = m->find( key );									// If there is already an object by this name delete it and and the new one.
-        if( m->end() != it )
-        {
-        	delete it->second;
-        	m->erase( it );
-        	std::vector< std::string>::iterator its = std::find( order.begin(), order.end(), key );
-        	if( order.end() != its )
-        	{
-        		order.erase( its );
-        	}
-        }
-        m->insert( m->end(), std::pair < std::string, CppON* >( key, n ) );
-        order.push_back(std::string( key ) );
-
-    } else {
-        string s = key.substr( 0, pos );
-        key = key.substr( pos + 1 );
-        COMap *mp = (COMap *) findElement( s );
-        if(! mp )
-        {
-            append( s, mp = new COMap() );
-        }
-        if( CppON::isMap( mp ) )
-        {
-            rtn = mp->append( key, n );
-        } else if( CppON::isArray( mp ) ) {
-            ((COArray *)mp )->append( n );
-        } else {
-             rtn = -1;
-        }
-    }
-    return rtn;
+	if( string::npos == pos )
+	{
+		std::map <std::string, CppON *> *m = ( std::map <std::string, CppON*> *) data;
+		std::map <std::string, CppON *>::iterator it = m->find( key );									// If there is already an object by this name delete it and and the new one.
+		if( m->end() != it )
+		{
+			delete it->second;
+			m->erase( it );
+			std::vector< std::string>::iterator its = std::find( order.begin(), order.end(), key );
+			if( order.end() != its )
+			{
+				order.erase( its );
+			}
+		}
+		m->insert( m->end(), std::pair < std::string, CppON* >( key, n ) );
+		order.push_back(std::string( key ) );
+	} else {
+		string s = key.substr( 0, pos );
+		key = key.substr( pos + 1 );
+		COMap *mp = (COMap *) findElement( s );
+		if(! mp )
+		{
+			append( s, mp = new COMap() );
+		}
+		if( CppON::isMap( mp ) )
+		{
+			rtn = mp->append( key, n );
+		} else if( CppON::isArray( mp ) ) {
+			((COArray *)mp )->append( n );
+		} else {
+			rtn = -1;
+		}
+	}
+	return rtn;
 };
 
 // cppcheck-suppress unusedFunction
 std::vector<CppON *> *COMap::getValues()
 {
-    std::vector<CppON *> *rtn = new std::vector<CppON *>;
-    // cppcheck-suppress postfixOperator
-    for(std::map< std::string, CppON *>::iterator it = (( std::map<std::string, CppON *> *) data )->begin();(( std::map<std::string, CppON *> *) data )->end() != it; it++)
-    {
-        rtn->push_back( it->second );
-    }
-    return rtn;
+	std::vector<CppON *> *rtn = new std::vector<CppON *>;
+
+	// cppcheck-suppress postfixOperator
+	for(std::map< std::string, CppON *>::iterator it = (( std::map<std::string, CppON *> *) data )->begin();(( std::map<std::string, CppON *> *) data )->end() != it; it++)
+	{
+		rtn->push_back( it->second );
+	}
+	return rtn;
 };
 
 // cppcheck-suppress unusedFunction
 CppON *COMap::extract( const char *name )
 {
-    CppON *rtn = NULL;
-    std::map< std::string, CppON *>::iterator it = (( std::map<std::string, CppON *> *) data )->find( name );
-    if( it != ((std::map< std::string, CppON *> *) data )->end() )
-    {
-        rtn = it->second;
+	CppON *rtn = NULL;
+	std::map< std::string, CppON *>::iterator it = (( std::map<std::string, CppON *> *) data )->find( name );
 
-        for( std::vector<std::string>::iterator iter = order.begin(); order.end() != iter; ++iter )
-        {
-            if( ! iter->compare( it->first ) )
-            {
-                order.erase( iter );
-                break;
-            }
-        }
-
-        (( std::map<std::string, CppON *> *) data )->erase( it );
-
-    }
-    return rtn;
+	if( it != ((std::map< std::string, CppON *> *) data )->end() )
+	{
+		rtn = it->second;
+		for( std::vector<std::string>::iterator iter = order.begin(); order.end() != iter; ++iter )
+		{
+			if( ! iter->compare( it->first ) )
+			{
+				order.erase( iter );
+				break;
+			}
+		}
+		(( std::map<std::string, CppON *> *) data )->erase( it );
+	}
+	return rtn;
 }
 
 COMap *COMap::operator=( COMap &val )
 {
-    map< string, CppON*> *ptr;
-    if( data )
-    {
-        map <string, CppON*> *m = ( map <string, CppON *> * ) data;
-        map<string, CppON *>::iterator it;
-        // cppcheck-suppress postfixOperator
-        for( it = m->begin(); m->end() != it; it++ )
-        {
-            delete( it->second);
-        }
-        m->clear();
-    } else {
-        data = new map<string, CppON*>();
-    }
-    order.clear();
-    siz = val.size();
+	map< string, CppON*> *ptr;
 
-    map<string, CppON*> *th = (map<string, CppON*> *) data;
+	if( data )
+	{
+		map <string, CppON*> *m = ( map <string, CppON *> * ) data;
+		map<string, CppON *>::iterator it;
 
-    if( ( ptr = val.value() ) )
-    {
-        // cppcheck-suppress postfixOperator
-        for( std::map< string, CppON* >::iterator it = ptr->begin(); it != ptr->end(); it++ )
-        {
-            switch( it->second->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    th->insert( th->end(), pair< string, CppON* >( it->first, new COInteger( *((COInteger *)it->second ) ) ) );
-                    order.push_back( string( it->first ) );
-                    break;
+		// cppcheck-suppress postfixOperator
+		for( it = m->begin(); m->end() != it; it++ )
+		{
+			delete( it->second);
+		}
+		m->clear();
+	} else {
+		data = new map<string, CppON*>();
+	}
+	order.clear();
+	siz = val.size();
+	map<string, CppON*> *th = (map<string, CppON*> *) data;
 
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    th->insert( th->end(), pair< string, CppON* >( it->first, new CODouble( *( (CODouble *)it->second ) ) ) );
-                    order.push_back( string( it->first ) );
-                    break;
-
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    th->insert( th->end(), pair< string, CppON* >( it->first, new COString( *( (COString *)it->second ) ) ) );
-                    order.push_back( string( it->first ) );
-                    break;
-
-                case NULL_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    th->insert( th->end(), pair< string, CppON* >( it->first, new CONull( *( (CONull *)it->second ) ) ) );
-                    order.push_back( string( it->first ) );
-                    break;
-
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    th->insert( th->end(), pair< string, CppON* >( it->first, new COBoolean( *( (COBoolean *)it->second ) ) ) );
-                    order.push_back( string( it->first ) );
-                    break;
-
-                case MAP_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    th->insert( th->end(), pair< string, CppON* >( it->first, new COMap( *( (COMap *)it->second ) ) ) );
-                    order.push_back( string( it->first ) );
-                    break;
-
-                case ARRAY_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    th->insert( th->end(), pair< string, CppON* >( it->first, new COArray( *( (COArray *)it->second ) ) ) );
-                    order.push_back( string( it->first ) );
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    }
-    return this;
+	if( ( ptr = val.value() ) )
+	{
+		// cppcheck-suppress postfixOperator
+		for( std::map< string, CppON* >::iterator it = ptr->begin(); it != ptr->end(); it++ )
+		{
+			switch( it->second->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					th->insert( th->end(), pair< string, CppON* >( it->first, new COInteger( *((COInteger *)it->second ) ) ) );
+					order.push_back( string( it->first ) );
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					th->insert( th->end(), pair< string, CppON* >( it->first, new CODouble( *( (CODouble *)it->second ) ) ) );
+					order.push_back( string( it->first ) );
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					th->insert( th->end(), pair< string, CppON* >( it->first, new COString( *( (COString *)it->second ) ) ) );
+					order.push_back( string( it->first ) );
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					th->insert( th->end(), pair< string, CppON* >( it->first, new CONull( *( (CONull *)it->second ) ) ) );
+					order.push_back( string( it->first ) );
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					th->insert( th->end(), pair< string, CppON* >( it->first, new COBoolean( *( (COBoolean *)it->second ) ) ) );
+					order.push_back( string( it->first ) );
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					th->insert( th->end(), pair< string, CppON* >( it->first, new COMap( *( (COMap *)it->second ) ) ) );
+					order.push_back( string( it->first ) );
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					th->insert( th->end(), pair< string, CppON* >( it->first, new COArray( *( (COArray *)it->second ) ) ) );
+					order.push_back( string( it->first ) );
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	return this;
 }
 
 bool COMap::operator == ( COMap &val )
 {
-    map<string, CppON*> *th = (map<string, CppON*> *) data;
+	map<string, CppON*> *th = (map<string, CppON*> *) data;
 
-    // cppcheck-suppress postfixOperator
-    for( std::map< string, CppON* >::iterator itr = th->begin(); itr != th->end(); itr++ )
-    {
-        CppON               *t;
-        if( !(t = val.findElement( itr->first.c_str() ) ) )
-        {
-            return false;
-        }
-        if( !isObj( t ) || !isObj( itr->second ) )
-        {
-        	return false;
-        }
-        if( t->type() != (itr->second)->type() )
-        {
-        	return false;
-        }
-        if( *t != *itr->second )
-        {
-            return false;
-        }
-    }
-    return true;
+	// cppcheck-suppress postfixOperator
+	for( std::map< string, CppON* >::iterator itr = th->begin(); itr != th->end(); itr++ )
+	{
+		CppON               *t;
+
+		if( !(t = val.findElement( itr->first.c_str() ) ) )
+		{
+			return false;
+		}
+		if( !isObj( t ) || !isObj( itr->second ) )
+		{
+			return false;
+		}
+		if( t->type() != (itr->second)->type() )
+		{
+			return false;
+		}
+		if( *t != *itr->second )
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 /****************************************************************************************/
@@ -4117,88 +3900,88 @@ bool COMap::operator == ( COMap &val )
 
 COArray::COArray( COArray *at ) : CppON( ARRAY_CPPON_OBJ_TYPE )
 {
-    siz = at->size();
-    data = new vector<CppON *>();
-    for( int i = 0; at->size() > i; i++ )
-    {
-        CppON *jt = at->at( i );
-        switch( jt->type() )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COInteger( *((COInteger *)jt ) ) );
-                break;
-            case DOUBLE_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new CODouble( *( (CODouble *)jt ) ) );
-                break;
-            case STRING_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COString( *( (COString *)jt ) ) );
-                break;
-            case NULL_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new CONull( *( (CONull *)jt ) ) );
-                break;
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COBoolean( *( (COBoolean *)jt ) ) );
-                break;
-            case MAP_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COMap( *( (COMap *)jt ) ) );
-                break;
-            case ARRAY_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COArray( *( (COArray *)jt ) ) );
-                break;
-            default:
-                break;
-        }
-    }
+	siz = at->size();
+	data = new vector<CppON *>();
+	for( int i = 0; at->size() > i; i++ )
+	{
+		CppON *jt = at->at( i );
+		switch( jt->type() )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COInteger( *((COInteger *)jt ) ) );
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new CODouble( *( (CODouble *)jt ) ) );
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COString( *( (COString *)jt ) ) );
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new CONull( *( (CONull *)jt ) ) );
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COBoolean( *( (COBoolean *)jt ) ) );
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COMap( *( (COMap *)jt ) ) );
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COArray( *( (COArray *)jt ) ) );
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 COArray::COArray( COArray & at ) : CppON( ARRAY_CPPON_OBJ_TYPE )
 {
-    siz = at.size();
-    data = new vector<CppON *>();
-    for( int i = 0; at.size() > i; i++ )
-    {
-        CppON *jt = at.at( i );
-        switch( jt->type() )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COInteger( *((COInteger *)jt ) ) );
-                break;
-            case DOUBLE_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new CODouble( *( (CODouble *)jt ) ) );
-                break;
-            case STRING_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COString( *( (COString *)jt ) ) );
-                break;
-            case NULL_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new CONull( *( (CONull *)jt ) ) );
-                break;
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COBoolean( *( (COBoolean *)jt ) ) );
-                break;
-            case MAP_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COMap( *( (COMap *)jt ) ) );
-                break;
-            case ARRAY_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COArray( *( (COArray *)jt ) ) );
-                break;
-            default:
-                break;
-        }
-    }
+	siz = at.size();
+	data = new vector<CppON *>();
+	for( int i = 0; at.size() > i; i++ )
+	{
+		CppON *jt = at.at( i );
+		switch( jt->type() )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COInteger( *((COInteger *)jt ) ) );
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new CODouble( *( (CODouble *)jt ) ) );
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COString( *( (COString *)jt ) ) );
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new CONull( *( (CONull *)jt ) ) );
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COBoolean( *( (COBoolean *)jt ) ) );
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COMap( *( (COMap *)jt ) ) );
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COArray( *( (COArray *)jt ) ) );
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 void COArray::parseData( const char *str )
@@ -4260,9 +4043,8 @@ COArray::COArray( const char *path, const char *file ): CppON( ARRAY_CPPON_OBJ_T
 	std::string p( path );
 	FILE    *fp;
 
-    data = new vector<CppON *>();
-    siz = 0;
-
+	data = new vector<CppON *>();
+	siz = 0;
 	if( '/' != p.back() )
 	{
 		p += '/';
@@ -4271,626 +4053,625 @@ COArray::COArray( const char *path, const char *file ): CppON( ARRAY_CPPON_OBJ_T
 
 	if( ! stat( p.c_str(), &_stat ) && ! ( _stat.st_mode & DIRECTORY_BIT ) && (fp = fopen( p.c_str(), "r" ) ) )
 	{
-	    int     sz = 1024;
-	    char    *buf,*bSave;
-	    int     rd = 0;
-	    int     c;
+		int     sz = 1024;
+		char    *buf,*bSave;
+		int     rd = 0;
+		int     c;
 
-	    if( !( buf = (char *) malloc( sz ) ) )
-	    {
-	        fclose( fp );
-	        fprintf( stderr, "%s[%.4u]: Failed to allocate memory",__FILE__, __LINE__ );
-	    }
-	    while( EOF != ( c = fgetc( fp ) ) )
-	    {
-	        buf[ rd++ ] = ( char ) c;
-	        if( rd == sz )
-	        {
-	            if( !( buf = (char *) realloc( (void *) (bSave = buf ), sz += 512 ) ) )
-	            {
-	    	        fprintf( stderr, "%s[%.4u]: Failed to reallocate memory: %d bytes!",__FILE__, __LINE__, sz );
-	                free( bSave );
-	            }
-	        }
-	    }
-	    buf[ rd ] = '\0';
-	    fclose( fp );
-
-	    parseData( buf );
-
-	    free(buf );
+		if( !( buf = (char *) malloc( sz ) ) )
+		{
+			fclose( fp );
+			fprintf( stderr, "%s[%.4u]: Failed to allocate memory",__FILE__, __LINE__ );
+		}
+		while( EOF != ( c = fgetc( fp ) ) )
+		{
+			buf[ rd++ ] = ( char ) c;
+			if( rd == sz )
+			{
+				if( !( buf = (char *) realloc( (void *) (bSave = buf ), sz += 512 ) ) )
+				{
+					fprintf( stderr, "%s[%.4u]: Failed to reallocate memory: %d bytes!",__FILE__, __LINE__, sz );
+					free( bSave );
+				}
+			}
+		}
+		buf[ rd ] = '\0';
+		fclose( fp );
+		parseData( buf );
+		free(buf );
 	} else {
-        fprintf( stderr, "%s[%.4u]: Failed to open JSON FILE \"%s\"",__FILE__, __LINE__, p.c_str() );
+		fprintf( stderr, "%s[%.4u]: Failed to open JSON FILE \"%s\"",__FILE__, __LINE__, p.c_str() );
 	}
 }
 
 COArray::COArray( const char *str ): CppON( ARRAY_CPPON_OBJ_TYPE )
 {
-    data = new vector<CppON *>();
-    siz = 0;
-    parseData( str );
+	data = new vector<CppON *>();
+	siz = 0;
+
+	parseData( str );
 }
 
 void COArray::clear( )
 {
-    vector <CppON *> *v = ( vector<CppON *> * ) data;
-    for(unsigned int i = 0; v->size() > i; i++ )
-    {
-        delete( v->at( i ) );
-    }
+	vector <CppON *> *v = ( vector<CppON *> * ) data;
+
+	for(unsigned int i = 0; v->size() > i; i++ )
+	{
+		delete( v->at( i ) );
+	}
 }
 
 CppON *COArray::remove( size_t idx )
 {
-    vector< CppON *>  *v = ( vector<CppON *> *) data;
-    CppON *rtn = NULL;
-    if( v->size() > idx )
-    {
-        rtn = v->at( idx );
-        v->erase( v->begin() + idx );
-    }
-    return rtn;
+	vector< CppON *>  *v = ( vector<CppON *> *) data;
+	CppON *rtn = NULL;
+
+	if( v->size() > idx )
+	{
+		rtn = v->at( idx );
+		v->erase( v->begin() + idx );
+	}
+	return rtn;
 }
 
 string *COArray::toCompactJsonString( )
 {
-     std::string *rtn = new string( "[" );
+	std::string *rtn = new string( "[" );
 
-    if( data )
-    {
-        vector <CppON *> *v = ( vector <CppON *> * ) data;
-        unsigned       int i;
-        bool         first = true;
+	if( data )
+	{
+		vector <CppON *> *v = ( vector <CppON *> * ) data;
+		unsigned       int i;
+		bool         first = true;
 
-        for( i = 0; v->size() > i; i++ )
-        {
-            if( first )
-            {
-                first = false;
-            } else {
-                rtn->append( "," );
-            }
+		for( i = 0; v->size() > i; i++ )
+		{
+			if( first )
+			{
+				first = false;
+			} else {
+				rtn->append( "," );
+			}
+			CppON       *n = v->at( i );
+			std::string *sptr = NULL;
 
-            CppON       *n = v->at( i );
-            std::string *sptr = NULL;
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COInteger *) n )->toJsonString();
-                    break;
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (CODouble *) n )->toJsonString();
-                    break;
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COString *) n )->toJsonString();
-                    break;
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( ( COBoolean *) n )->toJsonString();
-                    break;
-                case MAP_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COMap *) n )->toCompactJsonString();
-                    break;
-                case ARRAY_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COArray *) n )->toCompactJsonString( );
-                    break;
-                case NULL_CPPON_OBJ_TYPE:
-                    fprintf( stderr, "COArray: toJsonString -> Dropping NULL\n" );
-                    break;
-                default:
-                    break;
-            }
-            if( sptr )
-            {
-                *rtn += *sptr;
-                delete sptr;
-            }
-        }
-    }
-    *rtn += ']';
-    return rtn;
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COInteger *) n )->toJsonString();
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (CODouble *) n )->toJsonString();
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COString *) n )->toJsonString();
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( ( COBoolean *) n )->toJsonString();
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COMap *) n )->toCompactJsonString();
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COArray *) n )->toCompactJsonString( );
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					fprintf( stderr, "COArray: toJsonString -> Dropping NULL\n" );
+					break;
+				default:
+					break;
+			}
+			if( sptr )
+			{
+				*rtn += *sptr;
+				delete sptr;
+			}
+		}
+	}
+	*rtn += ']';
+	return rtn;
 }
 
 string *COArray::toJsonString( std::string &indent )
 {
-    std::string *rtn = new string( indent.c_str() );
-    rtn->append( "[\n" );
+	std::string											*rtn 		= new string( indent.c_str() );
 
-    if( data )
-    {
-        vector <CppON *> *v = ( vector <CppON *> * ) data;
-        unsigned       int i;
-        bool         first = true;
-        std::string                       newIndent = indent;
+	rtn->append( "[\n" );
+	if( data )
+	{
+		vector <CppON *> *v = ( vector <CppON *> * )	data;
+		unsigned										int i;
+		bool											first		= true;
+		std::string										newIndent	= indent;
 
-        newIndent.append( "  " );
+		newIndent.append( "  " );
+		for( i = 0; v->size() > i; i++ )
+		{
+			if( first )
+			{
+				first = false;
+			} else {
+				rtn->append( ",\n");
+			}
+			rtn->append( newIndent.c_str() );
 
-        for( i = 0; v->size() > i; i++ )
-        {
-            if( first )
-            {
-                first = false;
-            } else {
-                rtn->append( ",\n");
-            }
-            rtn->append( newIndent.c_str() );
+			CppON										*n 			= v->at( i );
+			std::string 								*sptr		= NULL;
 
-            CppON       *n = v->at( i );
-            std::string *sptr = NULL;
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COInteger *) n )->toJsonString();
-                    break;
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (CODouble *) n )->toJsonString();
-                    break;
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COString *) n )->toJsonString();
-                    break;
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( ( COBoolean *) n )->toJsonString();
-                    break;
-                case MAP_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COMap *) n )->toJsonString( newIndent );
-                    break;
-                case ARRAY_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COArray *) n )->toJsonString( newIndent );
-                    break;
-                case NULL_CPPON_OBJ_TYPE:
-                    fprintf( stderr, "COArray: toJsonString -> Dropping NULL\n" );
-                    break;
-                default:
-                    break;
-            }
-            if( sptr )
-            {
-                *rtn += *sptr;
-                delete sptr;
-            }
-        }
-    }
-    *rtn += '\n';
-    rtn->append( indent.c_str() );
-    *rtn += ']';
-    return rtn;
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COInteger *) n )->toJsonString();
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (CODouble *) n )->toJsonString();
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COString *) n )->toJsonString();
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( ( COBoolean *) n )->toJsonString();
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COMap *) n )->toJsonString( newIndent );
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COArray *) n )->toJsonString( newIndent );
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					fprintf( stderr, "COArray: toJsonString -> Dropping NULL\n" );
+					break;
+				default:
+					break;
+			}
+			if( sptr )
+			{
+				*rtn += *sptr;
+				delete sptr;
+			}
+		}
+	}
+	*rtn += '\n';
+	rtn->append( indent.c_str() );
+	*rtn += ']';
+	return rtn;
 }
 
 string *COArray::toNetString()
 {
-    if( data )
-    {
-        vector <CppON *> *v = ( vector <CppON *> * ) data;
-        unsigned       int i;
-        std::string    rt;
+	if( data )
+	{
+		vector <CppON *>	*v = ( vector <CppON *> * ) data;
+		unsigned			int i;
+		std::string			rt;
 
-        for( i = 0; v->size() > i; i++ )
-        {
-            CppON * n = v->at( i );
-            std::string *sptr = NULL;
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COInteger *) n )->toNetString();
-                    break;
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (CODouble *) n )->toNetString();
-                    break;
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COString *) n )->toNetString();
-                    break;
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( ( COBoolean *) n )->toNetString();
-                    break;
-                case MAP_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COMap *) n )->toNetString();
-                    break;
-                case ARRAY_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    sptr = ( (COArray *) n )->toNetString();
-                    break;
-                case NULL_CPPON_OBJ_TYPE:
-                    fprintf( stderr, "COArray: toNetString -> Dropping NULL\n" );
-                    break;
-                default:
-                    break;
-            }
-            if( sptr )
-            {
-                rt += *sptr;
-                delete sptr;
-            }
-        }
-        return CppON::toNetString( rt.c_str(), ']' );
-    }
+		for( i = 0; v->size() > i; i++ )
+		{
+			CppON * n = v->at( i );
+			std::string *sptr = NULL;
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COInteger *) n )->toNetString();
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (CODouble *) n )->toNetString();
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COString *) n )->toNetString();
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( ( COBoolean *) n )->toNetString();
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COMap *) n )->toNetString();
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					sptr = ( (COArray *) n )->toNetString();
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					fprintf( stderr, "COArray: toNetString -> Dropping NULL\n" );
+					break;
+				default:
+					break;
+			}
+			if( sptr )
+			{
+				rt += *sptr;
+				delete sptr;
+			}
+		}
+		return CppON::toNetString( rt.c_str(), ']' );
+	}
 
-  return NULL;
+	return NULL;
 }
 
 const char  *COArray::c_str( std::string &idnt )
 {
-    str = "[";
-    if( data )
-    {
-        vector <CppON *> *v = ( vector <CppON *> * )  data;
-        unsigned                                          i;
-        const char                                        *comma = "\n";
-        std::string                                       indent = idnt;
+	str = "[";
+	if( data )
+	{
+		vector <CppON *> *v = ( vector <CppON *> * )	data;
+		unsigned										i;
+		const char										*comma = "\n";
+		std::string										indent = idnt;
 
-        for( i = 0; v->size() > i; i++ )
-        {
-            CppON *n = v->at( i );
-            str.append( comma );
-            comma = ",\n";
-            str.append( indent );
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( (COInteger *) n )->c_str();
-                    break;
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( (CODouble *) n )->c_str();
-                    break;
-                case STRING_CPPON_OBJ_TYPE:
-                    str += '"';
-                    // cppcheck-suppress cstyleCast
-                    str += ( ( COString *) n )->c_str();
-                    str += '"';
-                    break;
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( ( COBoolean *) n )->c_str();
-                    break;
-                case NULL_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( ( CONull *) n )->c_str();
-                    break;
-                case MAP_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( (COMap *) n )->c_str( indent );
-                    break;
-                case ARRAY_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    str += ( (COArray *) n )->c_str( indent );
-                    break;
-                default:
-                    break;
-            }
-        }
-        str += '\n';
-    }
-    str += ']';
-    return str.c_str();
+		for( i = 0; v->size() > i; i++ )
+		{
+			CppON *n = v->at( i );
+
+			str.append( comma );
+			comma = ",\n";
+			str.append( indent );
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( (COInteger *) n )->c_str();
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( (CODouble *) n )->c_str();
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					str += '"';
+					// cppcheck-suppress cstyleCast
+					str += ( ( COString *) n )->c_str();
+					str += '"';
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( ( COBoolean *) n )->c_str();
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( ( CONull *) n )->c_str();
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( (COMap *) n )->c_str( indent );
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					str += ( (COArray *) n )->c_str( indent );
+					break;
+				default:
+					break;
+			}
+		}
+		str += '\n';
+	}
+	str += ']';
+	return str.c_str();
 }
 
 void COArray::dump( string &indent, FILE *fp )
 {
-    if( data )
-    {
-        vector <CppON *> *v = ( vector <CppON *> * ) data;
-        unsigned                                         i;
-        string                                           newIndent = indent;
-        bool                                             first = true;
+	if( data )
+	{
+		vector <CppON *> *v = ( vector <CppON *> * )	data;
+		unsigned										i;
+		string											newIndent	= indent;
+		bool											first		= true;
 
-        newIndent += "\t";
-        fprintf( fp, "%s[",indent.c_str() );
-
-        for( i = 0; v->size() > i; i++ )
-        {
-            CppON *n = v->at( i );
-            if( first )
-            {
-                fprintf( fp,"\n%s", newIndent.c_str() );
-                first = false;
-            } else {
-                fprintf( fp, ",\n%s", newIndent.c_str() );
-            }
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (COInteger *) n )->dump( fp );
-                    break;
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (CODouble *) n )->dump( fp );
-                    break;
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (COString *) n )->dump( fp );
-                    break;
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( ( COBoolean *) n )->dump( fp );
-                    break;
-                case MAP_CPPON_OBJ_TYPE:
-                    fprintf( fp, "\n");
-                    // cppcheck-suppress cstyleCast
-                    ( (COMap *) n )->dump( newIndent, fp );
-                    break;
-                case ARRAY_CPPON_OBJ_TYPE:
-                    fprintf( fp, "\n");
-                    // cppcheck-suppress cstyleCast
-                    ( (COArray *) n )->dump( newIndent, fp );
-                    break;
-                case NULL_CPPON_OBJ_TYPE:
-                    fprintf( stderr, "COArray: dump -> Dropping NULL\n" );
-                    break;
-                default:
-                    break;
-            }
-        }
-        fprintf( fp, "\n%s]",indent.c_str() );
-    } else {
-        fprintf( fp, "NULL" );
-    }
+		newIndent += "\t";
+		fprintf( fp, "%s[",indent.c_str() );
+		for( i = 0; v->size() > i; i++ )
+		{
+			CppON *n = v->at( i );
+			if( first )
+			{
+				fprintf( fp,"\n%s", newIndent.c_str() );
+				first = false;
+			} else {
+				fprintf( fp, ",\n%s", newIndent.c_str() );
+			}
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (COInteger *) n )->dump( fp );
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (CODouble *) n )->dump( fp );
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (COString *) n )->dump( fp );
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( ( COBoolean *) n )->dump( fp );
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					fprintf( fp, "\n");
+					// cppcheck-suppress cstyleCast
+					( (COMap *) n )->dump( newIndent, fp );
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					fprintf( fp, "\n");
+					// cppcheck-suppress cstyleCast
+					( (COArray *) n )->dump( newIndent, fp );
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					fprintf( stderr, "COArray: dump -> Dropping NULL\n" );
+					break;
+				default:
+					break;
+			}
+		}
+		fprintf( fp, "\n%s]",indent.c_str() );
+	} else {
+		fprintf( fp, "NULL" );
+	}
 }
 void COArray::cdump( FILE *fp )
 {
-    if( data )
-    {
-        vector <CppON *> *v = ( vector <CppON *> * ) data;
-        unsigned                                         i;
-        bool                                             first = true;
+	if( data )
+	{
+		vector <CppON *> *v = ( vector <CppON *> * )	data;
+		unsigned										i;
+		bool											first = true;
 
-        fprintf( fp, "[");
-
-        for( i = 0; v->size() > i; i++ )
-        {
-            CppON *n = v->at( i );
-            if( first )
-            {
-                first = false;
-            } else {
-                fprintf( fp, "," );
-            }
-            switch ( n->type() )
-            {
-                case INTEGER_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (COInteger *) n )->cdump( fp );
-                    break;
-                case DOUBLE_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (CODouble *) n )->cdump( fp );
-                    break;
-                case STRING_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( (COString *) n )->cdump( fp );
-                    break;
-                case BOOLEAN_CPPON_OBJ_TYPE:
-                    // cppcheck-suppress cstyleCast
-                    ( ( COBoolean *) n )->cdump( fp );
-                    break;
-                case MAP_CPPON_OBJ_TYPE:
-                    fprintf( fp, "\"\n\"");
-                    // cppcheck-suppress cstyleCast
-                    ( (COMap *) n )->cdump( fp );
-                    break;
-                case ARRAY_CPPON_OBJ_TYPE:
-                    fprintf( fp, "\"\n\"");
-                    // cppcheck-suppress cstyleCast
-                    ( (COArray *) n )->cdump( fp );
-                    break;
-                case NULL_CPPON_OBJ_TYPE:
-                    fprintf( stderr, "COArray: cdump -> Dropping NULL\n" );
-                    break;
-                default:
-                    break;
-            }
-        }
-        fprintf( fp, "]" );
-    } else {
-        fprintf( fp, "[]" );
-    }
+		fprintf( fp, "[");
+		for( i = 0; v->size() > i; i++ )
+		{
+			CppON *n = v->at( i );
+			if( first )
+			{
+				first = false;
+			} else {
+				fprintf( fp, "," );
+			}
+			switch ( n->type() )
+			{
+				case INTEGER_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (COInteger *) n )->cdump( fp );
+					break;
+				case DOUBLE_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (CODouble *) n )->cdump( fp );
+					break;
+				case STRING_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( (COString *) n )->cdump( fp );
+					break;
+				case BOOLEAN_CPPON_OBJ_TYPE:
+					// cppcheck-suppress cstyleCast
+					( ( COBoolean *) n )->cdump( fp );
+					break;
+				case MAP_CPPON_OBJ_TYPE:
+					fprintf( fp, "\"\n\"");
+					// cppcheck-suppress cstyleCast
+					( (COMap *) n )->cdump( fp );
+					break;
+				case ARRAY_CPPON_OBJ_TYPE:
+					fprintf( fp, "\"\n\"");
+					// cppcheck-suppress cstyleCast
+					( (COArray *) n )->cdump( fp );
+					break;
+				case NULL_CPPON_OBJ_TYPE:
+					fprintf( stderr, "COArray: cdump -> Dropping NULL\n" );
+					break;
+				default:
+					break;
+			}
+		}
+		fprintf( fp, "]" );
+	} else {
+		fprintf( fp, "[]" );
+	}
 }
 
 COArray  *COArray::diff( COArray &newObj, const char *name )
 {
-    COArray                           *rtn   = new COArray();
-    COMap                             *nv;
-    COString                          *vS;
-    COArray                           *na;
-    vector< CppON *>::iterator      it;
-    vector< CppON *>::iterator      nt;
-    vector< CppON *>                *v     = ( vector <CppON *> * ) data;
-    vector< CppON *>                *u     = ( vector <CppON *> * ) newObj.data;
-    it = v->begin();
-    // cppcheck-suppress postfixOperator
-    for( nt = u->begin(); u->end() != nt; nt++ )
-    {
-        CppON  *n;
-        CppON  *obj = NULL;
-        COString *uS;
-        // cppcheck-suppress cstyleCast
-        if( CppON::isMap( obj = (CppON *) *nt ) && name && CppON::isString( uS = (COString *)( ( COMap * ) obj)->findElement( name ) ) )   // If array of maps look for name
-        {
-            // cppcheck-suppress postfixOperator
-            for( it = v->begin(); v->end() != it; it++ )
-            {
-                // cppcheck-suppress cstyleCast
-                if( CppON::isMap( n = (CppON *) *it ) && CppON::isString( vS = (COString *) ( ( COMap * ) n )->findElement( name ) ) && !strcmp( uS->c_str(), vS->c_str( ) ) )
-                {
-                    // cppcheck-suppress cstyleCast
-                    if( (nv = ((COMap *) n )->diff( *((COMap *) obj ), name ) ) )
-                    {
-                        delete( nv );      // send whole map
-                        // cppcheck-suppress cstyleCast
-                        rtn->append( new COMap( *( ( COMap * ) obj ) ) );
-                        break;
-                    }
-                }
-            }
-        } else if( it != v->end() ) {
-            obj = ( CppON * ) *nt;
-            n = ( CppON * ) *it;
-            if( obj->type() == n->type() )
-            {
-                switch ( obj->type() )
-                {
-                    case INTEGER_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( *((COInteger *) n ) != *((COInteger *) obj ) )
-                        {
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( new COInteger( *((COInteger *) obj) ) );
-                        }
-                        break;
+	COArray							*rtn	= new COArray();
+	COMap							*nv;
+	COString						*vS;
+	COArray							*na;
+	vector< CppON *>::iterator		it;
+	vector< CppON *>::iterator		nt;
+	vector< CppON *>				*v		= ( vector <CppON *> * ) data;
+	vector< CppON *>				*u		= ( vector <CppON *> * ) newObj.data;
 
-                    case DOUBLE_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( *((CODouble *) n ) != *((CODouble *) obj ) )
-                        {
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( new CODouble( *((CODouble *) obj) ) );
-                        }
-                        break;
+	it = v->begin();
+	// cppcheck-suppress postfixOperator
+	for( nt = u->begin(); u->end() != nt; nt++ )
+	{
+		CppON						*n;
+		CppON						*obj	= NULL;
+		COString					*uS;
 
-                    case STRING_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( *((COString *) n ) != *((COString *) obj ) )
-                        {
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( new COString( *((COString *) obj) ) );
-                        }
-                        break;
-
-                    case BOOLEAN_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( *((COBoolean *) n ) != *((COBoolean *) obj ) )
-                        {
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( new COBoolean( *((COBoolean *) obj) ) );
-                        }
-                        break;
-
-                    case NULL_CPPON_OBJ_TYPE:
-                        fprintf( stderr, "COArray: diff - Dropping NULL\n" );
-                        break;
-                    case MAP_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( (nv = ((COMap *) n )->diff( *((COMap *) obj ) ) ) )
-                        {
-                            delete (nv);                                                  // send whole map
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( new COMap(  *((COMap *) obj ) ) );
-                        }
-                        break;
-                    case ARRAY_CPPON_OBJ_TYPE:
-                        // cppcheck-suppress cstyleCast
-                        if( (na = ( (COArray *) n )->diff( *( ( COArray *) obj ) ) ) )
-                        {
-                            delete (na);                                                  // send whole map
-                            // cppcheck-suppress cstyleCast
-                            rtn->append( new COArray(  *((COArray *) obj ) ) );
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-            // cppcheck-suppress postfixOperator
-            it++;
-        }
-    }
-    if(!rtn->size() )
-    {
-        delete rtn;
-        rtn = NULL;
-    }
-    return rtn;
+		// cppcheck-suppress cstyleCast
+		if( CppON::isMap( obj = (CppON *) *nt ) && name && CppON::isString( uS = (COString *)( ( COMap * ) obj)->findElement( name ) ) )   // If array of maps look for name
+		{
+			// cppcheck-suppress postfixOperator
+			for( it = v->begin(); v->end() != it; it++ )
+			{
+				// cppcheck-suppress cstyleCast
+				if( CppON::isMap( n = (CppON *) *it ) && CppON::isString( vS = (COString *) ( ( COMap * ) n )->findElement( name ) ) && !strcmp( uS->c_str(), vS->c_str( ) ) )
+				{
+					// cppcheck-suppress cstyleCast
+					if( (nv = ((COMap *) n )->diff( *((COMap *) obj ), name ) ) )
+					{
+						delete( nv );      // send whole map
+						// cppcheck-suppress cstyleCast
+						rtn->append( new COMap( *( ( COMap * ) obj ) ) );
+						break;
+					}
+				}
+			}
+		} else if( it != v->end() ) {
+			obj	= ( CppON * ) *nt;
+			n = ( CppON * ) *it;
+			if( obj->type() == n->type() )
+			{
+				switch ( obj->type() )
+				{
+					case INTEGER_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( *((COInteger *) n ) != *((COInteger *) obj ) )
+						{
+							// cppcheck-suppress cstyleCast
+							rtn->append( new COInteger( *((COInteger *) obj) ) );
+						}
+						break;
+					case DOUBLE_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( *((CODouble *) n ) != *((CODouble *) obj ) )
+						{
+							// cppcheck-suppress cstyleCast
+							rtn->append( new CODouble( *((CODouble *) obj) ) );
+						}
+						break;
+					case STRING_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( *((COString *) n ) != *((COString *) obj ) )
+						{
+							// cppcheck-suppress cstyleCast
+							rtn->append( new COString( *((COString *) obj) ) );
+						}
+						break;
+					case BOOLEAN_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( *((COBoolean *) n ) != *((COBoolean *) obj ) )
+						{
+							// cppcheck-suppress cstyleCast
+							rtn->append( new COBoolean( *((COBoolean *) obj) ) );
+						}
+						break;
+					case NULL_CPPON_OBJ_TYPE:
+						fprintf( stderr, "COArray: diff - Dropping NULL\n" );
+						break;
+					case MAP_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( (nv = ((COMap *) n )->diff( *((COMap *) obj ) ) ) )
+						{
+							delete (nv);                                                  // send whole map
+							// cppcheck-suppress cstyleCast
+							rtn->append( new COMap(  *((COMap *) obj ) ) );
+						}
+						break;
+					case ARRAY_CPPON_OBJ_TYPE:
+						// cppcheck-suppress cstyleCast
+						if( (na = ( (COArray *) n )->diff( *( ( COArray *) obj ) ) ) )
+						{
+							delete (na);                                                  // send whole map
+							// cppcheck-suppress cstyleCast
+							rtn->append( new COArray(  *((COArray *) obj ) ) );
+						}
+						break;
+					default:
+						break;
+				}
+			}
+			// cppcheck-suppress postfixOperator
+			it++;
+		}
+	}
+	if(!rtn->size() )
+	{
+		delete rtn;
+		rtn = NULL;
+	}
+	return rtn;
 }
 
 COArray *COArray::operator=( COArray &val )
 {
-    if( data )
-    {
-        vector <CppON *> *v = ( vector<CppON *> * ) data;
-        for(unsigned int i = 0; v->size() > i; i++ )
-        {
-            delete( v->at( i ) );
-        }
-        v->clear();
-    } else {
-        data = new vector<CppON *>();
-    }
-    siz = val.size();
+	if( data )
+	{
+		vector <CppON *> *v = ( vector<CppON *> * ) data;
 
-    for( int i = 0; val.size() > i; i++ )
-    {
-        CppON *jt = val.at( i );
+		for(unsigned int i = 0; v->size() > i; i++ )
+		{
+			delete( v->at( i ) );
+		}
+		v->clear();
+	} else {
+		data = new vector<CppON *>();
+	}
+	siz = val.size();
 
-        switch( jt->type() )
-        {
-            case INTEGER_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COInteger( *((COInteger *)jt ) ) );
-                break;
-            case DOUBLE_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new CODouble( *( (CODouble *)jt ) ) );
-                break;
-            case STRING_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COString( *( (COString *)jt ) ) );
-                break;
-            case NULL_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new CONull( *( (CONull *)jt ) ) );
-                break;
-            case BOOLEAN_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COBoolean( *( (COBoolean *)jt ) ) );
-                break;
-            case MAP_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COMap( *( (COMap *)jt ) ) );
-                break;
-            case ARRAY_CPPON_OBJ_TYPE:
-                // cppcheck-suppress cstyleCast
-                append( new COArray( *( (COArray *)jt ) ) );
-                break;
-            default:
-                break;
-        }
-    }
-    return this;
+	for( int i = 0; val.size() > i; i++ )
+	{
+		CppON *jt = val.at( i );
+
+		switch( jt->type() )
+		{
+			case INTEGER_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COInteger( *((COInteger *)jt ) ) );
+				break;
+			case DOUBLE_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new CODouble( *( (CODouble *)jt ) ) );
+				break;
+			case STRING_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COString( *( (COString *)jt ) ) );
+				break;
+			case NULL_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new CONull( *( (CONull *)jt ) ) );
+				break;
+			case BOOLEAN_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COBoolean( *( (COBoolean *)jt ) ) );
+				break;
+			case MAP_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COMap( *( (COMap *)jt ) ) );
+				break;
+			case ARRAY_CPPON_OBJ_TYPE:
+				// cppcheck-suppress cstyleCast
+				append( new COArray( *( (COArray *)jt ) ) );
+				break;
+			default:
+				break;
+		}
+	}
+	return this;
 }
 
 bool COArray::operator == ( COArray &val )
 {
-    // cppcheck-suppress cstyleCast
-    if( val.size() != ((COArray*)this)->size() )
-    {
-        return false;
-    }
-    for( int i = 0; val.size() > i; i++ )
-    {
-        // cppcheck-suppress cstyleCast
-        if( ! ( val.at( i ) == ((COArray*)this)->at( i ) ) )
-        {
-            return false;
-        }
-    }
-    return true;
+	// cppcheck-suppress cstyleCast
+	if( val.size() != ((COArray*)this)->size() )
+	{
+		return false;
+	}
+	for( int i = 0; val.size() > i; i++ )
+	{
+		// cppcheck-suppress cstyleCast
+		if( ! ( val.at( i ) == ((COArray*)this)->at( i ) ) )
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 /****************************************************************************************/
@@ -4906,7 +4687,7 @@ COString::COString( COString *st ) : CppON( STRING_CPPON_OBJ_TYPE )
 
 COString::COString( COString &st ) : CppON( STRING_CPPON_OBJ_TYPE )
 {
-    data = ( st.data ) ? new std::string( ( ( std::string *) st.data )->c_str() ): NULL;
+	data = ( st.data ) ? new std::string( ( ( std::string *) st.data )->c_str() ): NULL;
 }
 
 COString::COString( std::string st ) : CppON( STRING_CPPON_OBJ_TYPE )
@@ -4918,18 +4699,18 @@ COString::COString( std::string st ) : CppON( STRING_CPPON_OBJ_TYPE )
 		char ch = st[ i ];
 		switch( ch )
 		{
-        	case '"':
-        		rst.append( "%22" );
-        		break;
-        	case '%':
-        		rst.append( "%25" );
-        		break;
-        	case '\0':
-        		rst.append( "%00" );
-        		break;
-        	default:
-        		rst.push_back( ch );
-        		break;
+			case '"':
+				rst.append( "%22" );
+				break;
+			case '%':
+				rst.append( "%25" );
+				break;
+			case '\0':
+				rst.append( "%00" );
+				break;
+			default:
+				rst.push_back( ch );
+				break;
 		}
 	}
 	data = new std::string( rst.c_str() );
@@ -4946,18 +4727,18 @@ COString::COString( std::string st, bool base64 ) : CppON( STRING_CPPON_OBJ_TYPE
 			char ch = st[ i ];
 			switch( ch )
 			{
-            	case '"':
-            		rst.append( "%22" );
-            		break;
-            	case '%':
-            		rst.append( "%25" );
-            		break;
-            	case '\0':
-            		rst.append( "%00" );
-            		break;
-            	default:
-            		rst.push_back( ch );
-            		break;
+				case '"':
+					rst.append( "%22" );
+					break;
+				case '%':
+					rst.append( "%25" );
+					break;
+				case '\0':
+					rst.append( "%00" );
+					break;
+				default:
+					rst.push_back( ch );
+					break;
 			}
 		}
 		data = new std::string( rst.c_str() );
@@ -5006,6 +4787,7 @@ COString::COString( const char *st, bool base64) : CppON( STRING_CPPON_OBJ_TYPE 
 COString::COString( uint64_t val, bool hex ) : CppON( STRING_CPPON_OBJ_TYPE )
 {
 	char buf[ 32 ];
+
 #if SIXTY_FOUR_BIT
 	if( hex )
 	{
@@ -5020,13 +4802,13 @@ COString::COString( uint64_t val, bool hex ) : CppON( STRING_CPPON_OBJ_TYPE )
 	} else {
 		snprintf( buf, 31, "%llu", val );
 	}
-
 #endif
 	data = new std::string( buf );
 }
 COString::COString( uint32_t val, bool hex ) : CppON( STRING_CPPON_OBJ_TYPE )
 {
 	char buf[ 24 ];
+
 	if( hex )
 	{
 		snprintf( buf, 23, "0x%.8X", val );
@@ -5038,6 +4820,7 @@ COString::COString( uint32_t val, bool hex ) : CppON( STRING_CPPON_OBJ_TYPE )
 COString *COString::operator = ( uint64_t val )
 {
 	char buf[ 32 ];
+
 #if SIXTY_FOUR_BIT
 	if( data && '0' == ((std::string *) data)->at( 0 )  )
 	{
@@ -5064,6 +4847,7 @@ COString *COString::operator = ( uint64_t val )
 COString *COString::operator = ( uint32_t val )
 {
 	char buf[ 24 ];
+
 	if( data && '0' == ((std::string *) data)->at( 0 ) )
 	{
 		snprintf( buf, 23, "0x%.16X", val );
@@ -5081,6 +4865,7 @@ COString *COString::operator = ( uint32_t val )
 COString *COString::operator = ( int val )
 {
 	char buf[ 24 ];
+
 	snprintf( buf, 23, "%d", val );
 
 	if( data )
@@ -5094,50 +4879,49 @@ COString *COString::operator = ( int val )
 // cppcheck-suppress unusedFunction
 std::string *COString::toString()
 {
-    char        *cPtr = (char *) data;
-    char        ch;
-    std::string *rtn = new string();
+	char			*cPtr = (char *) data;
+	char			ch;
+	std::string		*rtn = new string();
 
-    while( 0 != (ch = *cPtr++ ) )
-    {
-        if( '%' == ch )
-        {
-            ch = ( ( *cPtr++ - '0' ) << 4 );
-            ch += (*cPtr++ - '0' );
-        }
-        rtn->push_back( ch );
-    }
-    rtn->push_back( '\0' );
-    return rtn;
+	while( 0 != (ch = *cPtr++ ) )
+	{
+		if( '%' == ch )
+		{
+			ch = ( ( *cPtr++ - '0' ) << 4 );
+			ch += (*cPtr++ - '0' );
+		}
+		rtn->push_back( ch );
+	}
+	rtn->push_back( '\0' );
+	return rtn;
 };
 
 string *COString::toNetString()
 {
-    return CppON::toNetString( ( ( std::string *) data )->c_str(), ',' );
+	return CppON::toNetString( ( ( std::string *) data )->c_str(), ',' );
 }
 
 static unsigned char dtab[] = { 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x0A, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x3E, 0x80, 0x80, 0x80, 0x3F,
-                0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x80, 0x80, 0x80, 0x00, 0x80, 0x80,
-                0x80, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E,
-                0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28,
-                0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x32, 0x33, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00};
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x3E, 0x80, 0x80, 0x80, 0x3F,
+								0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x80, 0x80, 0x80, 0x00, 0x80, 0x80,
+								0x80, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E,
+								0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28,
+								0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x32, 0x33, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+								0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00};
 
-static unsigned char etable[] = {0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,0x50,
-            0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5A,0x61,0x62,0x63,0x64,0x65,0x66,
-            0x67,0x68,0x69,0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,0x70,0x71,0x72,0x73,0x74,0x75,0x76,
-            0x77,0x78,0x79,0x7A,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x2B,0x2F};
-
+static unsigned char etable[] ={0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,0x50,
+								0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5A,0x61,0x62,0x63,0x64,0x65,0x66,
+								0x67,0x68,0x69,0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,0x70,0x71,0x72,0x73,0x74,0x75,0x76,
+								0x77,0x78,0x79,0x7A,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x2B,0x2F};
 
 /*
  * Decode Base64 encoded strings
@@ -5145,21 +4929,19 @@ static unsigned char etable[] = {0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x
  */
 char *COString::base64Decode( const char *tmp, unsigned int sz, unsigned int &len, char	*out )
 {
-	int i;
-	int ch;
-	unsigned char a[ 4 ],b[ 4 ];
+	int 			i;
+	int 			ch;
+	unsigned char	a[ 4 ],b[ 4 ];
 
 	len = 0;
 	if( ! tmp || 1 > sz )
     {
 		return NULL;
     }
-
 	if( ! out )
 	{
 		out = new char[ sz + 3 ];
 	}
-
 	while( *tmp != 0 )
 	{
 		if( 0x0A == *tmp )
@@ -5195,41 +4977,40 @@ char *COString::base64Decode( const char *tmp, unsigned int sz, unsigned int &le
 
 std::string *COString::toBase64JsonString( const char *cPtr, unsigned int len )
 {
-	unsigned char o[ ( ( len * 4 ) / 3 ) + 4 ];  									// Make sure it is big enough to hold the output data
-	unsigned char ig[ 3 ];
-	unsigned char c;
-	int n;
-	unsigned char *ot = o;
-	bool done=false;
+	unsigned char	o[ ( ( len * 4 ) / 3 ) + 4 ];  									// Make sure it is big enough to hold the output data
+	unsigned char	ig[ 3 ];
+	unsigned char	c;
+	int 			n;
+	unsigned char	*ot 							= 	o;
+	bool 			done							=	false;
 
 	while( !done )
 	{
 		ig[ 0 ] = ig[ 1 ] = ig[ 2 ] = 0;
-	    for( n = 0; 3 > n; n++ )
-	    {
-	    	if((c = (unsigned char)*cPtr++) == 0)  // end of input string so we are done....
-	    	{
-	    		done = true;
-	    		break;
-	    	}
-	    	ig[ n ] = c;
-	    }
-	    if( 0 < n )
-	    {
-	    	*ot++ = etable[ ig[ 0 ] >> 2 ];
-	    	*ot++ = etable[ ( ( ig[ 0 ] & 3) << 4 ) | ig[ 1 ] >> 4 ];
-	    	*ot++ = etable[ ( ( ig[ 1 ] &0x0f ) << 2 ) | ( ig[ 2 ] >> 6 ) ];
-	    	*ot++ = etable[ ig[ 2 ] & 0x3f ];
-
-	    	if( 3 > n )                 // If we kicked out before getting all 3 input bytes then replace with '='
-	    	{
-	    		ot[ -1 ] = '=';
-	    		if(2 > n )
-	    		{
-	    			ot[ -2 ] = '=';
-	    		}
-	    	}
-	    }
+		for( n = 0; 3 > n; n++ )
+		{
+			if((c = (unsigned char)*cPtr++) == 0)  // end of input string so we are done....
+			{
+				done = true;
+				break;
+			}
+			ig[ n ] = c;
+		}
+		if( 0 < n )
+		{
+			*ot++ = etable[ ig[ 0 ] >> 2 ];
+			*ot++ = etable[ ( ( ig[ 0 ] & 3) << 4 ) | ig[ 1 ] >> 4 ];
+			*ot++ = etable[ ( ( ig[ 1 ] &0x0f ) << 2 ) | ( ig[ 2 ] >> 6 ) ];
+			*ot++ = etable[ ig[ 2 ] & 0x3f ];
+			if( 3 > n )                 // If we kicked out before getting all 3 input bytes then replace with '='
+			{
+				ot[ -1 ] = '=';
+				if(2 > n )
+				{
+					ot[ -2 ] = '=';
+				}
+			}
+		}
 	}
 	*ot = '\0';
 	return new std::string( (char *) o );
@@ -5237,71 +5018,72 @@ std::string *COString::toBase64JsonString( const char *cPtr, unsigned int len )
 
 string *COString::toJsonString()
 {
-    if( ! data )
-    {
-        return NULL;
-    }
-    unsigned int len = ( ( std::string *) data)->length();
-    const char *cPtr =  ( ( std::string *) data)->c_str();
-    string *rtn = new string( "\"" );
-    for(unsigned int i = 0; len > i; i++)
-    {
-        char ch = cPtr[ i ];
-        switch( ch )
-        {
-            case '"':
-                rtn->append( "%22");
-                break;
-            case '{':
-                rtn->append( "%7B" );
-                break;
-            case '}':
-                rtn->append( "%7D" );
-                break;
-            case '<':
-                rtn->append( "%3C" );
-                break;
-            case '>':
-                rtn->append( "%3E" );
-                break;
-            case '\\':
-                rtn->append( "%5C" );
-                break;
-            case '\'':
-                rtn->append( "%60" );
-                break;
-            case '^':
-                rtn->append( "%5E" );
-                break;
-            case '&':
-                rtn->append( "%26" );
-                break;
-            case '\r':
-                rtn->append( "%0D" );
-                break;
-            case '\n':
-            case '\a':
-                rtn->append( "%0A" );
-                break;
-            case '\t':
-                rtn->push_back( ' ' );
-                break;
-            default:
-                rtn->push_back( ch );
-                break;
-        }
-    }
-    rtn->push_back( '"');
-    return rtn;
+	if( ! data )
+	{
+		return NULL;
+	}
+	unsigned int	len 	= ( ( std::string *) data)->length();
+	const char		*cPtr	=  ( ( std::string *) data)->c_str();
+	string			*rtn	= new string( "\"" );
+
+	for(unsigned int i = 0; len > i; i++)
+	{
+		char ch = cPtr[ i ];
+		switch( ch )
+		{
+			case '"':
+				rtn->append( "%22");
+				break;
+			case '{':
+				rtn->append( "%7B" );
+				break;
+			case '}':
+				rtn->append( "%7D" );
+				break;
+			case '<':
+				rtn->append( "%3C" );
+				break;
+			case '>':
+				rtn->append( "%3E" );
+				break;
+			case '\\':
+				rtn->append( "%5C" );
+				break;
+			case '\'':
+				rtn->append( "%60" );
+				break;
+			case '^':
+				rtn->append( "%5E" );
+				break;
+			case '&':
+				rtn->append( "%26" );
+				break;
+			case '\r':
+				rtn->append( "%0D" );
+				break;
+			case '\n':
+			case '\a':
+				rtn->append( "%0A" );
+				break;
+			case '\t':
+				rtn->push_back( ' ' );
+				break;
+			default:
+				rtn->push_back( ch );
+				break;
+		}
+	}
+	rtn->push_back( '"');
+	return rtn;
 }
 
 void COString::dump( FILE *fp)
 {
-    fprintf( fp, "\"%s\"", ( data ) ? ((std::string *) data)->c_str() : "\"\"" );
+	fprintf( fp, "\"%s\"", ( data ) ? ((std::string *) data)->c_str() : "\"\"" );
 }
 void COString::cdump( FILE *fp )
 {
-    fprintf( fp, "\\\"%s\\\"", ( data ) ? ((std::string *) data)->c_str() : "\"\"" );
+	fprintf( fp, "\\\"%s\\\"", ( data ) ? ((std::string *) data)->c_str() : "\"\"" );
 }
 
 /****************************************************************************************/
@@ -5312,143 +5094,143 @@ void COString::cdump( FILE *fp )
 
 CODouble::CODouble( CODouble *dt ) : CppON( DOUBLE_CPPON_OBJ_TYPE )
 {
-    if( ! data )
-    {
-        data = new ( double );
-    }
-    *((double *) data) = dt->doubleValue();
-    precision = dt->Precision();
+	if( ! data )
+	{
+		data = new ( double );
+	}
+	*((double *) data) = dt->doubleValue();
+	precision = dt->Precision();
 }
 
 CODouble::CODouble( CODouble &dt ) : CppON( DOUBLE_CPPON_OBJ_TYPE )
 {
-    if( ! data )
-    {
-        data = new ( double );
-    }
-    *((double *) data) = dt.doubleValue();
+	if( ! data )
+	{
+		data = new ( double );
+	}
+	*((double *) data) = dt.doubleValue();
 }
 
 string *CODouble::toNetString()
 {
-    char buf[ 48 ];
-    buf[ 47 ] = buf[ 0 ] = '\0';
-    if( data )
-    {
-        snprintf( buf, 47, "%.10lf", *(( double *) data ));
-    }
-    return CppON::toNetString( buf, '^' );
+	char buf[ 48 ];
+	buf[ 47 ] = buf[ 0 ] = '\0';
+	if( data )
+	{
+	snprintf( buf, 47, "%.10lf", *(( double *) data ));
+	}
+	return CppON::toNetString( buf, '^' );
 };
 
 string *CODouble::toJsonString()
 {
-    char buf[ 128 ];
-    buf[127] = buf[ 0 ] = '\0';
-    if( data )
-    {
-        if( 0 > precision || 16 < precision )
-        {
-        	snprintf( buf, 127, "%.10lf", *(double *)data );
-        } else{
-            char prebuf[ 8 ];
-            prebuf[ 7 ] = buf[ 23 ] = '\0';
-            snprintf( prebuf, 7, "%c.%dlf", '%', (int)precision );
-            snprintf( buf, 23, prebuf, *(double *) data );
-        }
-    }
-    return new string( buf );
+	char buf[ 128 ];
+	buf[127] = buf[ 0 ] = '\0';
+	if( data )
+	{
+		if( 0 > precision || 16 < precision )
+		{
+			snprintf( buf, 127, "%.10lf", *(double *)data );
+		} else {
+			char prebuf[ 8 ];
+			prebuf[ 7 ] = buf[ 23 ] = '\0';
+			snprintf( prebuf, 7, "%c.%dlf", '%', (int)precision );
+			snprintf( buf, 23, prebuf, *(double *) data );
+		}
+	}
+	return new string( buf );
 }
 
 const char *CODouble::c_str()
 {
-    char buf[ 32 ];
-    buf[ 31 ] = '\0';
-    if( data )
-    {
-        if( 0 > precision || 16 < precision )
-        {
-            snprintf( buf, 31, "%.10lf", *(double *) data );
-        } else{
-            char prebuf[ 8 ];
-            prebuf[ 7 ] = buf[ 23 ] = '\0';
-            snprintf( prebuf, 7, "%c.%dlf", '%', (int)precision );
-            snprintf( buf, 23, prebuf, *(double *) data );
-        }
-    } else {
-        strcpy( buf, "NULL" );
-    }
-    str = buf;
-    return str.c_str();
+	char buf[ 32 ];
+	buf[ 31 ] = '\0';
+	if( data )
+	{
+		if( 0 > precision || 16 < precision )
+		{
+			snprintf( buf, 31, "%.10lf", *(double *) data );
+		} else{
+			char prebuf[ 8 ];
+			prebuf[ 7 ] = buf[ 23 ] = '\0';
+			snprintf( prebuf, 7, "%c.%dlf", '%', (int)precision );
+			snprintf( buf, 23, prebuf, *(double *) data );
+		}
+	} else {
+		strcpy( buf, "NULL" );
+	}
+	str = buf;
+	return str.c_str();
 }
 
 void CODouble::dump( FILE *fp)
 {
-    if( data )
-    {
-        fprintf( fp, "%.10lf", *(double *) data );
-    } else {
-        fprintf( fp, "NULL" );
-    }
+	if( data )
+	{
+		fprintf( fp, "%.10lf", *(double *) data );
+	} else {
+		fprintf( fp, "NULL" );
+	}
 }
 
 void CODouble::cdump( FILE *fp )
 {
-    if( data )
-    {
-        fprintf( fp, "%.16lf", *(double *) data );
-    } else {
-        fprintf( fp, "0.0" );
-    }
+	if( data )
+	{
+		fprintf( fp, "%.16lf", *(double *) data );
+	} else {
+		fprintf( fp, "0.0" );
+	}
 }
 
 double CODouble::operator = (const double& val)
 {
-    if( !data )
-    {
-        data = new double;
-        *((double*) (*this).data) = val;
-    } else {
-        if( 0 > precision  || 16 < precision )
-        {
-            *((double*) (*this).data) = val;
-        } else {
-            double pow_10 = pow( 10.0, precision);
-            double n = pow_10 * *((double*) (*this).data);
-            double d = pow_10 * val;
-            double t = n - d;
-            if( 0.75 < t || -0.75 > t )
-            {
-                *((double*) (*this).data) = round( d )/ pow_10;
-            }
-        }
-    }
-    return *((double*) (*this).data);
-
+	if( !data )
+	{
+		data = new double;
+		*((double*) (*this).data) = val;
+	} else {
+		if( 0 > precision  || 16 < precision )
+		{
+			*((double*) (*this).data) = val;
+		} else {
+			double pow_10 = pow( 10.0, precision);
+			double n = pow_10 * *((double*) (*this).data);
+			double d = pow_10 * val;
+			double t = n - d;
+			if( 0.75 < t || -0.75 > t )
+			{
+				*((double*) (*this).data) = round( d )/ pow_10;
+			}
+		}
+	}
+	return *((double*) (*this).data);
 }
 
 CODouble *CODouble::operator = ( CODouble &val)
 {
-    if( ! data )
-    {
-        data = new double;
-        precision = val.precision;
-        *((double*)data ) = val.doubleValue();
-    } else {
-        if( 0 <= precision && 16 >= precision )
-        {
-            double pow_10 = pow( 10.0, precision);
-            double n = pow_10 * *((double*) (*this).data);
-            double d = pow_10 * val.doubleValue();
-            double t = n - d;
-            if( 0.75 < t || -0.75 > t )
-            {
-                *((double*)data ) = round( d )/ pow_10;
-            }
-        } else {
-            *((double*)data ) = val.doubleValue();
-        }
-    }
-    return this;
+	if( ! data )
+	{
+		data = new double;
+		precision = val.precision;
+		*((double*)data ) = val.doubleValue();
+	} else {
+		if( 0 <= precision && 16 >= precision )
+		{
+			double pow_10 = pow( 10.0, precision);
+			double n = pow_10 * *((double*) (*this).data);
+			double d = pow_10 * val.doubleValue();
+			double t = n - d;
+
+			if( 0.75 < t || -0.75 > t )
+			{
+				*((double*)data ) = round( d )/ pow_10;
+			}
+		} else {
+			*((double*)data ) = val.doubleValue();
+		}
+	}
+	return this;
 };
 
 /****************************************************************************************/
@@ -5459,222 +5241,226 @@ CODouble *CODouble::operator = ( CODouble &val)
 
 string *COInteger::toJsonString()
 {
-    char buf[ 32 ];
-    buf[ 31 ] = buf[ 0 ] = '\0';
-    if( data )
-    {
-        switch ( siz )
-        {
-            case sizeof( char ):
-                snprintf( buf, 31,"%c", *( char *) data );
-                break;
-            case sizeof( short ):
-                snprintf( buf, 31, "%d", ( int ) *(( short *) data ));
-                break;
-            case sizeof( int ):
-                snprintf( buf, 31, "%d", *(( int *) data ));
-                break;
-            case sizeof( long long):
+	char buf[ 32 ];
+
+	buf[ 31 ] = buf[ 0 ] = '\0';
+	if( data )
+	{
+		switch ( siz )
+		{
+			case sizeof( char ):
+				snprintf( buf, 31,"%c", *( char *) data );
+				break;
+			case sizeof( short ):
+				snprintf( buf, 31, "%d", ( int ) *(( short *) data ));
+				break;
+			case sizeof( int ):
+				snprintf( buf, 31, "%d", *(( int *) data ));
+				break;
+			case sizeof( long long):
 #if SIXTY_FOUR_BIT
-                snprintf( buf, 31, "%ld", *(( uint64_t *) data ));
+				snprintf( buf, 31, "%ld", *(( uint64_t *) data ));
 #else
-                snprintf( buf, 31, "%lld", *(( uint64_t *) data ));
+				snprintf( buf, 31, "%lld", *(( uint64_t *) data ));
 #endif
-                break;
-        }
-    }
-    return new string( buf );
+				break;
+		}
+	}
+	return new string( buf );
 }
 
 COInteger::COInteger( COInteger *it ) : CppON( INTEGER_CPPON_OBJ_TYPE )
 {
-    switch( siz = it->size() )
-    {
-        case sizeof( char ):
-            data = new ( char );
-            *((char*) data) = it->charValue();
-            break;
-        case sizeof( short ):
-            data = new ( short );
-            *((short*) data) = it->shortValue();
-            break;
-        case sizeof( int ):
-            data = new ( int );
-            *((int*) data) = it->intValue();
-            break;
-        default:
-            data = new ( long long );
-            *((long long*) data) = it->longValue();
-            break;
-    }
+	switch( siz = it->size() )
+	{
+		case sizeof( char ):
+			data = new ( char );
+			*((char*) data) = it->charValue();
+			break;
+		case sizeof( short ):
+			data = new ( short );
+			*((short*) data) = it->shortValue();
+			break;
+		case sizeof( int ):
+			data = new ( int );
+			*((int*) data) = it->intValue();
+			break;
+		default:
+			data = new ( long long );
+			*((long long*) data) = it->longValue();
+			break;
+	}
 }
 
 COInteger::COInteger( COInteger &it ) : CppON( INTEGER_CPPON_OBJ_TYPE )
 {
-    switch( siz = it.size() )
-    {
-        case sizeof( char ):
-            data = new ( char );
-            *((char*) data) = it.charValue();
-            break;
-        case sizeof( short ):
-            data = new ( short );
-            *((short*) data) = it.shortValue();
-            break;
-        case sizeof( int ):
-            data = new ( int );
-            *((int*) data) = it.intValue();
-            break;
-        default:
-            data = new ( long long );
-            *((long long*) data) = it.longValue();
-            break;
-    }
+	switch( siz = it.size() )
+	{
+		case sizeof( char ):
+			data = new ( char );
+			*((char*) data) = it.charValue();
+			break;
+		case sizeof( short ):
+			data = new ( short );
+			*((short*) data) = it.shortValue();
+			break;
+		case sizeof( int ):
+			data = new ( int );
+			*((int*) data) = it.intValue();
+			break;
+		default:
+			data = new ( long long );
+			*((long long*) data) = it.longValue();
+			break;
+	}
 }
 
 int64_t COInteger::longValue()
 {
-    int64_t rtn = 0;
-    if( data )
-    {
-        switch ( siz )
-        {
-            case sizeof( int8_t ):
-                rtn = (int64_t ) *( (int8_t *) data );
-                break;
-            case sizeof( int16_t ):
-                rtn = (int64_t) *( ( int16_t *) data );
-                break;
-            case sizeof( int32_t ):
-                rtn = (int64_t) *( (int32_t *) data );
-                break;
-            case sizeof( int64_t ):
-                rtn = *( (int64_t *) data );
-                break;
-        }
-    }
-    return rtn;
+	int64_t rtn = 0;
+	if( data )
+	{
+		switch ( siz )
+		{
+			case sizeof( int8_t ):
+				rtn = (int64_t ) *( (int8_t *) data );
+				break;
+			case sizeof( int16_t ):
+				rtn = (int64_t) *( ( int16_t *) data );
+				break;
+			case sizeof( int32_t ):
+				rtn = (int64_t) *( (int32_t *) data );
+				break;
+			case sizeof( int64_t ):
+				rtn = *( (int64_t *) data );
+				break;
+		}
+	}
+	return rtn;
 }
 
 string *COInteger::toNetString()
 {
-    char buf[ 32 ];
-    buf[ 31 ] = buf[ 0 ] = '\0';
-    if( data )
-    {
-        switch ( siz )
-        {
-            case 1:
-                snprintf( buf, 31, "%c", *( char *) data );
-                break;
-            case 2:
-                snprintf( buf, 31, "%d", ( int ) *(( short *) data ));
-                break;
-            case 4:
-                snprintf( buf, 31, "%d", *(( int *) data ));
-                break;
-            case 8:
+	char buf[ 32 ];
+
+	buf[ 31 ] = buf[ 0 ] = '\0';
+	if( data )
+	{
+		switch ( siz )
+		{
+			case 1:
+				snprintf( buf, 31, "%c", *( char *) data );
+				break;
+			case 2:
+				snprintf( buf, 31, "%d", ( int ) *(( short *) data ));
+				break;
+			case 4:
+				snprintf( buf, 31, "%d", *(( int *) data ));
+				break;
+			case 8:
 #if SIXTY_FOUR_BIT
-                snprintf( buf, 31, "%ld", *(( uint64_t *) data ));
+				snprintf( buf, 31, "%ld", *(( uint64_t *) data ));
 #else
-                snprintf( buf, 31, "%lld", *(( uint64_t *) data ));
+				snprintf( buf, 31, "%lld", *(( uint64_t *) data ));
 #endif
-                break;
-        }
-    }
-    return CppON::toNetString( buf, '#' );
+				break;
+		}
+	}
+	return CppON::toNetString( buf, '#' );
 }
 
 const char *COInteger::c_str()
 {
-    char buf[ 32 ];
-    buf[ 31 ] = '\0';
-    if( data )
-    {
-        switch ( siz )
-        {
-            case sizeof( char ):
-                snprintf( buf, 31, "%c", *(char *) data );
-                break;
-            case sizeof( short ):
-                snprintf( buf, 31, "%d", ( int ) *(short *) data );
-                break;
-            case sizeof( int ):
-                snprintf( buf, 31, "%d", *(int *) data );
-                break;
-            default:
+	char buf[ 32 ];
+
+	buf[ 31 ] = '\0';
+	if( data )
+	{
+		switch ( siz )
+		{
+			case sizeof( char ):
+				snprintf( buf, 31, "%c", *(char *) data );
+				break;
+			case sizeof( short ):
+				snprintf( buf, 31, "%d", ( int ) *(short *) data );
+				break;
+			case sizeof( int ):
+				snprintf( buf, 31, "%d", *(int *) data );
+				break;
+			default:
 #if SIXTY_FOUR_BIT
-                snprintf( buf, 31, "%ld", *(uint64_t *) data );
+				snprintf( buf, 31, "%ld", *(uint64_t *) data );
 #else
-                snprintf( buf, 31, "%lld", *(uint64_t *) data );
+				snprintf( buf, 31, "%lld", *(uint64_t *) data );
 #endif
-                break;
-        }
-    }
-    str = buf;
-    return str.c_str();
+				break;
+		}
+	}
+	str = buf;
+	return str.c_str();
 }
 
 void COInteger::dump( FILE *fp)
 {
-    if( data )
-    {
-        switch ( siz )
-        {
-            case sizeof( char ):
-                fprintf( fp, "%c", *(char *) data );
-                break;
-            case sizeof( short ):
-                fprintf( fp, "%d", ( int ) *(short *) data );
-                break;
-            case sizeof( int ):
-                fprintf( fp, "%d", *(int *) data );
-                break;
-            default:
+	if( data )
+	{
+		switch ( siz )
+		{
+			case sizeof( char ):
+				fprintf( fp, "%c", *(char *) data );
+				break;
+			case sizeof( short ):
+				fprintf( fp, "%d", ( int ) *(short *) data );
+				break;
+			case sizeof( int ):
+				fprintf( fp, "%d", *(int *) data );
+				break;
+			default:
 #if SIXTY_FOUR_BIT
-                fprintf( fp, "%ld", *(uint64_t *) data );
+				fprintf( fp, "%ld", *(uint64_t *) data );
 #else
-                fprintf( fp, "%lld", *(uint64_t *) data );
+				fprintf( fp, "%lld", *(uint64_t *) data );
 #endif
-                break;
-            }
-    } else {
-        fprintf( fp, "NULL" );
-    }
+				break;
+		}
+	} else {
+		fprintf( fp, "NULL" );
+	}
 }
 
 void COInteger::cdump( FILE *fp )
 {
-    if( data )
-    {
-        switch ( siz )
-        {
-            case sizeof( char ):
-                fprintf( fp, "%c", *(char *) data );
-                break;
-            case sizeof( short ):
-                fprintf( fp, "%d", ( int ) *(short *) data );
-                break;
-            case sizeof( int ):
-                fprintf( fp, "%d", *(int *) data );
-                break;
-            default:
+	if( data )
+	{
+		switch ( siz )
+		{
+			case sizeof( char ):
+				fprintf( fp, "%c", *(char *) data );
+				break;
+			case sizeof( short ):
+				fprintf( fp, "%d", ( int ) *(short *) data );
+				break;
+			case sizeof( int ):
+				fprintf( fp, "%d", *(int *) data );
+				break;
+			default:
 #if SIXTY_FOUR_BIT
-                fprintf( fp, "%ld", *(uint64_t *) data );
+				fprintf( fp, "%ld", *(uint64_t *) data );
 #else
-                fprintf( fp, "%lld", *(uint64_t *) data );
+				fprintf( fp, "%lld", *(uint64_t *) data );
 #endif
-                break;
-            }
-    } else {
-        fprintf( fp, "0" );
-    }
+				break;
+		}
+	} else {
+		fprintf( fp, "0" );
+	}
 }
 
 
 uint64_t COInteger::doOperation( unsigned sz, uint64_t val, CppONOperator op )
 {
 	int64_t rtn = 0;
+
 	switch( siz )
 	{
 		case 1:
@@ -5904,58 +5690,58 @@ uint64_t COInteger::doOperation( unsigned sz, uint64_t val, CppONOperator op )
 
 
 bool COInteger::operator == ( COInteger &newObj ) {
-    /*
-     * If the sizes are equal then just compare them
-     */
-    if( siz == newObj.siz )
-    {
-        return (
-                ( siz == sizeof( long long) ) ? *( (long long *) newObj.data ) == *( (long long *)data ) :
-                ( siz == sizeof( int ) )      ? *( (int *)       newObj.data ) == *( (int *)      data ) :
-                ( siz == sizeof( short ) )    ? *( (short *)     newObj.data ) == *( (short *)    data ) :
-                *( (char * )     newObj.data ) == *( (char *)     data ) );
-        /*
-         * Else convert them both to "long long" and compare them.
-         */
-    } else {
-        return ( (siz == sizeof( long long ) ) ?                 *( (long long *)         data ) :
-               ( (siz == sizeof( int       ) ) ? ( long long ) *( (int *)               data ) :
-               ( (siz == sizeof( short     ) ) ? ( long long ) *( (short *)             data ) :
-        ( long long ) *( (char *)              data ) ) ) ) ==
-               ( (newObj.siz == sizeof( long long ) ) ?               *( (long long *)  newObj.data ) :
-               ( (newObj.siz == sizeof( int       ) ) ? ( long long ) *( (int *)        newObj.data ) :
-               ( (newObj.siz == sizeof( short     ) ) ? ( long long ) *( (short *)      newObj.data ) :
-                                               ( long long ) *( (char *)       newObj.data ) ) ) );
-    }
+	/*
+	 * If the sizes are equal then just compare them
+	 */
+	if( siz == newObj.siz )
+	{
+		return (
+				( siz == sizeof( long long) ) ? *( (long long *) newObj.data ) == *( (long long *)data ) :
+				( siz == sizeof( int ) )      ? *( (int *)       newObj.data ) == *( (int *)      data ) :
+				( siz == sizeof( short ) )    ? *( (short *)     newObj.data ) == *( (short *)    data ) :
+				*( (char * )     newObj.data ) == *( (char *)     data ) );
+		/*
+		 * Else convert them both to "long long" and compare them.
+		 */
+	} else {
+		return 	( (siz == sizeof( long long ) ) ?                 *( (long long *)         data ) :
+				( (siz == sizeof( int       ) ) ? ( long long ) *( (int *)               data ) :
+				( (siz == sizeof( short     ) ) ? ( long long ) *( (short *)             data ) :
+				( long long ) *( (char *)              data ) ) ) ) ==
+				( (newObj.siz == sizeof( long long ) ) ?               *( (long long *)  newObj.data ) :
+				( (newObj.siz == sizeof( int       ) ) ? ( long long ) *( (int *)        newObj.data ) :
+				( (newObj.siz == sizeof( short     ) ) ? ( long long ) *( (short *)      newObj.data ) :
+				( long long ) *( (char *)       newObj.data ) ) ) );
+	}
 }
 
 COInteger *COInteger::operator=(COInteger &val )
 {
-    if( siz != val.siz )
-    {
-        switch(siz)
-        {
-            case sizeof(int): delete (int*)data; break;
-            case sizeof(long long): delete (long long*)data; break;
-            case sizeof(short): delete (short*)data; break;
-            case sizeof(char): delete (char*)data; break;
-        }
-        switch(siz=val.siz)
-        {
-            case sizeof(int): data=new int;break;
-            case sizeof(long long): data=new (long long); break;
-            case sizeof(short): data=new(short); break;
-            case sizeof(char): data=new(char); break;
-        }
-    }
-    switch(siz)
-    {
-        case sizeof(int): *((int*)data )=val.intValue(); break;
-        case sizeof(long long): *((long long*)data )=val.longValue(); break;
-        case sizeof(short): *((short*)data )=val.shortValue(); break;
-        case sizeof(char): *((char*)data )=val.charValue(); break;
-    }
-    return this;
+	if( siz != val.siz )
+	{
+		switch(siz)
+		{
+			case sizeof(int): delete (int*)data; break;
+			case sizeof(long long): delete (long long*)data; break;
+			case sizeof(short): delete (short*)data; break;
+			case sizeof(char): delete (char*)data; break;
+		}
+		switch(siz=val.siz)
+		{
+			case sizeof(int): data=new int;break;
+			case sizeof(long long): data=new (long long); break;
+			case sizeof(short): data=new(short); break;
+			case sizeof(char): data=new(char); break;
+		}
+	}
+	switch(siz)
+	{
+		case sizeof(int): *((int*)data )=val.intValue(); break;
+		case sizeof(long long): *((long long*)data )=val.longValue(); break;
+		case sizeof(short): *((short*)data )=val.shortValue(); break;
+		case sizeof(char): *((char*)data )=val.charValue(); break;
+	}
+	return this;
 }
 
 /****************************************************************************************/
@@ -5966,13 +5752,13 @@ COInteger *COInteger::operator=(COInteger &val )
 
 void CONull::dump( FILE *fp)
 {
-    fprintf( fp, "NULL" );
+	fprintf( fp, "NULL" );
 }
 void CONull::cdump( FILE *fp )
 {
-    fprintf( fp, "null" );
+	fprintf( fp, "null" );
 }
 string *CONull::toJsonString()
 {
-    return new string("null");
+	return new string("null");
 }
