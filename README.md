@@ -11,6 +11,7 @@ Static functions or the “new” operator can be used to create the hierarchy. 
 Example in its simplest form the following lines:
 
     COMap obj( "{\"name\":\"Fred\"}" );
+    
     fprintf( stderr, "%s\n", obj.c_str() );
 
 output:
@@ -21,8 +22,11 @@ output:
 But if you want a more formatted output:
   
     COMap obj( "{\"name\":\"Fred\"}" );
+    
 	  so = obj.toJsonString();
+   
 	  fprintf( stderr, "%s\n", so->c_str() );
+   
 	  delete so;
 output:
     {
