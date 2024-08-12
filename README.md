@@ -119,15 +119,10 @@ Or maybe you want to know who owns the bait shop.  You can use this notation to 
 But maybe you might plan on doing a lot with the jobs list you might want to get a pointer to the whole structure.
     
     COMap     *jobs = obj.findElement( "jobs" );
-    
     COString  *owner = NULL;
-    
     if( CppON::isMap( jobs ) )
-    
     {
-    
-	owner = jobs->findElement( "Owner" );
-    
+		owner = jobs->findElement( "Owner" );
     }
     
 Or maybe you are into using "iterators" you might use
@@ -135,9 +130,9 @@ Or maybe you are into using "iterators" you might use
     std::map< std::string, CppON *>::iterator it = jobs->find( "Owner" );
     if( jobs.end != it )
     {
-	fprintf( stderr, "Owner is %s\n", it->second.c_str() );
+		fprintf( stderr, "Owner is %s\n", it->second.c_str() );
     } else {
-	fprintf( stderr, "Owner not in list of jobs\n" );
+		fprintf( stderr, "Owner not in list of jobs\n" );
     }
     
 NOTE: the call to "findElement" returns a pointer to the C++ object.  Because it is destroyed when the root object is destroyed 
