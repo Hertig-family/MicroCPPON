@@ -266,78 +266,76 @@ enum CppONOperator
 class CppON
 {
 public:
-											CppON( CppON &jt );
-											CppON(){ data = NULL; typ=UNKNOWN_CPPON_OBJ_TYPE; siz = 0; precision=-1; }
-											CppON( CppONType typ=UNKNOWN_CPPON_OBJ_TYPE );
-											CppON( CppON *jt = NULL );
-	virtual									~CppON();
-	static	CppON							*factory( CppON &jt );
-	static	CppON							*factory( CppON *jt ) { return factory( *jt ); }
-			CppONType						type(){ return typ;}
-    virtual int								size(){ return siz;}
-    virtual void							dump( FILE *fp = stderr );
-    virtual void							cdump( FILE *fp = stderr );
-    virtual std::string						*toCompactJsonString();
-			void							*getData(){ return data; }
-			double							toDouble(void);
-			long long						toLongInt(void);
-			int								toInt(void);
-			bool							toBoolean(void);
-			bool							isNumber(void){ return (DOUBLE_CPPON_OBJ_TYPE==typ || INTEGER_CPPON_OBJ_TYPE==typ || BOOLEAN_CPPON_OBJ_TYPE==typ); }
-			bool							isMap() { return MAP_CPPON_OBJ_TYPE == typ; }
-			bool							isArray() { return ARRAY_CPPON_OBJ_TYPE == typ; }
-			bool							isString() { return STRING_CPPON_OBJ_TYPE == typ; }
-			bool							isBoolean() { return BOOLEAN_CPPON_OBJ_TYPE == typ; }
-			bool							isInteger() { return INTEGER_CPPON_OBJ_TYPE == typ; }
-			bool							isDouble() { return DOUBLE_CPPON_OBJ_TYPE == typ; }
-			bool							operator == ( CppON &newObj );
-                                            // cppcheck-suppress constParameter
-			bool							operator == ( CppON *newObj ){ return( *this == *newObj );}
-                                            // cppcheck-suppress constParameter
-			bool							operator != ( CppON &newObj ){ return( !( *this == newObj ) );}
-                                            // cppcheck-suppress constParameter
-			bool							operator != ( CppON *newObj ){ return( !( *this == *newObj ) );}
-			virtual							CppON *operator = ( CppON &val );
-                                            // cppcheck-suppress constParameter
-			CppON							*diff( CppON &newObj, const char *name = NULL );
-	const	char							*c_str( );
-	static	bool							isNumber( CppON *val ) { return ( val && ( DOUBLE_CPPON_OBJ_TYPE==val->typ || INTEGER_CPPON_OBJ_TYPE==val->typ || BOOLEAN_CPPON_OBJ_TYPE==val->typ ) ); }
-	static  bool							isMap( CppON *val ) { return ( val && MAP_CPPON_OBJ_TYPE == val->typ ); }
-	static  bool							isArray( CppON *val ) { return ( val && ARRAY_CPPON_OBJ_TYPE == val->typ ); }
-	static  bool							isString( CppON *val ) { return ( val && STRING_CPPON_OBJ_TYPE == val->typ ); }
-	static  bool							isBoolean( CppON *val ) { return ( val && BOOLEAN_CPPON_OBJ_TYPE == val->typ ); }
-	static  bool							isInteger( CppON *val ) { return ( val && INTEGER_CPPON_OBJ_TYPE == val->typ ); }
-	static  bool							isDouble( CppON *val ) { return ( val && DOUBLE_CPPON_OBJ_TYPE == val->typ ); }
-	static  bool							isObj( CppON *val ){ return ( val && INTEGER_CPPON_OBJ_TYPE <= val->typ && ARRAY_CPPON_OBJ_TYPE >= val->typ ); }
+							CppON( CppON &jt );
+							CppON(){ data = NULL; typ=UNKNOWN_CPPON_OBJ_TYPE; siz = 0; precision=-1; }
+							CppON( CppONType typ=UNKNOWN_CPPON_OBJ_TYPE );
+							CppON( CppON *jt = NULL );
+	virtual						~CppON();
+	static	CppON					*factory( CppON &jt );
+	static	CppON					*factory( CppON *jt ) { return factory( *jt ); }
+		CppONType				type(){ return typ;}
+	virtual int					size(){ return siz;}
+	virtual void					dump( FILE *fp = stderr );
+	virtual void					cdump( FILE *fp = stderr );
+	virtual std::string				*toCompactJsonString();
+		void					*getData(){ return data; }
+		double					toDouble(void);
+		long long				toLongInt(void);
+		int					toInt(void);
+		bool					toBoolean(void);
+		bool					isNumber(void){ return (DOUBLE_CPPON_OBJ_TYPE==typ || INTEGER_CPPON_OBJ_TYPE==typ || BOOLEAN_CPPON_OBJ_TYPE==typ); }
+		bool					isMap() { return MAP_CPPON_OBJ_TYPE == typ; }
+		bool					isArray() { return ARRAY_CPPON_OBJ_TYPE == typ; }
+		bool					isString() { return STRING_CPPON_OBJ_TYPE == typ; }
+		bool					isBoolean() { return BOOLEAN_CPPON_OBJ_TYPE == typ; }
+		bool					isInteger() { return INTEGER_CPPON_OBJ_TYPE == typ; }
+		bool					isDouble() { return DOUBLE_CPPON_OBJ_TYPE == typ; }
+		bool					operator == ( CppON &newObj );
+                                			// cppcheck-suppress constParameter
+		bool					operator == ( CppON *newObj ){ return( *this == *newObj );}
+                                			// cppcheck-suppress constParameter
+		bool					operator != ( CppON &newObj ){ return( !( *this == newObj ) );}
+                                			// cppcheck-suppress constParameter
+		bool					operator != ( CppON *newObj ){ return( !( *this == *newObj ) );}
+	virtual						CppON *operator = ( CppON &val );
+                                			// cppcheck-suppress constParameter
+		CppON					*diff( CppON &newObj, const char *name = NULL );
+	const	char					*c_str( );
+	static	bool					isNumber( CppON *val ) { return ( val && ( DOUBLE_CPPON_OBJ_TYPE==val->typ || INTEGER_CPPON_OBJ_TYPE==val->typ || BOOLEAN_CPPON_OBJ_TYPE==val->typ ) ); }
+	static  bool					isMap( CppON *val ) { return ( val && MAP_CPPON_OBJ_TYPE == val->typ ); }
+	static  bool					isArray( CppON *val ) { return ( val && ARRAY_CPPON_OBJ_TYPE == val->typ ); }
+	static  bool					isString( CppON *val ) { return ( val && STRING_CPPON_OBJ_TYPE == val->typ ); }
+	static  bool					isBoolean( CppON *val ) { return ( val && BOOLEAN_CPPON_OBJ_TYPE == val->typ ); }
+	static  bool					isInteger( CppON *val ) { return ( val && INTEGER_CPPON_OBJ_TYPE == val->typ ); }
+	static  bool					isDouble( CppON *val ) { return ( val && DOUBLE_CPPON_OBJ_TYPE == val->typ ); }
+	static  bool					isObj( CppON *val ){ return ( val && INTEGER_CPPON_OBJ_TYPE <= val->typ && ARRAY_CPPON_OBJ_TYPE >= val->typ ); }
 
-	static	CppON							*readObj( FILE *fp );
-	static  CppON							*parse( const char *str, char **rstr );         // Create a CppON object from a net string
-	static  CppON							*parseJson( const char *str );                  // Create a CppON object form a json string
-//	static  CppON							*parseJson( json_t *ob, std::string &tabs );    // Create a CppON object form a Json object
-	static 	CppON							*GetTNetstring( const char **str );
-	static	CppON 							*GetObj( const char **str );
-//	static	CppON							*parseJson( const char **str );
+	static	CppON					*readObj( FILE *fp );
+	static  CppON					*parse( const char *str, char **rstr );         // Create a CppON object from a net string
+	static  CppON					*parseJson( const char *str );                  // Create a CppON object form a json string
+	static 	CppON					*GetTNetstring( const char **str );
+	static	CppON	 				*GetObj( const char **str );
 
 #if HAS_XML
-	static  CppON							*parseXML( const char *str );
+	static  CppON					*parseXML( const char *str );
 #endif
-	static  CppON							*parseCSV(const char *str );                    // parse a CSV file into  and array of arrays;
-	static  CppON							*parseTSV(const char *str );                    // parse a TSV file into  and array of arrays;
-	static  CppON							*parseJsonFile( const char *path );             // Read a file and create a CppON from it.
-	static  CppON							*guessDataType( const char *str );
-	static  unsigned char					*findTNetStringArg( const char *arg, int argSize, const char *str, const char **next = NULL, int *cnt = NULL );
+	static  CppON					*parseCSV(const char *str );                    // parse a CSV file into  and array of arrays;
+	static  CppON					*parseTSV(const char *str );                    // parse a TSV file into  and array of arrays;
+	static  CppON					*parseJsonFile( const char *path );             // Read a file and create a CppON from it.
+	static  CppON					*guessDataType( const char *str );
+	static  unsigned char				*findTNetStringArg( const char *arg, int argSize, const char *str, const char **next = NULL, int *cnt = NULL );
 private:
-			void							deleteData();
+		void					deleteData();
 protected:
-	static	std::string						*toNetString( const char *str, char styp );
+	static	std::string				*toNetString( const char *str, char styp );
 
-			void							*data;											// This is an allocated pointer to the data
-			CppONType						typ;											// This is used to indicate the object type
-			int								siz;											// Either the size of the object as in 1,2 4, 8 bytes
-			std::string						str;											// Used when c_str called;
+		void					*data;											// This is an allocated pointer to the data
+		CppONType				typ;											// This is used to indicate the object type
+		int					siz;											// Either the size of the object as in 1,2 4, 8 bytes
+		std::string				str;											// Used when c_str called;
                                 															// or the number of elements in the list.
-			std::vector<std::string>		order;											// only used for Map.  Order in which keys appear
-			char							precision;										// precision to be used for double numbers
+		std::vector<std::string>		order;											// only used for Map.  Order in which keys appear
+		char					precision;										// precision to be used for double numbers
 };
 
 /*
@@ -352,51 +350,51 @@ protected:
 class COInteger : public CppON
 {
 public:
-											COInteger( COInteger &it );
-											COInteger( COInteger *it = NULL );
+							COInteger( COInteger &it );
+							COInteger( COInteger *it = NULL );
 #if 1
-template<typename T>						COInteger(T i=0):CppON(INTEGER_CPPON_OBJ_TYPE){unSigned=true;if(std::is_same<T,int8_t>::value||std::is_same<T,int16_t>::value||std::is_same<T,int32_t>::value||std::is_same<T,int64_t>::value){unSigned = false;}data=new(T);*((T*)data)=i;siz=sizeof(T);}
+template<typename T>					COInteger(T i=0):CppON(INTEGER_CPPON_OBJ_TYPE){unSigned=true;if(std::is_same<T,int8_t>::value||std::is_same<T,int16_t>::value||std::is_same<T,int32_t>::value||std::is_same<T,int64_t>::value){unSigned = false;}data=new(T);*((T*)data)=i;siz=sizeof(T);}
 
 #else
-											COInteger( int8_t i ='\0' ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = false;data = new ( int8_t ); *((int8_t*) data ) = i; siz = sizeof( int8_t );}
-											COInteger( uint8_t i ='\0' ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = true;data = new ( uint8_t ); *((uint8_t*) data ) = i; siz = sizeof( uint8_t );}
-											COInteger( int16_t i = 0 ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = false;data = new ( int16_t ); *((int16_t*) data) = i; siz = sizeof( int16_t );}
-											COInteger( uint16_t i = 0 ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = true;data = new ( uint16_t ); *((uint16_t*) data) = i; siz = sizeof( uint16_t );}
-											COInteger( int32_t i = 0 ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = false;data = new (int32_t); *((int32_t*) data) = i; siz = sizeof(int32_t);}
-											COInteger( uint32_t i = 0 ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = true;data = new (uint32_t); *((uint32_t*) data) = i; siz = sizeof(uint32_t);}
-											COInteger( int64_t i = 0) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = false;data = new(int64_t); *((int64_t *) data ) = i; siz = sizeof(int64_t); }
-											COInteger( uint64_t i = 0) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = true;data = new(uint64_t); *((uint64_t *) data ) = i; siz = sizeof(uint64_t); }
+							COInteger( int8_t i ='\0' ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = false;data = new ( int8_t ); *((int8_t*) data ) = i; siz = sizeof( int8_t );}
+							COInteger( uint8_t i ='\0' ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = true;data = new ( uint8_t ); *((uint8_t*) data ) = i; siz = sizeof( uint8_t );}
+							COInteger( int16_t i = 0 ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = false;data = new ( int16_t ); *((int16_t*) data) = i; siz = sizeof( int16_t );}
+							COInteger( uint16_t i = 0 ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = true;data = new ( uint16_t ); *((uint16_t*) data) = i; siz = sizeof( uint16_t );}
+							COInteger( int32_t i = 0 ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = false;data = new (int32_t); *((int32_t*) data) = i; siz = sizeof(int32_t);}
+							COInteger( uint32_t i = 0 ) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = true;data = new (uint32_t); *((uint32_t*) data) = i; siz = sizeof(uint32_t);}
+							COInteger( int64_t i = 0) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = false;data = new(int64_t); *((int64_t *) data ) = i; siz = sizeof(int64_t); }
+							COInteger( uint64_t i = 0) : CppON( INTEGER_CPPON_OBJ_TYPE ) { unSigned = true;data = new(uint64_t); *((uint64_t *) data ) = i; siz = sizeof(uint64_t); }
 #endif
-			COInteger						*operator=(COInteger &val );
-											// cppcheck-suppress constParameter
-			COInteger						*operator=(COInteger *val ) { return( *this = *val );}
-			bool							operator == ( COInteger &newObj );
-											// cppcheck-suppress constParameter
-			bool							operator == ( COInteger *newObj ){ return( *this == *newObj ); }
-											// cppcheck-suppress constParameter
-			bool							operator != ( COInteger &newObj ) { return( ! ( *this == newObj ) );}
-											// cppcheck-suppress constParameter
-			bool							operator != ( COInteger *newObj ){ return( ! ( *this == *newObj ) );}
-template<typename T> T                      operator = (const T t ) { if( data ) delete( ( T* ) data ); data = new ( T ); *(( T *) data ) = t; siz = sizeof( T ); return t; }
-template<typename T> T						operator += ( const T t){ return ( T ) doOperation( sizeof( T ), (uint64_t) t, CPPON_ADD ); }
-template<typename T> T						operator -= ( const T t){ return ( T ) doOperation( sizeof( T ), (uint64_t) t, CPPON_SUBTRACT ); }
-template<typename T> T						operator *= ( const T t){ return ( T ) doOperation( sizeof( T ), (uint64_t) t, CPPON_MULTIPLY ); }
-template<typename T> T						operator /= ( const T t){ return ( T ) doOperation( sizeof( T ), (uint64_t) t, CPPON_DIVIDE ); }
-			int								size() override { return ( data ) ? siz : 0;}            																			// return the 1 if it is defined
-			int64_t							longValue();                                                																		// get the long long value of the object
-			int8_t							charValue(){int64_t l=longValue();if(l<-128){return -128;}else if(l>127){return 127;}return(int8_t)l;}         						// get the long long value of the object
-			int16_t							shortValue(){int64_t l=longValue();if(l<-32768){return -32768;}else if(l>32767){return 32767;}return(int16_t)l;}       				// get the long long value of the object
-			int32_t							intValue(){int64_t l=longValue();if(l<-2147483648){return -2147483648;}else if(l>0x7FFFFFFF){return 0x7FFFFFFF;}return(int32_t)l;}	// get the long long value of the object
-			std::string						*toNetString();                                             																		// convert to net string format
-			std::string						*toJsonString();                                            																		// convert to json string format
-			void							dump( FILE *fp = stderr ) override ;
-			void							cdump( FILE *fp = stderr ) override ;
-			const char						*c_str();
-			CppON							*diff( CppON &newObj );
+		COInteger				*operator=(COInteger &val );
+							// cppcheck-suppress constParameter
+		COInteger				*operator=(COInteger *val ) { return( *this = *val );}
+		bool					operator == ( COInteger &newObj );
+							// cppcheck-suppress constParameter
+		bool					operator == ( COInteger *newObj ){ return( *this == *newObj ); }
+							// cppcheck-suppress constParameter
+		bool					operator != ( COInteger &newObj ) { return( ! ( *this == newObj ) );}
+							// cppcheck-suppress constParameter
+		bool					operator != ( COInteger *newObj ){ return( ! ( *this == *newObj ) );}
+		template<typename T> T			operator = (const T t ) { if( data ) delete( ( T* ) data ); data = new ( T ); *(( T *) data ) = t; siz = sizeof( T ); return t; }
+		template<typename T> T			operator += ( const T t){ return ( T ) doOperation( sizeof( T ), (uint64_t) t, CPPON_ADD ); }
+		template<typename T> T			operator -= ( const T t){ return ( T ) doOperation( sizeof( T ), (uint64_t) t, CPPON_SUBTRACT ); }
+		template<typename T> T			operator *= ( const T t){ return ( T ) doOperation( sizeof( T ), (uint64_t) t, CPPON_MULTIPLY ); }
+		template<typename T> T			operator /= ( const T t){ return ( T ) doOperation( sizeof( T ), (uint64_t) t, CPPON_DIVIDE ); }
+		int					size() override { return ( data ) ? siz : 0;}            										// return the 1 if it is defined
+		int64_t					longValue();                                                										// get the long long value of the object
+		int8_t					charValue(){int64_t l=longValue();if(l<-128){return -128;}else if(l>127){return 127;}return(int8_t)l;}         				// get the long long value of the object
+		int16_t					shortValue(){int64_t l=longValue();if(l<-32768){return -32768;}else if(l>32767){return 32767;}return(int16_t)l;}       			// get the long long value of the object
+		int32_t					intValue(){int64_t l=longValue();if(l<-2147483648){return -2147483648;}else if(l>0x7FFFFFFF){return 0x7FFFFFFF;}return(int32_t)l;}	// get the long long value of the object
+		std::string				*toNetString();                                             										// convert to net string format
+		std::string				*toJsonString();                                            										// convert to json string format
+		void					dump( FILE *fp = stderr ) override ;
+		void					cdump( FILE *fp = stderr ) override ;
+		const char				*c_str();
+		CppON					*diff( CppON &newObj );
 private:
 
-			bool							unSigned;
-			uint64_t						doOperation( unsigned sz, uint64_t val, CppONOperator op );
+		bool					unSigned;
+		uint64_t				doOperation( unsigned sz, uint64_t val, CppONOperator op );
 };
 
 /*
@@ -414,269 +412,265 @@ private:
 class CODouble : public CppON
 {
 public:
-											CODouble( CODouble &dt );
-											CODouble( CODouble *dt = NULL );
-											CODouble( double d = 0.0 ) : CppON( DOUBLE_CPPON_OBJ_TYPE ) { precision=10; data = new (double); *((double*) data) = d; siz = sizeof(double);}
-			unsigned char                	Precision() { return precision; }
-			unsigned char					Precision( unsigned char p ){ precision = p; return precision;}
-			bool							operator == ( CODouble &newObj ) { return(  *( (double *)newObj.data) == *( (double *) data) ); }
-											// cppcheck-suppress constParameter
-			bool							operator == ( CODouble *newObj ) { return(   ( *this == *newObj ) ); }
-											// cppcheck-suppress constParameter
-			bool							operator != ( CODouble &newObj ) { return( ! ( *this ==  newObj ) ); }
-											// cppcheck-suppress constParameter
-			bool							operator != ( CODouble *newObj ) { return( ! ( *this == *newObj ) ); }
-			double							operator = ( const double& val );
-			CODouble						*operator = ( CODouble &val );
-											// cppcheck-suppress constParameter
-			CODouble						*operator = ( CODouble *val ) { return( *this = *val ); }
-			template<typename T> double     operator += ( T val ) { if( data ) { *( ( double *) data ) += (double) val; return *((double *) data );} return UD_DOUBLE; }
-			template<typename T> double     operator -= ( T val ) { if( data ) { *( ( double *) data ) -= (double) val; return *((double *) data );} return UD_DOUBLE; }
-			template<typename T> double     operator *= ( T val ) { if( data ) { *( ( double *) data ) *= (double) val; return *((double *) data );} return UD_DOUBLE; }
-			template<typename T> double     operator /= ( T val ) { if( data ) { *( ( double *) data ) /= (double) val; return *((double *) data );} return UD_DOUBLE; }
-//			double							operator += ( double val ) { if( data ) { *(( double *) data ) += val; return *((double *) data);} return UD_DOUBLE;}
-//			double							operator -= ( double val ) { if( data ) { *(( double *) data ) -= val; return *((double *) data);} return UD_DOUBLE;}
-//			double							operator *= ( double val ) { if( data ) { *(( double *) data ) *= val; return *((double *) data);} return UD_DOUBLE;}
-//			double							operator /= ( double val ) { if( data ) { *(( double *) data ) /= val; return *((double *) data);} return UD_DOUBLE;}
+							CODouble( CODouble &dt );
+							CODouble( CODouble *dt = NULL );
+							CODouble( double d = 0.0 ) : CppON( DOUBLE_CPPON_OBJ_TYPE ) { precision=10; data = new (double); *((double*) data) = d; siz = sizeof(double);}
+		unsigned char           		Precision() { return precision; }
+		unsigned char				Precision( unsigned char p ){ precision = p; return precision;}
+		bool					operator == ( CODouble &newObj ) { return(  *( (double *)newObj.data) == *( (double *) data) ); }
+							// cppcheck-suppress constParameter
+		bool					operator == ( CODouble *newObj ) { return(   ( *this == *newObj ) ); }
+							// cppcheck-suppress constParameter
+		bool					operator != ( CODouble &newObj ) { return( ! ( *this ==  newObj ) ); }
+							// cppcheck-suppress constParameter
+		bool					operator != ( CODouble *newObj ) { return( ! ( *this == *newObj ) ); }
+		double					operator = ( const double& val );
+		CODouble				*operator = ( CODouble &val );
+							// cppcheck-suppress constParameter
+		CODouble				*operator = ( CODouble *val ) { return( *this = *val ); }
+		template<typename T> double		operator += ( T val ) { if( data ) { *( ( double *) data ) += (double) val; return *((double *) data );} return UD_DOUBLE; }
+		template<typename T> double		operator -= ( T val ) { if( data ) { *( ( double *) data ) -= (double) val; return *((double *) data );} return UD_DOUBLE; }
+		template<typename T> double		operator *= ( T val ) { if( data ) { *( ( double *) data ) *= (double) val; return *((double *) data );} return UD_DOUBLE; }
+		template<typename T> double		operator /= ( T val ) { if( data ) { *( ( double *) data ) /= (double) val; return *((double *) data );} return UD_DOUBLE; }
 
-			int								size() override { return ( data ) ? siz : 0; }
-			double							value(){ return ( data ) ? *( double *) data : 0.0; }
-			double							doubleValue() { return ( data ) ? *( double *) data : 0.0; }
-			void							set( const double &d ){ *((double*) data) = d; }
-			float							floatValue(){ if( data ) return ( float ) *( ( double *) data ); return 0.0; }
-			std::string						*toNetString();                      // convert to net string format
-			std::string						*toJsonString();                     // convert to json string format
-			const char						*c_str();
-			void							dump( FILE *fp = stderr ) override ;
-			void							cdump( FILE *fp = stderr ) override ;
+		nt					size() override { return ( data ) ? siz : 0; }
+		double					value(){ return ( data ) ? *( double *) data : 0.0; }
+		double					doubleValue() { return ( data ) ? *( double *) data : 0.0; }
+		void					set( const double &d ){ *((double*) data) = d; }
+		float					floatValue(){ if( data ) return ( float ) *( ( double *) data ); return 0.0; }
+		std::string				*toNetString();																// convert to net string format
+		std::string				*toJsonString();															// convert to json string format
+		const char				*c_str();
+		void					dump( FILE *fp = stderr ) override ;
+		void					cdump( FILE *fp = stderr ) override ;
 };
 
 
 class CONull : public CppON
 {
 public:
-											CONull( CONull &nt ) : CppON( NULL_CPPON_OBJ_TYPE ){}
-											// cppcheck-suppress noExplicitConstructor
-											CONull( CONull *nt ) : CppON( NULL_CPPON_OBJ_TYPE ){}
-											CONull( ) : CppON( NULL_CPPON_OBJ_TYPE ){}
+							CONull( CONull &nt ) : CppON( NULL_CPPON_OBJ_TYPE ){}
+							// cppcheck-suppress noExplicitConstructor
+							CONull( CONull *nt ) : CppON( NULL_CPPON_OBJ_TYPE ){}
+							CONull( ) : CppON( NULL_CPPON_OBJ_TYPE ){}
 
-			int								size() override { return 0; }
-			void							*value(){ return NULL; }
-			std::string						*toNetString() { return new std::string( "0:~" ); }
-			std::string						*toJsonString();
-	const	char							*c_str(){ return "NULL"; }
-			void							dump( FILE *fp = stderr ) override ;
-			void							cdump( FILE *fp = stderr ) override ;
-			CONull							*operator =( CONull *val ){ return this; }
-			CONull							*operator = ( CONull &val ){ return this; }
-			bool							operator == ( CONull &newObj ) { return true; }
-			bool							operator == ( CONull *newObj ) { return true; }
-			bool							operator != ( CONull &newObj ) { return false; }
-			bool							operator != ( CONull *newObj ) { return false; }
+		int					size() override { return 0; }
+		void					*value(){ return NULL; }
+		std::string				*toNetString() { return new std::string( "0:~" ); }
+		std::string				*toJsonString();
+	const	char					*c_str(){ return "NULL"; }
+		void					dump( FILE *fp = stderr ) override ;
+		void					cdump( FILE *fp = stderr ) override ;
+		CONull					*operator =( CONull *val ){ return this; }
+		CONull					*operator = ( CONull &val ){ return this; }
+		bool					operator == ( CONull &newObj ) { return true; }
+		bool					operator == ( CONull *newObj ) { return true; }
+		bool					operator != ( CONull &newObj ) { return false; }
+		bool					operator != ( CONull *newObj ) { return false; }
 };
 
 class COBoolean : public CppON
 {
 public:
-											COBoolean( COBoolean &bt ): CppON( BOOLEAN_CPPON_OBJ_TYPE ){ if( !data ) { data = new( bool ); } *( ( bool *) data) = bt.value(); siz = sizeof( bool ); }
-											COBoolean( COBoolean *bt = NULL ): CppON( BOOLEAN_CPPON_OBJ_TYPE ){ if( !data ) { data = new( bool ); } *( ( bool *) data) = bt->value(); siz = sizeof( bool ); }
-											COBoolean( bool v = false ) : CppON( BOOLEAN_CPPON_OBJ_TYPE ){ if( !data ) { data = new( bool ); } *( ( bool *) data) = v; siz = sizeof( bool ); }
-			int								size() override { return ( data ) ? sizeof( bool ) : 0; }
-			bool							value(){ return ( ( data ) ? ( ( *( ( bool *) data ) ) ? true : false ) : false ); }
-			std::string						*toNetString();                      // convert to net string format
-			std::string						*toJsonString();                      // convert to json string format
-			const char						*c_str();
-			void							dump( FILE *fp = stderr ) override ;
-			void							cdump( FILE *fp = stderr ) override ;
-			bool							operator == ( COBoolean &newObj ) { return ( *((bool *)newObj.data) == *( (bool *) data ) ); }
-											// cppcheck-suppress constParameter
-			bool							operator == ( COBoolean *newObj ) { return ( *this == *newObj  ); }
-											// cppcheck-suppress constParameter
-			bool							operator != ( COBoolean &newObj ) { return ( ! ( *this == newObj ) );}
-											// cppcheck-suppress constParameter
-			bool							operator != ( COBoolean *newObj ) { return ( ! ( *this == *newObj ) );}
-			bool							operator = ( bool val ) { *( ( bool *) data) = val; return val; }
-			COBoolean						*operator = ( COBoolean &val) { *( ( bool *) data) = val.value(); return this; }
-			COBoolean						*operator = ( COBoolean *val) { *( ( bool *) data) = val->value(); return this; }
+							COBoolean( COBoolean &bt ): CppON( BOOLEAN_CPPON_OBJ_TYPE ){ if( !data ) { data = new( bool ); } *( ( bool *) data) = bt.value(); siz = sizeof( bool ); }
+							COBoolean( COBoolean *bt = NULL ): CppON( BOOLEAN_CPPON_OBJ_TYPE ){ if( !data ) { data = new( bool ); } *( ( bool *) data) = bt->value(); siz = sizeof( bool ); }
+							COBoolean( bool v = false ) : CppON( BOOLEAN_CPPON_OBJ_TYPE ){ if( !data ) { data = new( bool ); } *( ( bool *) data) = v; siz = sizeof( bool ); }
+		int					size() override { return ( data ) ? sizeof( bool ) : 0; }
+		bool					value(){ return ( ( data ) ? ( ( *( ( bool *) data ) ) ? true : false ) : false ); }
+		std::string				*toNetString();																// convert to net string format
+		std::string				*toJsonString();															// convert to json string format
+		const char				*c_str();
+		void					dump( FILE *fp = stderr ) override ;
+		void					cdump( FILE *fp = stderr ) override ;
+		bool					operator == ( COBoolean &newObj ) { return ( *((bool *)newObj.data) == *( (bool *) data ) ); }
+							// cppcheck-suppress constParameter
+		bool					operator == ( COBoolean *newObj ) { return ( *this == *newObj  ); }
+							// cppcheck-suppress constParameter
+		bool					operator != ( COBoolean &newObj ) { return ( ! ( *this == newObj ) );}
+							// cppcheck-suppress constParameter
+		bool					operator != ( COBoolean *newObj ) { return ( ! ( *this == *newObj ) );}
+		bool					operator = ( bool val ) { *( ( bool *) data) = val; return val; }
+		COBoolean				*operator = ( COBoolean &val) { *( ( bool *) data) = val.value(); return this; }
+		COBoolean				*operator = ( COBoolean *val) { *( ( bool *) data) = val->value(); return this; }
 };
 
 
 class COString : public CppON
 {
 public:
-											COString( COString &st );
-											COString( COString *st = NULL );
-											COString( const char *st = "", bool base64 = false );
-											COString( std::string st, bool base64 );
-											COString( std::string st = std::string("") );
-											COString( uint64_t val, bool hex = true );
-											COString( uint32_t val, bool hex = true );
-	static	char							*base64Decode( const char *tmp, unsigned int sz, unsigned int &len, char *out = NULL );
-			COString						*append( std::string &val ) { if( data ) ( ( std::string *) data)->append( val ); else data = new std::string( val );  return this; }
-			COString						*append( const char *val ) { if( data ) ( ( std::string *) data)->append( val ); else data = new std::string( val );  return this; }
-			COString						*operator += ( const char *val ) { if( data ) ((std::string *) data)->append( val ); else data = new std::string( val );  return this; }
-			COString						*operator += ( std::string &val ) { if( data ) ((std::string *) data)->append( val ); else data = new std::string( val ); return this; }
-			COString						*operator = ( const char *val ) { if( data ) delete((std::string*) data ); data = new std::string( val ); return this; }
-			COString						*operator = ( std::string &val) { if( data ) delete((std::string*) data ); data = new std::string( val.c_str() ); return this; }
-			COString						*operator = ( COString &val) { if( data ) delete((std::string*) data ); data = new std::string( val.c_str() ); return this; }
-											// cppcheck-suppress constParameter
-			COString						*operator = ( COString *val) { return( *this = *val ); }
-			COString						*operator = ( uint64_t val );
-			COString						*operator = ( uint32_t val );
-			COString						*operator = ( int val );
-			bool							operator == ( COString &newObj ) { return ( ! ( ( std::string *) data )->compare( ( ( std::string *)newObj.data)->c_str( ) ) ); }
-											// cppcheck-suppress constParameter
-			bool							operator == ( COString *newObj ) { return ( *this == *newObj ); }
-			bool							operator != ( COString &newObj ) { return (   ( ( std::string *) data )->compare( ( ( std::string *)newObj.data)->c_str( ) ) ); }
-											// cppcheck-suppress constParameter
-			bool							operator != ( COString *newObj ) { return ( *this != *newObj ); }
+							COString( COString &st );
+							COString( COString *st = NULL );
+							COString( const char *st = "", bool base64 = false );
+							COString( std::string st, bool base64 );
+							COString( std::string st = std::string("") );
+							COString( uint64_t val, bool hex = true );
+							COString( uint32_t val, bool hex = true );
+	static	char					*base64Decode( const char *tmp, unsigned int sz, unsigned int &len, char *out = NULL );
+		COString				*append( std::string &val ) { if( data ) ( ( std::string *) data)->append( val ); else data = new std::string( val );  return this; }
+		COString				*append( const char *val ) { if( data ) ( ( std::string *) data)->append( val ); else data = new std::string( val );  return this; }
+		COString				*operator += ( const char *val ) { if( data ) ((std::string *) data)->append( val ); else data = new std::string( val );  return this; }
+		COString				*operator += ( std::string &val ) { if( data ) ((std::string *) data)->append( val ); else data = new std::string( val ); return this; }
+		COString				*operator = ( const char *val ) { if( data ) delete((std::string*) data ); data = new std::string( val ); return this; }
+		COString				*operator = ( std::string &val) { if( data ) delete((std::string*) data ); data = new std::string( val.c_str() ); return this; }
+		COString				*operator = ( COString &val) { if( data ) delete((std::string*) data ); data = new std::string( val.c_str() ); return this; }
+							// cppcheck-suppress constParameter
+		COString				*operator = ( COString *val) { return( *this = *val ); }
+		COString				*operator = ( uint64_t val );
+		COString				*operator = ( uint32_t val );
+		COString				*operator = ( int val );
+		bool					operator == ( COString &newObj ) { return ( ! ( ( std::string *) data )->compare( ( ( std::string *)newObj.data)->c_str( ) ) ); }
+							// cppcheck-suppress constParameter
+		bool					operator == ( COString *newObj ) { return ( *this == *newObj ); }
+		bool					operator != ( COString &newObj ) { return (   ( ( std::string *) data )->compare( ( ( std::string *)newObj.data)->c_str( ) ) ); }
+							// cppcheck-suppress constParameter
+		bool					operator != ( COString *newObj ) { return ( *this != *newObj ); }
 
-			int								size() override { return ( ( data != NULL ) ? ( ( std::string * ) data )->length() : 0 ); }
+		int					size() override { return ( ( data != NULL ) ? ( ( std::string * ) data )->length() : 0 ); }
 
-			const char						*c_str(){ return ( (std::string *) data )->c_str(); }
-			std::string						*value(){ return ( data != NULL )? ( std::string * ) data : NULL; }
-			std::string						*toString();
-			std::string						*toNetString();                      										// convert to net string format
-			std::string						*toJsonString();                    										// convert to JSON string format
-static		std::string						*toBase64JsonString( const char *cPtr, unsigned int len );					// convert to base64 encoded JSON string
-			std::string						*toBase64JsonString(){ return toBase64JsonString( ( ( std::string *) data )->c_str(), ( ( std::string *) data )->length() ); }
-			void							dump( FILE *fp = stderr ) override ;
-			void							cdump( FILE *fp = stderr ) override ;
+		const char				*c_str(){ return ( (std::string *) data )->c_str(); }
+		std::string				*value(){ return ( data != NULL )? ( std::string * ) data : NULL; }
+		std::string				*toString();
+		std::string				*toNetString();                      										// convert to net string format
+		std::string				*toJsonString();                    										// convert to JSON string format
+	static	std::string				*toBase64JsonString( const char *cPtr, unsigned int len );					// convert to base64 encoded JSON string
+		std::string				*toBase64JsonString(){ return toBase64JsonString( ( ( std::string *) data )->c_str(), ( ( std::string *) data )->length() ); }
+		void					dump( FILE *fp = stderr ) override ;
+		void					cdump( FILE *fp = stderr ) override ;
 };
 
 
 class COMap : public CppON
 {
 public:
-											COMap( COMap &mt );
-											// cppcheck-suppress noExplicitConstructor
-											COMap( COMap *mt );
-											// cppcheck-suppress noExplicitConstructor
-											COMap( const char *str );
-											COMap( const char *path, const char *file );
-											COMap( ) : CppON(  MAP_CPPON_OBJ_TYPE ) { data = new std::map<std::string, CppON*>(); }
-											// cppcheck-suppress noExplicitConstructor
-											COMap( std::map < std::string, CppON *> &m ) : CppON( MAP_CPPON_OBJ_TYPE ){ data = new std::map<std::string, CppON *>( m ); }
-			int								size() override { return ( data ) ? ((std::map< std::string, CppON*> *) data)->size() : 0; }
+							COMap( COMap &mt );
+							// cppcheck-suppress noExplicitConstructor
+							COMap( COMap *mt );
+							// cppcheck-suppress noExplicitConstructor
+							COMap( const char *str );
+							COMap( const char *path, const char *file );
+							COMap( ) : CppON(  MAP_CPPON_OBJ_TYPE ) { data = new std::map<std::string, CppON*>(); }
+							// cppcheck-suppress noExplicitConstructor
+							COMap( std::map < std::string, CppON *> &m ) : CppON( MAP_CPPON_OBJ_TYPE ){ data = new std::map<std::string, CppON *>( m ); }
+		int					size() override { return ( data ) ? ((std::map< std::string, CppON*> *) data)->size() : 0; }
 
-std::map<std::string,CppON*>::iterator		begin() { return ((std::map< std::string, CppON*> *) data)->begin(); }
-std::map<std::string,CppON*>::iterator		end() { return ((std::map< std::string, CppON*> *) data)->end(); }
-std::map<std::string,CppON*>::iterator		find( const char *str ) { return ((std::map< std::string, CppON*> *) data)->find( str ); }
-			COMap							*operator = ( const char *str);
-			COMap							*operator = ( COMap &val );
-											// cppcheck-suppress constParameter
-			COMap							*operator = ( COMap *val ){ return( *this = *val ); }
-			bool							operator == ( COMap &val );
-											// cppcheck-suppress constParameter
-			bool							operator == ( COMap *val ){ return ( *this == *val  ); }
-											// cppcheck-suppress constParameter
-			bool							operator != ( COMap &val ){ return ( ! (*this == val ) );}
-											// cppcheck-suppress constParameter
-			bool							operator != ( COMap *val ){ return ( ! (*this == *val ) );}
-			std::vector<std::string>		*getKeys() { return &order; }
-			std::vector<CppON *>			*getValues();
-			std::map< std::string, CppON*>	*value() { return ( data ) ? ( std::map < std::string, CppON *> *) data : NULL; }
-			std::string						*toNetString();
-			CppON							*extract( const char *name );
-			int								append( std::string key, CppON *n );
-			int								append( std::string key, std::string value ){ return append( key, new COString( value ) ); }
-			int								append( std::string key, const char *value){ return append( key, new COString( value ) ); }
-			int								append( std::string key, double value ){ return append( key, new CODouble( value ) ); }
-			int								append( std::string key, int64_t value ){ return append( key, new COInteger( value ) );}
-			int								append( std::string key, int value ){ return append( key, new COInteger( value ) ); }
-			int								append( std::string key, bool value ){ return append( key, new COBoolean( value ) ); }
-			int								append( std::string key ){ return append( key, new CONull() ); }
-			void							removeVal( std::string val );
-			void							replaceObj( std::string s, CppON *obj );
-			void							clear();
-			CppON							*findEqual( const char *name, CppON &search );
-			CppON							*findElement( const char *str );
-			CppON							*findNoSplit( const char *str );
-			CppON							*findElement( const std::string &str ) { return findElement( str.c_str() ); }
-			CppON							*findElement( const std::string *str ) { return findElement( str->c_str() ); }
-			CppON							*findElement( std::string *s ) { return findElement( s->c_str() ); }
-			CppON							*findCaseElement( const char *str );
-			CppON							*findCaseElement( const std::string &str ) { return findCaseElement( str.c_str() ); }
-			CppON							*findCaseElement( const std::string *str ) { return findCaseElement( str->c_str() ); }
-			std::string						*toJsonString( std::string &indent );
-			std::string						*toJsonString(){ std::string indent(""); return toJsonString( indent ); }
-			std::string						*toCompactJsonString();
-			const char						*c_str( std::string &indent );
-			const char						*c_str(){ std::string indent(""); return c_str( indent ); }
-			int								toFile( const char *path );
-			void							dump( std::string &indent, FILE *fp = stderr );
-			void							dump( FILE *fp = stderr )  override { std::string indent(""); dump( indent, fp ); fprintf( fp, "\n" );}
-			void							cdump( FILE *fp = stderr ) override ;
-			COMap							*diff( COMap &newObj, const char *name = NULL);
-			void							upDate( COMap *map, const char *name );
-			void							merge( COMap *map, const char *name );
+		std::map<std::string,CppON*>::iterator	begin() { return ((std::map< std::string, CppON*> *) data)->begin(); }
+		std::map<std::string,CppON*>::iterator	end() { return ((std::map< std::string, CppON*> *) data)->end(); }
+		std::map<std::string,CppON*>::iterator	find( const char *str ) { return ((std::map< std::string, CppON*> *) data)->find( str ); }
+		COMap					*operator = ( const char *str);
+		COMap					*operator = ( COMap &val );
+							// cppcheck-suppress constParameter
+		COMap					*operator = ( COMap *val ){ return( *this = *val ); }
+		bool					operator == ( COMap &val );
+							// cppcheck-suppress constParameter
+		bool					operator == ( COMap *val ){ return ( *this == *val  ); }
+							// cppcheck-suppress constParameter
+		bool					operator != ( COMap &val ){ return ( ! (*this == val ) );}
+							// cppcheck-suppress constParameter
+		bool					operator != ( COMap *val ){ return ( ! (*this == *val ) );}
+		std::vector<std::string>		*getKeys() { return &order; }
+		std::vector<CppON *>			*getValues();
+		std::map< std::string, CppON*>		*value() { return ( data ) ? ( std::map < std::string, CppON *> *) data : NULL; }
+		std::string				*toNetString();
+		CppON					*extract( const char *name );
+		int					append( std::string key, CppON *n );
+		int					append( std::string key, std::string value ){ return append( key, new COString( value ) ); }
+		int					append( std::string key, const char *value){ return append( key, new COString( value ) ); }
+		int					append( std::string key, double value ){ return append( key, new CODouble( value ) ); }
+		int					append( std::string key, int64_t value ){ return append( key, new COInteger( value ) );}
+		int					append( std::string key, int value ){ return append( key, new COInteger( value ) ); }
+		int					append( std::string key, bool value ){ return append( key, new COBoolean( value ) ); }
+		int					append( std::string key ){ return append( key, new CONull() ); }
+		void					removeVal( std::string val );
+		void					replaceObj( std::string s, CppON *obj );
+		void					clear();
+		CppON					*findEqual( const char *name, CppON &search );
+		CppON					*findElement( const char *str );
+		CppON					*findNoSplit( const char *str );
+		CppON					*findElement( const std::string &str ) { return findElement( str.c_str() ); }
+		CppON					*findElement( const std::string *str ) { return findElement( str->c_str() ); }
+		CppON					*findElement( std::string *s ) { return findElement( s->c_str() ); }
+		CppON					*findCaseElement( const char *str );
+		CppON					*findCaseElement( const std::string &str ) { return findCaseElement( str.c_str() ); }
+		CppON					*findCaseElement( const std::string *str ) { return findCaseElement( str->c_str() ); }
+		std::string				*toJsonString( std::string &indent );
+		std::string				*toJsonString(){ std::string indent(""); return toJsonString( indent ); }
+		std::string				*toCompactJsonString();
+		const char				*c_str( std::string &indent );
+		const char				*c_str(){ std::string indent(""); return c_str( indent ); }
+		int					toFile( const char *path );
+		void					dump( std::string &indent, FILE *fp = stderr );
+		void					dump( FILE *fp = stderr )  override { std::string indent(""); dump( indent, fp ); fprintf( fp, "\n" );}
+		void					cdump( FILE *fp = stderr ) override ;
+		COMap					*diff( COMap &newObj, const char *name = NULL);
+		void					upDate( COMap *map, const char *name );
+		void					merge( COMap *map, const char *name );
 private:
-			void							doParse( const char *str );
-			void							parseData( const char *str );
+		void					doParse( const char *str );
+		void					parseData( const char *str );
 };
 
 class COArray : public CppON
 {
 public:
-											COArray( COArray &at );
-											// cppcheck-suppress noExplicitConstructor
-											COArray( COArray *at );
-											// cppcheck-suppress noExplicitConstructor
-											COArray( const char *str );
-											// cppcheck-suppress noExplicitConstructor
-											COArray( const char *path, const char *file );
-											// cppcheck-suppress noExplicitConstructor
-											COArray( ) : CppON( ARRAY_CPPON_OBJ_TYPE ) { data = new std::vector<CppON *>(); }
-											// cppcheck-suppress noExplicitConstructor
-											COArray( std::vector<CppON *> &v ) : CppON( ARRAY_CPPON_OBJ_TYPE ){ data = new std::vector<CppON *>( v ); }
-			int								size() override { return ( data ) ? (( std::vector<CppON *> *) data)->size() : 0; }
-			std::vector< CppON *>			*value() { return ( data ) ? ( std::vector< CppON *> *) data : NULL; }
-			std::vector< CppON* >::iterator	begin() { return ((std::vector< CppON*> *) data)->begin(); }
-			std::vector< CppON* >::iterator	end() { return ((std::vector< CppON*> *) data)->end(); }
+							COArray( COArray &at );
+							// cppcheck-suppress noExplicitConstructor
+							COArray( COArray *at );
+							// cppcheck-suppress noExplicitConstructor
+							COArray( const char *str );
+							// cppcheck-suppress noExplicitConstructor
+							COArray( const char *path, const char *file );
+							// cppcheck-suppress noExplicitConstructor
+							COArray( ) : CppON( ARRAY_CPPON_OBJ_TYPE ) { data = new std::vector<CppON *>(); }
+							// cppcheck-suppress noExplicitConstructor
+							COArray( std::vector<CppON *> &v ) : CppON( ARRAY_CPPON_OBJ_TYPE ){ data = new std::vector<CppON *>( v ); }
+		int					size() override { return ( data ) ? (( std::vector<CppON *> *) data)->size() : 0; }
+		std::vector< CppON *>			*value() { return ( data ) ? ( std::vector< CppON *> *) data : NULL; }
+		std::vector< CppON* >::iterator		begin() { return ((std::vector< CppON*> *) data)->begin(); }
+		std::vector< CppON* >::iterator		end() { return ((std::vector< CppON*> *) data)->end(); }
 
-			std::string						*toNetString();
-			bool							replace( size_t i, CppON *n){ std::vector<CppON *> *v = (std::vector< CppON *> *) data; if( v->size() > i ) { delete( (*v)[ i ] ); (*v)[ i ] = n; return true;} return false; }
-			bool							operator == ( COArray &val );
-											// cppcheck-suppress constParameter
-			bool							operator == ( COArray *val ){ return( *this == *val ); }
-											// cppcheck-suppress constParameter
-			bool							operator != ( COArray &val ){ return( ! (*this == val ) ); }
-											// cppcheck-suppress constParameter
-			bool							operator != ( COArray *val ){ return( ! (*this == *val ) ); }
-			COArray							*operator = ( COArray &val );
-											// cppcheck-suppress constParameter
-			COArray							*operator = ( COArray *val ){ return( *this = *val ); }
-			CppON							*remove( size_t idx );
-			void							append( CppON *n ) { ( (std::vector < CppON *> *) data)->push_back( n ); }
-			void							append( std::string value ){ append( new COString( value ) ); }
-			void							append( double value ){ append( new CODouble( value ) ); }
-			void							append( int64_t value ){ append( new COInteger( value ) ); }
-			void							append( int value ){ append( new COInteger( value ) ); }
-			void							append( bool value ) { append( new COBoolean( value ) ); }
-			void							push_back( CppON *n ){ ( (std::vector < CppON *> *) data)->push_back( n ); }
-			CppON							*pop( ){ return remove( size() - 1 ); }
-			CppON							*pop_front(){ return remove( 0 ); }
-			void							push( CppON *n) { append( n ); }
-			void							clear();
-			CppON							*at( unsigned int i )
-											{
-												if( ! data || ((std::vector < CppON *> *) data)->size() <= i )
-												{
-													return NULL;
-												}
-												return ((std::vector < CppON *> *) data)->at( i );
-											}
-			std::string					*toJsonString( std::string &indent );
-			std::string					*toJsonString(){ std::string indent(""); return toJsonString( indent ); }
-			std::string					*toCompactJsonString();
-	const	char						*c_str( std::string &indent );
-	const	char						*c_str(){ std::string indent(""); return c_str( indent ); }
-			void						dump( std::string &indent, FILE *fp = stderr );
-			void						dump( FILE *fp = stderr ) override { std::string indent; dump( indent, fp ); }
-			void						cdump( FILE *fp = stderr ) override ;
-			COArray						*diff( COArray &newObj, const char *name = NULL);
+		std::string				*toNetString();
+		bool					replace( size_t i, CppON *n){ std::vector<CppON *> *v = (std::vector< CppON *> *) data; if( v->size() > i ) { delete( (*v)[ i ] ); (*v)[ i ] = n; return true;} return false; }
+		bool					operator == ( COArray &val );
+							// cppcheck-suppress constParameter
+		bool					operator == ( COArray *val ){ return( *this == *val ); }
+							// cppcheck-suppress constParameter
+		bool					operator != ( COArray &val ){ return( ! (*this == val ) ); }
+							// cppcheck-suppress constParameter
+		bool					operator != ( COArray *val ){ return( ! (*this == *val ) ); }
+		COArray					*operator = ( COArray &val );
+							// cppcheck-suppress constParameter
+		COArray					*operator = ( COArray *val ){ return( *this = *val ); }
+		CppON					*remove( size_t idx );
+		void					append( CppON *n ) { ( (std::vector < CppON *> *) data)->push_back( n ); }
+		void					append( std::string value ){ append( new COString( value ) ); }
+		void					append( double value ){ append( new CODouble( value ) ); }
+		void					append( int64_t value ){ append( new COInteger( value ) ); }
+		void					append( int value ){ append( new COInteger( value ) ); }
+		void					append( bool value ) { append( new COBoolean( value ) ); }
+		void					push_back( CppON *n ){ ( (std::vector < CppON *> *) data)->push_back( n ); }
+		CppON					*pop( ){ return remove( size() - 1 ); }
+		CppON					*pop_front(){ return remove( 0 ); }
+		void					push( CppON *n) { append( n ); }
+		void					clear();
+		CppON					*at( unsigned int i )
+							{
+								if( ! data || ((std::vector < CppON *> *) data)->size() <= i )
+								{
+									return NULL;
+								}
+								return ((std::vector < CppON *> *) data)->at( i );
+							}
+		std::string				*toJsonString( std::string &indent );
+		std::string				*toJsonString(){ std::string indent(""); return toJsonString( indent ); }
+		std::string				*toCompactJsonString();
+	const	char					*c_str( std::string &indent );
+	const	char					*c_str(){ std::string indent(""); return c_str( indent ); }
+		void					dump( std::string &indent, FILE *fp = stderr );
+		void					dump( FILE *fp = stderr ) override { std::string indent; dump( indent, fp ); }
+		void					cdump( FILE *fp = stderr ) override ;
+		COArray					*diff( COArray &newObj, const char *name = NULL);
 private:
-			void						parseData( const char *str );
+		void					parseData( const char *str );
 };
 
 #endif /* CPPON_HPP_ */
