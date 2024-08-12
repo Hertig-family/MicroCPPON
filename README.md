@@ -133,17 +133,11 @@ But maybe you might plan on doing a lot with the jobs list you might want to get
 Or maybe you are into using "iterators" you might use
     
     std::map< std::string, CppON *>::iterator it = jobs->find( "Owner" );
-    
     if( jobs.end != it )
-    
     {
-    
 	fprintf( stderr, "Owner is %s\n", it->second.c_str() );
-    
     } else {
-    
 	fprintf( stderr, "Owner not in list of jobs\n" );
-    
     }
     
 NOTE: the call to "findElement" returns a pointer to the C++ object.  Because it is destroyed when the root object is destroyed 
