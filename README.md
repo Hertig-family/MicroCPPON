@@ -11,7 +11,6 @@ Static functions or the “new” operator can be used to create the hierarchy. 
 Example in its simplest form the following lines:
 
     COMap obj( "{\"name\":\"Fred\"}" );
-    
     fprintf( stderr, "%s\n", obj.c_str() );
 
 output:
@@ -22,11 +21,8 @@ output:
 But if you want a more formatted output:
   
     COMap obj( "{\"name\":\"Fred\"}" );
-    
     so = obj.toJsonString();
-   
     fprintf( stderr, "%s\n", so->c_str() );
-    
     delete so;
     
 output:
@@ -36,11 +32,8 @@ output:
 Or if we want a minimul string output for a message we might do
 
 	COMap obj( "{\"name\":\"Fred\"}" );
- 	
   	so = obj.toCompactJsonString();
-   
    	fprintf( stderr, "%s\n", so->c_str() );
-    
     	delete so;
      
 output:
@@ -51,9 +44,7 @@ Of course this is all easy but try this:
   COMap obj("{\"name\":\"Fred's Bait Shop\",\"address\":\"125 W. Main st.\",\"city\":\"Grape Vine\",\"state\":\"Texas\",\"employees\": [{\"name\":\"Fred\",\"position\":\"Owner\",\"age\":53},{\"name\":\"Alice\",\"position\":\"Boss\",\"age\":51}],\"jobs\":{\"Owner\":\"Fred\",\"Boss\":\"Alice\",\"Casher\":\"Ethel\",\"Stock boy\":\"Jim\"}}")
 	
  	so = obj.JsonString();
-	
  	fprintf( stderr, "%s\n", so->c_str() );
-	
  	delete so;
 
 And you will get something like:
@@ -95,17 +86,11 @@ and the additional output will be:
 Of course this is dangerous.  You might want to use a little checking like the following:
     
     COString *city = obj.findElement( "city" );
-    
     if( CppON::IsString( city ) )
-    
     {
-    
-	fprintf( stderr, "The City is: %s\n", cit->c_str() );
-    
+		fprintf( stderr, "The City is: %s\n", cit->c_str() );
     } else {
-    
-	fprintf( stderr, "ERROR: No city found!\n" );
-    
+		fprintf( stderr, "ERROR: No city found!\n" );
     }
     
 Or maybe you want to know who owns the bait shop.  You can use this notation to get the owner:
